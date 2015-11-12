@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/UIScene.unity
   - enabled: 1
     path: Assets/Scenes/SelectLevelUI.unity
+  - enabled: 1
+    path: Assets/Scenes/main.unity
