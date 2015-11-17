@@ -6,6 +6,6 @@ public class StartGame : MonoBehaviour {
     public void onClick()
     {
         
-        Application.LoadLevel("SelectLevelUI");
+        Application.LoadLevel("LevelSelect");
     }
 }
