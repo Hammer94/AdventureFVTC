@@ -15,6 +15,12 @@ namespace AdventureFVTC {
             }
         }
 
+        public Camera Camera {
+            get {
+                return cameraT;
+            }
+        }
+
         public RunService(GameObject game, Player player, Character character, Camera camera):base() {
             if (game == null)
                 throw new System.Exception("Root game object cannot be null.");

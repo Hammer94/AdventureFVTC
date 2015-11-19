@@ -21,8 +21,6 @@ namespace AdventureFVTC {
         private Vector3 transitionPosition;
         private bool transitioning = false;
 
-        public Vector3 defaultCameraPosition;
-
         #region Accessors/Mutators
         /**
         * The height is how high above the subject the
@@ -127,16 +125,6 @@ namespace AdventureFVTC {
         #endregion
 
         /**
-        * Saves Height, DrawBack, and Drawside 
-        * as this camera's default position.
-        */
-        private void setCameraDefault() {
-            defaultCameraPosition.y = Height;
-            defaultCameraPosition.z = Drawback;
-            defaultCameraPosition.x = Drawside;
-        }
-
-        /**
         * Stores the location the camera needs to 
         * travel to, how much time it should
         * take, and then signals that the transition
@@ -162,6 +150,17 @@ namespace AdventureFVTC {
         */
         private void TransitionWithMap() {
 
+        }
+
+        #region Overrides
+        /**
+        * This override Saves Height, DrawBack, and 
+        * Drawside as this camera's default position.
+        */
+        protected override void setCameraDefault() {
+            DefaultCameraPosition.y = Height;
+            DefaultCameraPosition.z = Drawback;
+            DefaultCameraPosition.x = Drawside;
         }
 
         /**
@@ -197,6 +196,7 @@ namespace AdventureFVTC {
         * This override of Update adds the functionality
         * of the camera transitioning from one point to
         * another to the update method.
+        * ToDo: reference lookWithPlayer
         */
         protected override void Update() {
             base.Update();
@@ -208,9 +208,9 @@ namespace AdventureFVTC {
                 bool xReached = false;
 
                 // Calculate the y, z, and x position increase rates per frame.
-                float yIncreaseRate = (transitionPosition.y - defaultCameraPosition.y) / transitionTime * Time.deltaTime;
-                float zIncreaseRate = (transitionPosition.z - defaultCameraPosition.z) / transitionTime * Time.deltaTime;
-                float xIncreaseRate = (transitionPosition.x - defaultCameraPosition.x) / transitionTime * Time.deltaTime;
+                float yIncreaseRate = (transitionPosition.y - DefaultCameraPosition.y) / transitionTime * Time.deltaTime;
+                float zIncreaseRate = (transitionPosition.z - DefaultCameraPosition.z) / transitionTime * Time.deltaTime;
+                float xIncreaseRate = (transitionPosition.x - DefaultCameraPosition.x) / transitionTime * Time.deltaTime;
 
                 Height += yIncreaseRate; // try to move the camera to the next y position step (frame).
                 Drawback += zIncreaseRate; // try to move the camera to the next z position step (frame).
@@ -236,6 +236,7 @@ namespace AdventureFVTC {
                 if (yReached && zReached && xReached)
                     transitioning = false;
             }
+        #endregion
         }       
     }  
 }

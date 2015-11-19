@@ -6,7 +6,7 @@ namespace AdventureFVTC {
      * Recieves input that is used to control the character.
      * 
      * @author  Ryan
-     * @date    16 Nov 2015
+     * @date    19 Nov 2015
      */
     public class Player : MonoBehaviour {
         [SerializeField] private Character character;

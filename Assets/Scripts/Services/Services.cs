@@ -5,6 +5,7 @@ namespace AdventureFVTC {
         private static Services self;
         private static RunService run;
         private static InputService input;
+        private static CameraService cameraS;
 
         [SerializeField] private Player playerObject;
         [SerializeField] private Character characterObject;
@@ -32,6 +33,14 @@ namespace AdventureFVTC {
             }
         }
 
+        public static CameraService CameraS {
+            get {
+                if (cameraS == null)
+                    cameraS = new CameraService();
+                return cameraS;
+            }
+        }
+
         public Services() {
             if (self == null)
                 self = this;
@@ -48,11 +57,13 @@ namespace AdventureFVTC {
 	    void Update() {
             Run.update();
             Input.update();
+            CameraS.update();
 	    }
 
         void FixedUpdate() {
             Run.fixedUpdate();
             Input.fixedUpdate();
+            CameraS.fixedUpdate();
         }
     }
 }
