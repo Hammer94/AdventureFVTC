@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 
-namespace AdventureFVTC
-{
+namespace AdventureFVTC {
     /**
     * A derivative camera for AdventureFVTC. Specifies
-     * a height and drawback that specify where the camera will
-     * be when it is locked.
+    * a height and drawback that specify where the camera will
+    * be when it is locked.
     * Allows free setting of offsets and relative position.
     * Defines how the camera moves to different locations while
     * still looking at the subject.
     *
     * @author Ryan
-    * @date	  17 Nov 2015
+    * @date	  19 Nov 2015
     * @see    Camera
     */
     public class FreeCamera : Camera {
         [SerializeField] private float height = 1.0f;
         [SerializeField] private float drawback = 5.0f;
-        private float DEFAULTHEIGHT;
-        private float DEFAULTDRAWBACK;
-        
+        [SerializeField] private float drawside = 0.0f;       
+        private float transitionTime;
+        private Vector3 transitionPosition;
+        private bool transitioning = false;
+
+        public Vector3 defaultCameraPosition;
+
+        #region Accessors/Mutators
         /**
-        * The playerheight is how high above the subject the
+        * The height is how high above the subject the
         * camera is when the camera is locked.
         * 
         * @param   value   The value to set as the height.
@@ -33,8 +37,6 @@ namespace AdventureFVTC
             }
             set {
                 height = value;
-                DEFAULTHEIGHT = height;
-                Drawback = drawback;
                 if (enabled)
                     relativePosition.y = height;
             }
@@ -53,12 +55,113 @@ namespace AdventureFVTC
             }
             set {
                 drawback = value;
-                DEFAULTDRAWBACK = drawback;
-                //if (playerdrawback > playerheight)
-                   // playerdrawback = playerheight;
                 if (enabled)
                     relativePosition.z = -drawback;
             }
+        }
+
+        /**
+       * The drawside is how far right the camera
+       * positions itself when the camera is locked.
+       * Positive values move the camera to the right,
+       * negative values move the camrera to the left.
+       * 
+       * @param   value   The value to use as the drawside.
+       * @return          The drawside.
+       */
+        public float Drawside {
+            get {
+                return drawside;
+            }
+            set {
+                drawside = value;
+                if (enabled)
+                    relativePosition.x = drawside;
+            }
+        }
+
+        /**
+        * Public accessor/mutator to offsetPosition in Camera.
+        *
+        * @param value  The value to set as the offset.
+        * @return       The offset position.
+        */
+        public Vector3 OffsetPosition {
+            get {
+                return offsetPosition;
+            }
+            set {
+                offsetPosition = value;
+            }
+        }
+
+        /**
+        * Public accessor/mutator to offsetRotation in Camera.
+        *
+        * @param value  The value to set as the offset.
+        * @return       The offset rotation.
+        */
+        public Vector3 OffsetRotation {
+            get {
+                return offsetRotation;
+            }
+            set {
+                offsetRotation = value;
+            }
+        }
+
+        /**
+        * Public accessor/mutator to relativePosition in Camera.
+        *
+        * @param value  The value to set as the position
+        * @return       The relative position.
+        */
+        public Vector3 RelativePosition {
+            get {
+                return relativePosition;
+            }
+            set {
+                relativePosition = value;
+            }
+        }
+        #endregion
+
+        /**
+        * Saves Height, DrawBack, and Drawside 
+        * as this camera's default position.
+        */
+        private void setCameraDefault() {
+            defaultCameraPosition.y = Height;
+            defaultCameraPosition.z = Drawback;
+            defaultCameraPosition.x = Drawside;
+        }
+
+        /**
+        * Stores the location the camera needs to 
+        * travel to, how much time it should
+        * take, and then signals that the transition
+        * is ready.
+        *
+        * @param    position    The position the camera
+        *                       needs to move to.
+        * @param    time        The amount of time it 
+        *                       should take for the 
+        *                       camera moving from one
+        *                       point to another.       
+        */
+        private void TransitionWithPlayer(Vector3 position, float time) {
+            transitionPosition = position;
+            transitionTime = time;
+            transitioning = true;
+        }
+
+        /** 
+        * ToDo: Disinct this method from TransitionWithPlayer
+        * by removing the camera's subject and add functionality
+        * of the camera spinning around to get good view of the map.
+        */
+        private void TransitionWithMap() {
+
         }
 
         /**
@@ -78,75 +181,61 @@ namespace AdventureFVTC
         }
 
         /**
-        * Adds height and drawback to the start method.
+        * This override of Start adds height, drawback, 
+        * drawside and setCameraDefault to the start method.
         */
         protected override void Start() {
             base.Start();
+
             Height = height;
-        }
-    
-        /**
-        * Public accessor/mutator to offsetPosition in Camera.
-        *
-        * @param value  The value to set as the offset.
-        * @return       The offset position.
-        */
-        public Vector3 OffsetPosition
-        {
-            get
-            {
-                return offsetPosition;
-            }
-            set
-            {
-                offsetPosition = value;
-            }
+            Drawback = drawback;
+            Drawside = drawside;
+            setCameraDefault();
         }
 
         /**
-        * Public accessor/mutator to offsetRotation in Camera.
-        *
-        * @param value  The value to set as the offset.
-        * @return       The offset rotation.
+        * This override of Update adds the functionality
+        * of the camera transitioning from one point to
+        * another to the update method.
         */
-        public Vector3 OffsetRotation
-        {
-            get
-            {
-                return offsetRotation;
+        protected override void Update() {
+            base.Update();
+
+            if (transitioning) {
+                // used as flags once the desitination has been reached
+                bool yReached = false;
+                bool zReached = false;
+                bool xReached = false;
+
+                // Calculate the y, z, and x position increase rates per frame.
+                float yIncreaseRate = (transitionPosition.y - defaultCameraPosition.y) / transitionTime * Time.deltaTime;
+                float zIncreaseRate = (transitionPosition.z - defaultCameraPosition.z) / transitionTime * Time.deltaTime;
+                float xIncreaseRate = (transitionPosition.x - defaultCameraPosition.x) / transitionTime * Time.deltaTime;
+
+                Height += yIncreaseRate; // try to move the camera to the next y position step (frame).
+                Drawback += zIncreaseRate; // try to move the camera to the next z position step (frame).
+                Drawside += xIncreaseRate; // try to move the camera to the next x position step (frame).
+
+                // The camera has reached its y destination (or passed it), flag that it has been reached.
+                if (Height >= transitionPosition.y) {
+                    Height -= (Height - transitionPosition.y);
+                    yReached = true;
+                }
+                // The camera has reached its z destination (or passed it), flag that it has been reached.
+                if (Drawback >= transitionPosition.z) {
+                    Drawback -= (Drawback - transitionPosition.z);
+                    zReached = true;
+                }
+                // The camera has reached its x destination (or passed it), flag that it has been reached.
+                if (Drawside >= transitionPosition.x) {
+                    Drawside -= (Drawback - transitionPosition.z);
+                    xReached = true;
+                }
+
+                // Once all destinations have been flagged, stop the transition.
+                if (yReached && zReached && xReached)
+                    transitioning = false;
             }
-            set
-            {
-                offsetRotation = value;
-            }
-        }
-
-        /**
-        * Public accessor/mutator to relativePosition in Camera.
-        *
-        * @param value  The value to set as the position
-        * @return       The relative position.
-        */
-        public Vector3 RelativePosition
-        {
-            get
-            {
-                return relativePosition;
-            }
-            set
-            {
-                relativePosition = value;
-            }
-        }
-
-        private void TransitionWithPlayer()
-        {
-
-        }
-
-        private void TransitionWithMap()
-        {
-
-        }
+        }       
     }  
 }
