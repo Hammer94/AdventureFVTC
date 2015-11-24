@@ -19,6 +19,7 @@ namespace AdventureFVTC {
         private bool transitioning = false;
         private bool isRotating = false;
 
+        private bool hasChangedSubject = false;
         private bool isReturning = false;
         private float yRotationStepped = 0;
         private float zRotationStepped = 0;
