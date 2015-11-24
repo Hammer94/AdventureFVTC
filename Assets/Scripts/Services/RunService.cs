@@ -43,12 +43,14 @@ namespace AdventureFVTC {
                 player.name = "Player1";
                 player.transform.parent = gameRoot.transform.FindChild("Players").transform;
                 player.Character = Object.Instantiate(characterT);
-                player.Character.name = "Player1";
-                player.Character.transform.parent = gameRoot.transform.FindChild("World").transform;
+                player.Character.name = "Player1Character";
+                player.Character.transform.parent = gameRoot.transform.FindChild("Players").transform;
                 player.Camera = Object.Instantiate(cameraT);
                 player.Camera.name = "Player1Camera";
-                player.Camera.transform.parent = gameRoot.transform.FindChild("World").transform;
-                player.Camera.Subject = player.Character.gameObject;
+                player.Camera.transform.parent = gameRoot.transform.FindChild("Players").transform;
+                player.Camera.Subject = player.Character.transform.gameObject;
+                player.Camera.SubjectFacingDirection = player.Character.transform.FindChild("CharacterFacingDirection").transform.gameObject;
+                
             }
         }
     }

@@ -7,16 +7,9 @@ namespace AdventureFVTC
 
         }
 
-        protected override void Update() {
-            if (Services.Run.Camera.transform.position == Services.Run.Camera.DefaultCameraPosition)
-            {
-                Services.Run.Camera.AtDefaultPosition = true;
-                Services.Run.Camera.RotateWithSubject(Services.Run.Player.transform.rotation.eulerAngles);
-            } 
-            else
-            {
-                
-            }               
+        // ToDo: add a string parameter that signals what transition to call.
+        public void StartTransition(Vector3 position, float time, bool returnToSubject) {
+            Services.Run.Camera.TransitionWithSubject(position, time, returnToSubject);
         }
     }
 }
