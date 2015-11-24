@@ -10,11 +10,13 @@ public class EnemyController : StateController
 
     private PatrolState patrol; // so we can update the properties
     private AttackState attack;
+    private EngagedState engage;
 
     public virtual void Start()
     {
         patrol = new PatrolState(this); // create the state
         attack = new AttackState(this);
+        engage = new EngagedState(this);
 
         // set the patrol points
         foreach (string name in PatrolPointNames)
@@ -29,6 +31,7 @@ public class EnemyController : StateController
 
         States.Add(patrol); // add to the list
         States.Add(attack);
+        States.Add(engage);
 
         ChangeState(patrol.GetKey()); // set the first state to patrol
     }

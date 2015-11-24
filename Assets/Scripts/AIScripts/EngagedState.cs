@@ -32,11 +32,11 @@ public class EngagedState : State
 
         float dist = (trans.position - target).magnitude;
 
-        if (dist < 2)
+        if (dist < 4)
         {
             Controller.Print("Engaged");
         }
-        else if (dist > 2)
+        else if (dist > 4)
         {
             Controller.ChangeState(AttackState.KEY);
         }
