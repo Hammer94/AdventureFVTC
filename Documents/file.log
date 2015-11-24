@@ -1,0 +1,3 @@
+System.Runtime.InteropServices.COMException (0x800A1098): This command is not available because no document is open.
+   at Microsoft.Office.Interop.Word.ApplicationClass.get_ActiveDocument()
+   at Cengage.Keyboarding.WordAddIn.ThisAddIn.ThisAddIn_Startup(Object sender, EventArgs e) in c:\dev\kpdo_v2_branch\Source\word-support\Cengage.Keyboarding.WordAddIn\ThisAddIn.cs:line 585

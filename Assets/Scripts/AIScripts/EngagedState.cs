@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AttackState : State
+public class EngagedState : State
 {
     private Transform trans;
     private Transform playerTrans;
@@ -9,7 +9,7 @@ public class AttackState : State
 
     public float Speed { get; set; }    // patrol speed
 
-    public AttackState(StateController controller)
+    public EngagedState(StateController controller)
         : base(controller) // pass the controller to the base class
     {
         // get the trans from the controller
@@ -27,30 +27,26 @@ public class AttackState : State
 
         trans.LookAt(target);
 
-        float step = Speed * deltaTime; // calculate how far to move
-        trans.position += trans.forward * step; // move fwd
+        //float step = Speed * deltaTime; // calculate how far to move
+        //trans.position += trans.forward * step; // move fwd
 
         float dist = (trans.position - target).magnitude;
 
-        if(dist < 2)
+        if (dist < 2)
         {
-            Controller.ChangeState(EngagedState.KEY);
+            Controller.Print("Engaged");
         }
-        else if (dist < step)
+        else if (dist > 2)
         {
-            Controller.Print("Hitting Player");
-        }
-        else if (dist > 24)
-        {
-            Controller.ChangeState(PatrolState.KEY);
+            Controller.ChangeState(AttackState.KEY);
         }
     }
 
     // use these for changing state
-    public const string KEY = "AttackState";
+    public const string KEY = "EngagedState";
     public override string GetKey()
     {
         return KEY;
     }
-}
 
+}
