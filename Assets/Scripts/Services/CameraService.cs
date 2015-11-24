@@ -9,8 +9,14 @@ namespace AdventureFVTC
 
         protected override void Update() {
             if (Services.Run.Camera.transform.position == Services.Run.Camera.DefaultCameraPosition)
-                Services.Run.Camera.LookWithPlayer = true;
+            {
+                Services.Run.Camera.AtDefaultPosition = true;
                 Services.Run.Camera.RotateWithSubject(Services.Run.Player.transform.rotation.eulerAngles);
+            } 
+            else
+            {
+                
+            }               
         }
     }
 }

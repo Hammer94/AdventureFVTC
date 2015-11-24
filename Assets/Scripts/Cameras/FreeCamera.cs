@@ -3,8 +3,8 @@
 namespace AdventureFVTC {
     /**
     * A derivative camera for AdventureFVTC. Specifies
-    * a height and drawback that specify where the camera will
-    * be when it is locked.
+    * a height, drawback, and drawside that specify where the camera 
+    * will be when it is locked.
     * Allows free setting of offsets and relative position.
     * Defines how the camera moves to different locations while
     * still looking at the subject.
@@ -13,13 +13,14 @@ namespace AdventureFVTC {
     * @date	  19 Nov 2015
     * @see    Camera
     */
-    public class FreeCamera : Camera {
-        [SerializeField] private float height = 1.0f;
-        [SerializeField] private float drawback = 5.0f;
-        [SerializeField] private float drawside = 0.0f;       
+    public class FreeCamera : Camera {  
         private float transitionTime;
         private Vector3 transitionPosition;
         private bool transitioning = false;
+
+        [SerializeField] protected float height = 1.0f;
+        [SerializeField] protected float drawback = 5.0f;
+        [SerializeField] protected float drawside = 0.0f;
 
         #region Accessors/Mutators
         /**
@@ -124,38 +125,11 @@ namespace AdventureFVTC {
         }
         #endregion
 
-        /**
-        * Stores the location the camera needs to 
-        * travel to, how much time it should
-        * take, and then signals that the transition
-        * is ready.
-        *
-        * @param    position    The position the camera
-        *                       needs to move to.
-        * @param    time        The amount of time it 
-        *                       should take for the 
-        *                       camera moving from one
-        *                       point to another.       
-        */
-        private void TransitionWithPlayer(Vector3 position, float time) {
-            transitionPosition = position;
-            transitionTime = time;
-            transitioning = true;
-        }
-
-        /** 
-        * ToDo: Disinct this method from TransitionWithPlayer
-        * by removing the camera's subject and add functionality
-        * of the camera spinning around to get good view of the map.
-        */
-        private void TransitionWithMap() {
-
-        }
-
         #region Overrides
         /**
-        * This override Saves Height, DrawBack, and 
-        * Drawside as this camera's default position.
+        * This override of setCameraDefault Saves 
+        * Height, DrawBack, and Drawside as this 
+        * camera's default position.
         */
         protected override void setCameraDefault() {
             DefaultCameraPosition.y = Height;
@@ -237,6 +211,36 @@ namespace AdventureFVTC {
                     transitioning = false;
             }
         #endregion
-        }       
+        }
+
+        /**
+        * Stores the location the camera needs to 
+        * travel to, how much time it should
+        * take, and then signals that the transition
+        * is ready.
+        *
+        * @param    position    The position the camera
+        *                       needs to move to.
+        * @param    time        The amount of time it 
+        *                       should take for the 
+        *                       camera moving from one
+        *                       point to another.       
+        */
+        private void TransitionWithPlayer(Vector3 position, float time)
+        {
+            transitionPosition = position;
+            transitionTime = time;
+            transitioning = true;
+        }
+
+        /** 
+        * ToDo: Disinct this method from TransitionWithPlayer
+        * by removing the camera's subject and add functionality
+        * of the camera spinning around to get good view of the map.
+        */
+        private void TransitionWithMap()
+        {
+
+        }
     }  
 }

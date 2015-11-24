@@ -25,7 +25,7 @@ namespace AdventureFVTC {
 
         [SerializeField] protected GameObject subject;
         [SerializeField] protected bool lockPosition = false;
-        [SerializeField] protected bool lookWithPlayer = false;
+        [SerializeField] protected bool atDefaultPosition = false;
 
         public Vector3 DefaultCameraPosition;
 
@@ -72,20 +72,18 @@ namespace AdventureFVTC {
         * When turning, the camera will maintain its 
         * position from its current location.
         * 
-        * @param   value   Whether the position is locked.
-        * @return          True if the position is locked, false otherwise.
+        * @param   value   Whether the camera is at its default position.
+        * @return          True if at default position, false otherwise.
         */
-        public virtual bool LookWithPlayer
+        public virtual bool AtDefaultPosition
         {
             get
             {
-                return lookWithPlayer;
+                return atDefaultPosition;
             }
             set
             {
-                lookWithPlayer = value;
-                if (enabled)
-                    offsetRotation = GetComponent<Transform>().position - subject.GetComponent<Transform>().position;
+                atDefaultPosition = value;
             }
         }
 
@@ -118,6 +116,14 @@ namespace AdventureFVTC {
         }
 
         /**
+         * Updates the relative position as the subject moves. 
+         */
+        private void updatePosition() {
+            if (subject != null)
+                relativePosition = new Vector3 (0,0,0);
+        }
+
+        /**
         * Saves position,y, position.z, and position.x 
         * as this camera's default position.
         */
@@ -143,9 +149,13 @@ namespace AdventureFVTC {
         /**
          * Moves the camera every frame in order to
          * keep the camera in its relative position
-         * if locked and to rotate the camera.
+         * if locked. 
+         * If the camera's isn't already rotating with
+         * the subject, look at the subject.
          */
         protected virtual void Update() {
+            if (atDefaultPosition)
+                updatePosition();
             if (lockPosition)
                 followSubject();
             lookAtSubject();
@@ -153,12 +163,24 @@ namespace AdventureFVTC {
 
         /**
          * Rotates the camera as the subject rotates. 
+         * 
+         * @param   anglechange   What to set the camera's angle to.
          */
-        public void RotateWithSubject(Vector3 anglechange) {
-            if (lookWithPlayer)
+        //public void RotateWithSubject(Vector3 anglechange);
+
+        public void RotateWithSubject(Vector3 anglechange)
+        {
+            if (AtDefaultPosition)
             {
                 //gameObject.transform.rotation.SetEulerAngles(anglechange);
-                gameObject.transform.eulerAngles.Set(anglechange.x, anglechange.y, anglechange.z);
+                //gameObject.transform.eulerAngles.Set(anglechange.x, anglechange.y, anglechange.z);
+
+
+                gameObject.transform.position = new Vector3(Subject.transform.position.x, Subject.transform.position.y,
+                    Subject.transform.position.z);
+                //transform.position.z = target.position.z - distance;
+                //transform.position.y = target.position.y;
+                //transform.position.x = target.position.x;
             }
         }
     }
