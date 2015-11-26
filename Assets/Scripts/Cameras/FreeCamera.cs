@@ -528,18 +528,18 @@ namespace AdventureFVTC {
                     xStepped += xChangeRate;
 
                 // The camera has reached its y destination (or passed it), flag that it has been reached.
-                if (height >= MaxMovement.y) {
-                    yChangeRate -= (height - transitionPosition.y);  // shrink the rotation rate a bit.
+                if (yStepped >= MaxMovement.y) {
+                    yChangeRate -= (yStepped - MaxMovement.y);  // shrink the movement rate a bit.
                     yReached = true;
                 }
                 // The camera has reached its z destination (or passed it), flag that it has been reached.
-                if (drawback >= MaxMovement.z) {
-                    zChangeRate -= (drawback - transitionPosition.z);  // shrink the rotation rate a bit.
+                if (zStepped >= MaxMovement.z) {
+                    zChangeRate -= (zStepped - MaxMovement.z);  // shrink the movement rate a bit.
                     zReached = true;
                 }
                 // The camera has reached its x destination (or passed it), flag that it has been reached.
-                if (drawside >= MaxMovement.x) {
-                    xChangeRate -= (drawside - transitionPosition.z); // shrink the rotation rate a bit.
+                if (xStepped >= MaxMovement.x) {
+                    xChangeRate -= (xStepped - MaxMovement.z); // shrink the movement rate a bit.
                     xReached = true;
                 }
 
