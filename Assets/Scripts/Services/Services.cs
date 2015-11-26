@@ -33,7 +33,7 @@ namespace AdventureFVTC {
             }
         }
 
-        public static CameraService CameraS {
+        public static CameraService Camera {
             get {
                 if (cameraS == null)
                     cameraS = new CameraService();
@@ -57,13 +57,13 @@ namespace AdventureFVTC {
 	    void Update() {
             Run.update();
             Input.update();
-            CameraS.update();
+            Camera.update();
 	    }
 
         void FixedUpdate() {
             Run.fixedUpdate();
             Input.fixedUpdate();
-            CameraS.fixedUpdate();
+            Camera.fixedUpdate();
         }
     }
 }

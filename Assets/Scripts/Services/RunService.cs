@@ -49,8 +49,7 @@ namespace AdventureFVTC {
                 player.Camera.name = "Player1Camera";
                 player.Camera.transform.parent = gameRoot.transform.FindChild("Players").transform;
                 player.Camera.Subject = player.Character.transform.gameObject;
-                player.Camera.SubjectFacingDirection = player.Character.transform.FindChild("CharacterFacingDirection").transform.gameObject;
-                
+                player.Camera.SubjectFacingDirection = player.Character.transform.FindChild("CharacterFacingDirection").transform.gameObject;               
             }
         }
     }

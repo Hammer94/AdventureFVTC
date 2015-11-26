@@ -4,7 +4,7 @@ namespace AdventureFVTC {
     /**
      * Suppresses the warning 1634 for a naming collision with
      * UnityEngine.Camera. This warning is not relevant because
-     * PrometheusSyndicate.Camera is in its own namespace and
+     * AdventureFVTC.Camera is in its own namespace and
      * will not collide.
      */
 #pragma warning disable 1634
@@ -27,8 +27,8 @@ namespace AdventureFVTC {
         [SerializeField] protected bool lockPosition = false;
 
         protected Vector3 defaultCameraRotation;
-        protected GameObject subjectFacingDirection;
         protected Vector3 defaultCameraPosition;
+        protected GameObject subjectFacingDirection;
 
         /**
          * The subject is an object which the camera can
@@ -146,7 +146,7 @@ namespace AdventureFVTC {
          * @see     RelativePosition
          * @see     TransitionWithSubject()
          */
-        public virtual void ChangeSubject()
+        public virtual void ChangeSubject(GameObject newsubject, GameObject facingdirectionName)
         {
 
         }
