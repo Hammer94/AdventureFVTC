@@ -16,7 +16,7 @@ namespace AdventureFVTC {
      * to allow the camera to be rotated while still facing the subject.
      * 
      * @author  Ryan
-     * @date    24 Nov 2015
+     * @date    26 Nov 2015
      */
     public class Camera : MonoBehaviour {
         protected Vector3 offsetPosition = new Vector3(0.0f, 0.0f, 0.0f);
@@ -29,6 +29,7 @@ namespace AdventureFVTC {
         protected Vector3 defaultCameraRotation;
         protected Vector3 defaultCameraPosition;
         protected GameObject subjectFacingDirection;
+        protected GameObject subjectBehindDirection;
 
         /**
          * The subject is an object which the camera can
@@ -44,13 +45,14 @@ namespace AdventureFVTC {
             }
             set {
                 subject = value;
+                if (enabled)
+                    lookAtSubject();
             }
         }
 
         /**
-         * The subject's Facing Direction is an object 
-         * which the camera can focus on. When locked 
-         * the camera maintains a relative position to the subject.
+         * The facing direction of the subject, which is a child gameObject parented to
+         * the front side of the subject.
          * 
          * @param   value   The value to set as the subject's facing direction.
          * @return          The subject's facing direction.
@@ -62,16 +64,34 @@ namespace AdventureFVTC {
             }
             set
             {
-                subjectFacingDirection = value;
-                if (enabled)
-                    lookAtSubject();
+                subjectFacingDirection = value;            
+            }
+        }
+
+        /**
+         * The behind direction of the subject, which is a child gameObject parented to
+         * the back side of the subject.
+         * 
+         * @param   value   The value to set as the subject's facing direction.
+         * @return          The subject's back side.
+         */
+        public GameObject SubjectBehindDirection
+        {
+            get
+            {
+                return subjectBehindDirection;
+            }
+            set
+            {
+                subjectBehindDirection = value;
             }
         }
 
         /**
          * Allows the player to lock the camera to
          * its subject. When locked, the camera will
-         * maintain its position from its current subject.
+         * maintain its position from its current subject's 
+         * behind direction or subject.
          * 
          * @param   value   Whether the position is locked.
          * @return          True if the position is locked, false otherwise.
@@ -82,7 +102,9 @@ namespace AdventureFVTC {
             }
             set {
                 lockPosition = value;
-                if (subject != null && enabled)
+                if (subjectBehindDirection != null && enabled)
+                    relativePosition = GetComponent<Transform>().position - subjectBehindDirection.GetComponent<Transform>().position;
+                else if (subject != null && enabled)
                     relativePosition = GetComponent<Transform>().position - subject.GetComponent<Transform>().position;
             }
         }
@@ -146,26 +168,26 @@ namespace AdventureFVTC {
          * @see     RelativePosition
          * @see     TransitionWithSubject()
          */
-        public virtual void ChangeSubject(GameObject newsubject, GameObject facingdirectionName)
+        public virtual void ChangeSubject(GameObject newsubject, GameObject newFacingDirection, GameObject newBehindDirection)
         {
 
         }
 
         /**
-         * Rotates the camera to face the subject's facing direction or the subject.
+         * Rotates the camera to face the subject.
          */
         private void lookAtSubject() {
-            if (subjectFacingDirection != null)
-                GetComponent<Transform>().LookAt(subjectFacingDirection.GetComponent<Transform>().position + offsetPosition, offsetRotation);
-            else if (subject != null)
+            if (subject != null)
                 GetComponent<Transform>().LookAt(subject.GetComponent<Transform>().position + offsetPosition, offsetRotation);
         }
 
         /**
-         * Moves the camera with the subject.
+         * Moves the camera with the subject's back side or the subject itself.
          */
         private void followSubject() {
-            if (subject != null)
+            if (subjectBehindDirection != null)
+                GetComponent<Transform>().position = subjectBehindDirection.GetComponent<Transform>().position + relativePosition;
+            else if (subject != null)
                 GetComponent<Transform>().position = subject.GetComponent<Transform>().position + relativePosition;
         }
 

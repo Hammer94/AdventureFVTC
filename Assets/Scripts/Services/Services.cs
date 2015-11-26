@@ -1,6 +1,19 @@
 ﻿using UnityEngine;
 
 namespace AdventureFVTC {
+    /**
+     * Holds all of the active services in AdventureFVTC. Allows public
+     * access to each of the services it holds.
+     * Services can only be set as a new service once.
+     * Recieves a playerObject, characterObject, and cameraObject to be
+     * given to RunService.
+     *
+     * @author  Ryan
+     * @date    26 Nov 2015
+     * @see     RunService
+     * @see     InputService
+     * @see     CameraService
+     */
     public class Services : MonoBehaviour {
         private static Services self;
         private static RunService run;
@@ -52,6 +65,7 @@ namespace AdventureFVTC {
             run = new RunService(gameObject, playerObject, characterObject, cameraObject);
             Run.start();
             Input.start();
+            Camera.start();
 	    }
 
 	    void Update() {

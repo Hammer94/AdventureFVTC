@@ -1,4 +1,14 @@
 ﻿namespace AdventureFVTC {
+    /**
+     * A base service class for AdventureFVTC. Allows the creation
+     * of services that handle various tasks that not a part of
+     * the other classes.
+     * Includes base start, update, fixedUpdate, Start, Update,
+     * and FixedUpdate methods that all services will inherit.
+     * 
+     * @author  Ryan
+     * @date    26 Nov 2015
+     */
     public abstract class Service {
         private bool enabled = true;
 
