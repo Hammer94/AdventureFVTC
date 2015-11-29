@@ -17,7 +17,7 @@ namespace AdventureFVTC {
     */
     public class SubjectNode : CameraNode {
         private float timeWaited = 0.0f;
-        public bool begingLifeTime = false;
+        public bool beginLifeTime = false;
         public GameObject playerCamera;
 
         [SerializeField] private float transitionToPlayerTime = 3.0f; // The time it takes the camera to get to the player.
@@ -39,7 +39,7 @@ namespace AdventureFVTC {
         protected override void Update() {
             base.Update();
 
-            if (begingLifeTime)
+            if (beginLifeTime)
             {
                 float rate = 360 / lifeTime;
 

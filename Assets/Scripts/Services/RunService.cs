@@ -66,7 +66,7 @@ namespace AdventureFVTC {
                 SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
                 player.Camera.Subject = subjectNode.transform.gameObject;
                 subjectNode.playerCamera = player.Camera.transform.gameObject;
-                subjectNode.begingLifeTime = true;
+                subjectNode.beginLifeTime = true;
             }
         }
     }
