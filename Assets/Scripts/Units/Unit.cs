@@ -9,7 +9,7 @@ namespace AdventureFVTC {
      */
     public class Unit : MonoBehaviour {
         private Vector2 desiredDirection;
-        private int maxHealth;
+        [SerializeField] private int maxHealth;
         private int health;
 
         public float speed;
