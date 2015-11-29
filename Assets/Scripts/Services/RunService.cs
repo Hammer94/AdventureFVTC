@@ -8,7 +8,7 @@ namespace AdventureFVTC {
      * Allows access to the player and camera publicly.
      *
      * @author  Ryan
-     * @date    26 Nov 2015
+     * @date    28 Nov 2015
      * @see     Service
      */
     public class RunService:Service {
@@ -55,12 +55,18 @@ namespace AdventureFVTC {
                 player.Character = Object.Instantiate(characterT);
                 player.Character.name = "Player1Character";
                 player.Character.transform.parent = gameRoot.transform.FindChild("Players").transform;
+                GameObject playerSpawner = gameRoot.transform.FindChild("Spawners").transform.FindChild("PlayerSpawner").transform.gameObject;
+
                 player.Camera = Object.Instantiate(cameraT);
                 player.Camera.name = "Player1Camera";
                 player.Camera.transform.parent = gameRoot.transform.FindChild("Players").transform;
-                player.Camera.Subject = player.Character.transform.gameObject;
-                player.Camera.SubjectFacingDirection = player.Character.transform.FindChild("CharacterFacingDirection").transform.gameObject;
-                player.Camera.SubjectBehindDirection = player.Character.transform.FindChild("CharacterBehindDirection").transform.gameObject;
+                GameObject cameraSpawner = gameRoot.transform.FindChild("Spawners").transform.FindChild("CameraSpawner").transform.gameObject;
+                player.Camera.transform.position.Set(cameraSpawner.transform.position.x, cameraSpawner.transform.position.y, cameraSpawner.transform.position.z);
+
+                SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
+                player.Camera.Subject = subjectNode.transform.gameObject;
+                subjectNode.playerCamera = player.Camera.transform.gameObject;
+                subjectNode.begingLifeTime = true;
             }
         }
     }

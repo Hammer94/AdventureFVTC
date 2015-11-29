@@ -12,7 +12,7 @@ namespace AdventureFVTC {
      * can perform.
      *
      * @author  Ryan
-     * @date    26 Nov 2015
+     * @date    28 Nov 2015
      * @see     CameraNode
      */
     public class TriggerNode : CameraNode {
@@ -21,25 +21,33 @@ namespace AdventureFVTC {
             TransitionWithSubject,
             TransitionToPoint
         }
-        
-        // The conditions that define how the trigger should be triggered.
-        [SerializeField] private bool triggerOnEnter = false;
-        [SerializeField] private bool triggerOnExit = false;
-        [SerializeField] private bool isATransitionTrigger = false;
-        [SerializeField] private bool isAChangeSubjectTrigger = false;  
-        [SerializeField] private bool transitionOnEnter = false;
-        [SerializeField] private bool subjectChangeOnEnter = false;   
-        [SerializeField] private bool transitionOnExit = false;
-        [SerializeField] private bool subjectChangeOnExit = false;
-       
+             
         [SerializeField] private Vector3 newPosition; // The position the camera should move to.
         [SerializeField] private float time; // The amount of time it should take for the camera to move there.
         [SerializeField] private bool returningOnEnter = false; // Should the camera return to its default position on enter?
         [SerializeField] private bool returningOnExit = false; // Should the camera return to its default position on exit?
 
-        [SerializeField] private string objectTagToLookFor; // What object the services will look for when doing a subject change.
+        [SerializeField] private string objectTagToLookFor; // What objectTag the services will look for when doing a subject change.
         [SerializeField] private TransitionType transitionEnterType; // What type of transition does this trigger use OnEnter?
         [SerializeField] private TransitionType transitionExitType; // What type of transition does this trigger use OnExit?
+
+        // The conditions that define how the trigger should be triggered.
+        [SerializeField]
+        private bool triggerOnEnter = false;
+        [SerializeField]
+        private bool triggerOnExit = false;
+        [SerializeField]
+        private bool isATransitionTrigger = false;
+        [SerializeField]
+        private bool isAChangeSubjectTrigger = false;
+        [SerializeField]
+        private bool transitionOnEnter = false;
+        [SerializeField]
+        private bool subjectChangeOnEnter = false;
+        [SerializeField]
+        private bool transitionOnExit = false;
+        [SerializeField]
+        private bool subjectChangeOnExit = false;
 
         /**
          * Runs when the player enters the trigger and the trigger is a OnEnterTrigger.

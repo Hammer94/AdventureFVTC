@@ -12,7 +12,7 @@ namespace AdventureFVTC {
      * Uses RunService to access the camera.
      *
      * @author  Ryan
-     * @date    26 Nov 2015
+     * @date    28 Nov 2015
      * @see     Service
      * @see     Services
      * @see     RunService
@@ -20,6 +20,15 @@ namespace AdventureFVTC {
     public class CameraService:Service {
         public CameraService():base() {
 
+        }
+
+        /**
+         * Changes the camera's subject to the player and then transitions to the player over time seconds.
+         */
+        public void SetSubjectToPlayer(float time)
+        {
+            StartSubjectChance("Player");
+            StartTransition(Services.Run.Player.Camera.DefaultCameraPosition, time, true, "TransitionWithSubject");
         }
 
         /** 

@@ -4,19 +4,20 @@ namespace AdventureFVTC {
     /**
      * A derivative camera for AdventureFVTC. Specifies
      * a height, drawback, and drawside that tells the camera      
-     * where it will be when it is locked.
+     * where it will be, relative to a subject, when it is locked.
      * Allows free setting of offsets and relative position.
      * Defines how the camera moves to different locations while
-     * still looking at the subject.
+     * still looking at a subject.
      *
      * @author  Ryan
-     * @date    26 Nov 2015
+     * @date    28 Nov 2015
      * @see     Camera
      */
     public class FreeCamera : Camera {  
         private float transitionTime;
         private Vector3 transitionPosition;
         private bool isTransitioning = false;
+        private bool isTransitioningRelativeToSubject = true;
         private bool isRotating = false;
 
         private bool hasChangedSubject = false;
@@ -25,9 +26,9 @@ namespace AdventureFVTC {
         private float yRotationStepped = 0;
         private float zRotationStepped = 0;
         private float xRotationStepped = 0;
-        private float yStepped = 0.0f;
-        private float zStepped = 0.0f;
-        private float xStepped = 0.0f;
+        private float yMovementStepped = 0.0f;
+        private float zMovementStepped = 0.0f;
+        private float xMovementStepped = 0.0f;
         private Vector3 maxRotation;
         private Vector3 maxMovement;
 
@@ -60,6 +61,8 @@ namespace AdventureFVTC {
                 {
                     // If the subject has just been changed.
                     if (hasChangedSubject)
+                        // Set the amount the camera can rotate to the difference of where the camera needs
+                        // to RotateTo from the camera's CurrentRotation (RotateTo - CurrentRotation).
                         maxRotation = offsetRotation;
                     // Else the subject hasn't just been changed.
                     else
@@ -119,14 +122,15 @@ namespace AdventureFVTC {
                     // If the subject has just been changed.
                     if (hasChangedSubject)
                         maxMovement = offsetPosition;
-                    // Else the subject hasn't just been changed.
+                    // Else the subject hasn't just been changed (This will only be called once
+                    // on initialization).
                     else
                     {
-                        // Set the maximum the camera can move equal to the initial relative position.
-                        maxMovement = new Vector3(relativePosition.x, relativePosition.y, relativePosition.y);
+                        // Set the maximum the camera can move default camera position.
+                        maxMovement = defaultCameraPosition;
                     }
                 }
-                // Else the value is a new value.
+                // Else the value is a new position the camera needs to move to.
                 else
                 {
                     // Set the max movement as the new value.
@@ -138,6 +142,9 @@ namespace AdventureFVTC {
         /**
          * The height is how high above the subject the
          * camera is when the camera is locked.
+         * If the camera is transitioning relative to a subject,
+         * set the camera's relative y axis to height.
+         * Else set the camera's y axis position to height.
          * 
          * @param   value   The value to set as the height.
          * @return          The height.
@@ -148,14 +155,21 @@ namespace AdventureFVTC {
             }
             set {
                 height = value;
-                if (enabled)
-                    relativePosition.y = height;
+                if (enabled) {
+                    if (isTransitioningRelativeToSubject)
+                        relativePosition.y = height;
+                    else
+                        transform.position.Set(transform.position.x, height, transform.position.z);
+                }                 
             }
         }
 
         /**
          * The drawback is how far behind the camera
          * positions itself when the camera is locked.
+         * If the camera is transitioning relative to a subject,
+         * set the camera's relative z axis to drawback.
+         * Else set the camera's z axis position to drawback.
          * 
          * @param   value   The value to use as the drawback.
          * @return          The drawback.
@@ -166,8 +180,12 @@ namespace AdventureFVTC {
             }
             set {
                 drawback = value;
-                if (enabled)
-                    relativePosition.z = -drawback;
+                if (enabled) {
+                    if (isTransitioningRelativeToSubject)
+                        relativePosition.z = drawback;
+                    else
+                        transform.position.Set(transform.position.x, transform.position.y, drawback);
+                }                                 
             }
         }
 
@@ -176,6 +194,9 @@ namespace AdventureFVTC {
          * positions itself when the camera is locked.
          * Positive values move the camera to the right,
          * negative values move the camrera to the left.
+         * If the camera is transitioning relative to a subject,
+         * set the camera's relative x axis to drawside.
+         * Else set the camera's x axis position to drawside.
          * 
          * @param   value   The value to use as the drawside.
          * @return          The drawside.
@@ -186,8 +207,12 @@ namespace AdventureFVTC {
             }
             set {
                 drawside = value;
-                if (enabled)
-                    relativePosition.x = drawside;
+                if (enabled) {
+                    if (isTransitioningRelativeToSubject)
+                        relativePosition.x = drawside;
+                    else
+                        transform.position.Set(drawside, transform.position.y, transform.position.z);
+                }                   
             }
         }
 
@@ -280,10 +305,11 @@ namespace AdventureFVTC {
                     isChangeStillTransitioning = true;
 
                 isReturning = returnTo;
-                TransitionSetUp();
-
                 transitionPosition = position;
                 transitionTime = time;
+
+                isTransitioningRelativeToSubject = true;
+                TransitionSetUp();
                 isTransitioning = true;
             }
         }
@@ -318,30 +344,31 @@ namespace AdventureFVTC {
                     isChangeStillTransitioning = true;
 
                 isReturning = returnTo;
-                TransitionSetUp();
-
-                LockPosition = false;
                 transitionPosition = position;
                 transitionTime = time;
+
+                isTransitioningRelativeToSubject = false;
+                TransitionSetUp();
                 isTransitioning = true;
             }
         }
 
         /**
-         * ToDo: 
-         * Change the subject to a new subject. 
-         * Change the subject facing direction to a new subject facing direction. 
-         * Change the relativeposition of the camera to its current position
-         * relative to the new subject.
-         * Change the offsetRotation of the camera to its current rotation
-         * relative to the new subject. 
+         * Signals that the subject has just been changed.
+         * Changes the relativePosition of the camera to its position
+         * relative of the new subject or its backside.
+         * Changes the the camera's current subject and behind direction
+         * to the new subject and behind direction.
+         * Changes the OffsetRotation of the camera equal to the difference
+         * of its old rotation from its new rotation.
+         * Changes the camera's facing direction to the new facing direction.
+         * Sets the new max amounts the camera can rotate and move.
          *
-         * Changes the RelativePosition of the camera to its current
-         * position relative to the new subject.
-         * Calls the transition with subject method.
-         *
-         * @see     RelativePosition
-         * @see     TransitionWithSubject()
+         * @param   newSubject              The new subject the camera will look to.
+         * @param   newFacingDirection      The new subject facing direction the camera will use to calculate max rotations.
+         * @param   newBehindDirection      The new subject behind direction the camera will move relative to.
+         * @see     MaxRotation
+         * @see     MaxMovement
          */
         public override void ChangeSubject(GameObject newsubject, GameObject newFacingDirection, GameObject newBehindDirection) {
             base.ChangeSubject(newsubject, newFacingDirection, newBehindDirection);
@@ -354,19 +381,20 @@ namespace AdventureFVTC {
             // Get the current rotation before subjectchange.
             Vector3 oldRotation = transform.rotation.eulerAngles;
 
-            // Change the subject.
-            subject = newsubject;
-            // Get the subject's behind direction.
-            subjectBehindDirection = newBehindDirection;
-
+            // Get the new relative positon before the subject change.
             // If the subject has a behind direction.
-            if (subjectBehindDirection != null)
+            if (newBehindDirection != null)
                 // Get the new relative position equal to the difference of the subject's new behind position and the camera.
-                relativePosition = subjectBehindDirection.transform.position - transform.position;
+                relativePosition = newBehindDirection.transform.position - transform.position;
             else
                 // Get the new relative position equal to the difference of the new subject position and the camera.
-                relativePosition = subject.transform.position - transform.position;
+                relativePosition = newsubject.transform.position - transform.position;
 
+            // Set the current behind direction to the new behind direction.
+            subjectBehindDirection = newBehindDirection;
+            // Set the current subject to the new subject.
+            subject = newsubject;
+            
             // Get the new rotation after looking at the new subject.
             Vector3 newRotation = transform.rotation.eulerAngles;
             // Get the difference between the old and new rotation, the new offset.
@@ -378,12 +406,12 @@ namespace AdventureFVTC {
             // Set the max the camera can rotate to the current offsetRotation.
             MaxRotation = offsetRotation;
             // Set the max the camera can move to the current offsetPosition.
-            MaxMovement = offsetPosition;
+            MaxMovement = relativePosition;
         }
 
         /**
          * This override of Start adds height, drawback, 
-         * drawside, setCameraDefault, MaxRotation, and
+         * drawside  setCameraDefault, MaxRotation, and
          * MaxMovement to the start method.
          */
         protected override void Start() {
@@ -409,23 +437,13 @@ namespace AdventureFVTC {
         protected override void Update() {
             base.Update();
 
-            // Is the camera currently unlocked?
-            if (!lockPosition) {
-                if (subjectBehindDirection != null)
-                    // Update the camera's relative position to the subject's behind direction.
-                    relativePosition = subjectBehindDirection.transform.position - transform.position;
-                else
-                    // Update the camera's relative position to the subject.
-                    relativePosition = subject.transform.position - transform.position;
-            }
-
             // Is the camera transitioning?
             if (isTransitioning) {
                 /** 
                  * If the camera is rotating, transition the camera's rotation to 
                  * either the camera's mid way point or its default.
                  * If the camera's subject has changed, transition the camera's rotation
-                 * to the camera's 
+                 * to the camera's new max rotation.
                  */
                 if (isRotating || hasChangedSubject) {
                     // Used to flag once the rotations have been reached.
@@ -434,7 +452,7 @@ namespace AdventureFVTC {
                     bool xRotationReached = false;
 
                     // Get the rotation rates of the camera's max rotation, insuring that
-                    // the camera's rotation rate is is relative to how far the camera is allowed to rotate per rotation.
+                    // the camera's rotation rate is is relative to how far the camera is allowed to rotate per full rotation.
                     // Rotate the camera in three-quarters the time it takes to transition the camera's position (0.75 amount of time).
                     // This way the camera will be looking at the player before the camera gets to the player.
                     float rotationRateY = maxRotation.y / (transitionTime * 0.75f) * Time.deltaTime;
@@ -503,49 +521,50 @@ namespace AdventureFVTC {
                 // If the y change rate is negative.
                 if (yChangeRate < 0)
                     // Increase the amount stepped by the opposite of y's value (a positive value).
-                    yStepped += -1 * yChangeRate;
+                    yMovementStepped += -1 * yChangeRate;
                 // Else the y change rate is positive or 0.
                 else if (yChangeRate >= 0)
                     // Increase the amount stepped by y's value (a positive value).
-                    yStepped += yChangeRate;
+                    yMovementStepped += yChangeRate;
                 // If the z change rate is negative.
 
                 if (zChangeRate < 0)
                     // Increase the amount stepped by the opposite of z's value (a positive value).
-                    zStepped += -1 * zChangeRate;
+                    zMovementStepped += -1 * zChangeRate;
                 // Else the z change rate is positive or 0.
                 else if (zChangeRate >= 0)
                     // Increase the amount stepped by z's value (a positive value).
-                    zStepped += zChangeRate;
+                    zMovementStepped += zChangeRate;
                 // If the x change rate is negative.
 
                 if (xChangeRate < 0)
                     // Increase the amount stepped by the opposite of x's value (a positive value).
-                    xStepped += -1 * xChangeRate;
+                    xMovementStepped += -1 * xChangeRate;
                 // Else the x change rate is positive or 0.
                 else if (yChangeRate >= 0)
                     // Increase the amount stepped by x's value (a positive value).
-                    xStepped += xChangeRate;
+                    xMovementStepped += xChangeRate;
 
                 // The camera has reached its y destination (or passed it), flag that it has been reached.
-                if (yStepped >= MaxMovement.y) {
-                    yChangeRate -= (yStepped - MaxMovement.y);  // shrink the movement rate a bit.
+                if (yMovementStepped >= MaxMovement.y) {
+                    yChangeRate -= (yMovementStepped - MaxMovement.y);  // shrink the movement rate a bit.
                     yReached = true;
                 }
                 // The camera has reached its z destination (or passed it), flag that it has been reached.
-                if (zStepped >= MaxMovement.z) {
-                    zChangeRate -= (zStepped - MaxMovement.z);  // shrink the movement rate a bit.
+                if (zMovementStepped >= MaxMovement.z) {
+                    zChangeRate -= (zMovementStepped - MaxMovement.z);  // shrink the movement rate a bit.
                     zReached = true;
                 }
                 // The camera has reached its x destination (or passed it), flag that it has been reached.
-                if (xStepped >= MaxMovement.x) {
-                    xChangeRate -= (xStepped - MaxMovement.z); // shrink the movement rate a bit.
+                if (xMovementStepped >= MaxMovement.x) {
+                    xChangeRate -= (xMovementStepped - MaxMovement.z); // shrink the movement rate a bit.
                     xReached = true;
                 }
 
                 // Once all destinations have been flagged.
                 if (yReached && zReached && xReached) {
                     isTransitioning = false; // Stop the transition.
+                    
                     // If the subject change was still transitioning.
                     if (isChangeStillTransitioning) {               
                         isChangeStillTransitioning = false; // Signal that the subject change transition has finished.                      
@@ -553,7 +572,7 @@ namespace AdventureFVTC {
                 }
 
                 Height += yChangeRate; // try to move the camera to the next y position step (frame).
-                Drawback -= zChangeRate; // try to move the camera to the next z position step (frame).
+                Drawback += zChangeRate; // try to move the camera to the next z position step (frame).
                 Drawside += xChangeRate; // try to move the camera to the next x position step (frame).              
             }    
         }       
@@ -569,13 +588,80 @@ namespace AdventureFVTC {
         }
 
         /**
+        * If the camera is moving relative to a subject, get the amount the camera is allowed to move
+        * relative to a subject.
+        * Else the camera is moving to a point, get the amount the camera is allowed to move to get to 
+        * a certain point.
         * If the camera didn't achieve its full rotation last rotate, invert the amount rotated in the 
         * last rotation and flag that the camera is ready to rotate.
         * Else check the direction the camera wants to rotate to and the camera's current rotation.
         * If the camera wants to rotate towards a rotation its not currently at, flag that the camera
         * is ready to rotate and reset the amounts rotated.
         */
-        private void TransitionSetUp() {           
+        private void TransitionSetUp() {
+            // If the camera is moving relative to the subject and to a new relative position.
+            if (isTransitioningRelativeToSubject) {
+                // If the camera isn't moving with the subject.
+                if (!lockPosition)
+                {
+                    if (subjectBehindDirection != null)
+                        // Update the camera's relative position to the subject's behind direction.
+                        relativePosition = subjectBehindDirection.transform.position - transform.position;
+                    else
+                        // Update the camera's relative position to the subject.
+                        relativePosition = subject.transform.position - transform.position;
+                    // Move the camera with the subject.
+                    lockPosition = true;
+                }
+
+                // Get the difference between where the camera relatively needs to go to and where the camera relatively is.
+                float positiony = transitionPosition.y - relativePosition.y;
+                float positionz = transitionPosition.z - relativePosition.z;
+                float positionx = transitionPosition.x - relativePosition.x;
+                
+                // Get the positive difference for each axis. This is how far
+                // the camera is allowed to move on each axis.
+                if (positiony < 0)
+                    positiony = -1 * positiony;
+                if (positionz < 0)
+                    positionz = -1 * positionz;
+                if (positionx < 0)
+                    positionx = -1 * positionx;
+
+                // Reset the counters for how far each axis has moved.
+                yMovementStepped = 0;
+                zMovementStepped = 0;
+                xMovementStepped = 0;
+                // Update the new max the camera is allowed to move.
+                MaxMovement = new Vector3(positionx, positiony, positionz);
+            }
+            // Else the camera is not moving relative to the subject and is moving to a new position.
+            else {
+                // Set the camera to not move with the player.
+                lockPosition = false;
+
+                // Get the difference between the where the camera needs to go to and where the camera is.
+                float positiony = transitionPosition.y - transform.position.y;
+                float positionz = transitionPosition.z - transform.position.z;
+                float positionx = transitionPosition.x - transform.position.x;
+
+                // Get the positive difference for each axis. This is how far
+                // the camera is allowed to move on each axis.
+                if (positiony < 0)
+                    positiony = -1 * positiony;
+                if (positionz < 0)
+                    positionz = -1 * positionz;
+                if (positionx < 0)
+                    positionx = -1 * positionx;
+
+                // Reset the counters for how far each axis has moved.
+                yMovementStepped = 0;
+                zMovementStepped = 0;
+                xMovementStepped = 0;
+                // Update the new max the camera is allowed to move.
+                MaxMovement = new Vector3(positionx, positiony, positionz);
+            }
+            
             // If our OffsetRotation is between our default and our midway point.
             if (OffsetRotation != defaultCameraRotation && OffsetRotation != MaxRotation) {
                 // We're ready to rotate.
