@@ -13,7 +13,7 @@ namespace AdventureFVTC {
      * @date    28 Nov 2015
      * @see     Camera
      */
-    public class FreeCamera : Camera {  
+    public class FreeCamera:CameraBase {  
         private float transitionTime;
         private Vector3 transitionPosition;
         private bool isTransitioning = false;

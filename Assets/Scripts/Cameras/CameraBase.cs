@@ -18,7 +18,7 @@ namespace AdventureFVTC {
      * @author  Ryan
      * @date    26 Nov 2015
      */
-    public class Camera : MonoBehaviour {
+    public class CameraBase:MonoBehaviour {
         protected Vector3 offsetPosition = new Vector3(0.0f, 0.0f, 0.0f);
         protected Vector3 offsetRotation = new Vector3(0.0f, 0.0f, 0.0f);
         protected Vector3 relativePosition = new Vector3(0.0f, 0.0f, 0.0f);

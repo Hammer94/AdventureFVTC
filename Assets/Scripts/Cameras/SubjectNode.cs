@@ -15,7 +15,7 @@ namespace AdventureFVTC {
     * @see      CameraNode
     * @see      CameraService
     */
-    public class SubjectNode : CameraNode {
+    public class SubjectNode:CameraNode {
         private float timeWaited = 0.0f;
         public bool beginLifeTime = false;
         public GameObject playerCamera;

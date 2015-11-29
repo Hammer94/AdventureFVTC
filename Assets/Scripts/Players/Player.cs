@@ -8,9 +8,9 @@ namespace AdventureFVTC {
      * @author  Ryan
      * @date    19 Nov 2015
      */
-    public class Player : MonoBehaviour {
+    public class Player:MonoBehaviour {
         [SerializeField] private Character character;
-        [SerializeField] private Camera playerCamera;
+        [SerializeField] private CameraBase playerCamera;
 
         private Vector2 inputMove;
         private float inputAngle;
@@ -39,7 +39,7 @@ namespace AdventureFVTC {
          * @param   value   The Camera to set.
          * @return          The Camera.
          */
-        public Camera Camera {
+        public CameraBase Camera {
             get {
                 return playerCamera;
             }

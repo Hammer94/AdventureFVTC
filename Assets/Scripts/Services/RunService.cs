@@ -15,7 +15,7 @@ namespace AdventureFVTC {
         private GameObject gameRoot;
         private Player playerT;
         private Character characterT;
-        private Camera cameraT;
+        private CameraBase cameraT;
 
         private Player player;
         
@@ -25,13 +25,13 @@ namespace AdventureFVTC {
             }
         }
 
-        public Camera Camera {
+        public CameraBase Camera {
             get {
                 return cameraT;
             }
         }
 
-        public RunService(GameObject game, Player player, Character character, Camera camera):base() {
+        public RunService(GameObject game, Player player, Character character, CameraBase camera):base() {
             if (game == null)
                 throw new System.Exception("Root game object cannot be null.");
             if (player == null)

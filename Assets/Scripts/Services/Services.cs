@@ -14,7 +14,7 @@ namespace AdventureFVTC {
      * @see     InputService
      * @see     CameraService
      */
-    public class Services : MonoBehaviour {
+    public class Services:MonoBehaviour {
         private static Services self;
         private static RunService run;
         private static InputService input;
@@ -22,7 +22,7 @@ namespace AdventureFVTC {
 
         [SerializeField] private Player playerObject;
         [SerializeField] private Character characterObject;
-        [SerializeField] private Camera cameraObject;
+        [SerializeField] private CameraBase cameraObject;
 
         public static Services Instance {
             get {

@@ -7,7 +7,7 @@ namespace AdventureFVTC {
      * @author  Ryan
      * @date    16 Nov 2015
      */
-    public class Unit : MonoBehaviour {
+    public class Unit:MonoBehaviour {
         private Vector2 desiredDirection;
         [SerializeField] private int maxHealth;
         private int health;

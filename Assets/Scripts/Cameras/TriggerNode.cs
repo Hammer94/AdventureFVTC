@@ -15,7 +15,7 @@ namespace AdventureFVTC {
      * @date    28 Nov 2015
      * @see     CameraNode
      */
-    public class TriggerNode : CameraNode {
+    public class TriggerNode:CameraNode {
         private enum TransitionType
         {
             TransitionWithSubject,

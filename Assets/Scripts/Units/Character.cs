@@ -9,7 +9,7 @@ namespace AdventureFVTC {
      * @date    16 Nov 2015
      * @see     Item
      */
-    public class Character : Unit {
+    public class Character:Unit {
         private List<Item> list;
 
         /**
