@@ -21,7 +21,7 @@ namespace AdventureFVTC {
         private bool isRotating = false;
 
         private bool hasChangedSubject = false;
-        private bool isChangeStillTransitioning = false;
+        protected bool isSubjectChangeStillTransitioning = false;
         private bool isReturning = false;
         private float yRotationStepped = 0;
         private float zRotationStepped = 0;
@@ -116,12 +116,12 @@ namespace AdventureFVTC {
             }
             set
             {
-                // If the value equals the current maxMovement or the current offsetPositon.
-                if (value == maxMovement || value == offsetPosition)
+                // If the value equals the current maxMovement or the current relativePosition.
+                if (value == maxMovement || value == relativePosition)
                 {
                     // If the subject has just been changed.
                     if (hasChangedSubject)
-                        maxMovement = offsetPosition;
+                        maxMovement = relativePosition;
                     // Else the subject hasn't just been changed (This will only be called once
                     // on initialization).
                     else
@@ -292,17 +292,17 @@ namespace AdventureFVTC {
         *                      its default position.
         * @see     TransitionSetup()       
         */
-        public override void TransitionWithSubject(Vector3 position, float time, bool returnTo)
-        {
+        public override void TransitionWithSubject(Vector3 position, float time, bool returnTo) {
             base.TransitionWithSubject(position, time, returnTo);
 
+            Debug.Log("Inside TransitionWithSubject");
+
             // Has the change subject transition finished?
-            if (!isChangeStillTransitioning)
-            {
+            if (!isSubjectChangeStillTransitioning) {
                 // If the subject was just changed.
                 if (hasChangedSubject)
                     // Mark the transition as in progress.
-                    isChangeStillTransitioning = true;
+                    isSubjectChangeStillTransitioning = true;
 
                 isReturning = returnTo;
                 transitionPosition = position;
@@ -336,12 +336,11 @@ namespace AdventureFVTC {
             base.TransitionToPoint(position, time, returnTo);
 
             // Has the change subject transition finished?
-            if (!isChangeStillTransitioning)
-            {
+            if (!isSubjectChangeStillTransitioning) {
                 // If the subject was just changed.
                 if (hasChangedSubject)
                     // Mark the transition as in progress.
-                    isChangeStillTransitioning = true;
+                    isSubjectChangeStillTransitioning = true;
 
                 isReturning = returnTo;
                 transitionPosition = position;
@@ -375,6 +374,8 @@ namespace AdventureFVTC {
 
             // Signal that the subject has just been changed.
             hasChangedSubject = true;
+            // Signal that a new subject needs to be transitioned to.
+            isSubjectChangeStillTransitioning = false;
 
             // Reset the offset to default.
             offsetRotation = defaultCameraRotation;
@@ -394,7 +395,7 @@ namespace AdventureFVTC {
             subjectBehindDirection = newBehindDirection;
             // Set the current subject to the new subject.
             subject = newsubject;
-            
+
             // Get the new rotation after looking at the new subject.
             Vector3 newRotation = transform.rotation.eulerAngles;
             // Get the difference between the old and new rotation, the new offset.
@@ -405,7 +406,7 @@ namespace AdventureFVTC {
 
             // Set the max the camera can rotate to the current offsetRotation.
             MaxRotation = offsetRotation;
-            // Set the max the camera can move to the current offsetPosition.
+            // Set the max the camera can move to the current relativePosition.
             MaxMovement = relativePosition;
         }
 
@@ -422,7 +423,7 @@ namespace AdventureFVTC {
             Drawside = drawside;
             setCameraDefault();
             MaxRotation = maxRotation;
-            MaxMovement = maxMovement;    
+            MaxMovement = maxMovement;
         }
 
         /**
@@ -439,6 +440,7 @@ namespace AdventureFVTC {
 
             // Is the camera transitioning?
             if (isTransitioning) {
+                Debug.Log("isSubjectChangeStillTransitioning = " + (isSubjectChangeStillTransitioning == true).ToString());
                 /** 
                  * If the camera is rotating, transition the camera's rotation to 
                  * either the camera's mid way point or its default.
@@ -566,8 +568,8 @@ namespace AdventureFVTC {
                     isTransitioning = false; // Stop the transition.
                     
                     // If the subject change was still transitioning.
-                    if (isChangeStillTransitioning) {               
-                        isChangeStillTransitioning = false; // Signal that the subject change transition has finished.                      
+                    if (isSubjectChangeStillTransitioning) {
+                        isSubjectChangeStillTransitioning = false; // Signal that the subject change transition has finished.                      
                     }
                 }
 
@@ -599,20 +601,26 @@ namespace AdventureFVTC {
         * is ready to rotate and reset the amounts rotated.
         */
         private void TransitionSetUp() {
+            Debug.Log("Inside TransitionSetUp");
+
             // If the camera is moving relative to the subject and to a new relative position.
             if (isTransitioningRelativeToSubject) {
+                Debug.Log("Inside TransitioningRelativeToSubject");
                 // If the camera isn't moving with the subject.
-                if (!lockPosition)
-                {
-                    if (subjectBehindDirection != null)
-                        // Update the camera's relative position to the subject's behind direction.
-                        relativePosition = subjectBehindDirection.transform.position - transform.position;
-                    else
-                        // Update the camera's relative position to the subject.
-                        relativePosition = subject.transform.position - transform.position;
+                if (!lockPosition) {                  
                     // Move the camera with the subject.
                     lockPosition = true;
+                    Debug.Log("lockPosition is true? " + (lockPosition == true).ToString());
                 }
+
+                // If the camera has a behindDirection.
+                if (subjectBehindDirection != null)
+                    // Update the camera's relative position to the subject's behind direction.
+                    relativePosition = subjectBehindDirection.transform.position - transform.position;
+                // Else the camera doesn't have a behindDirection.
+                else
+                    // Update the camera's relative position to the subject.
+                    relativePosition = subject.transform.position - transform.position;
 
                 // Get the difference between where the camera relatively needs to go to and where the camera relatively is.
                 float positiony = transitionPosition.y - relativePosition.y;
@@ -628,12 +636,17 @@ namespace AdventureFVTC {
                 if (positionx < 0)
                     positionx = -1 * positionx;
 
+                Debug.Log("positiony = " + (positiony).ToString());
+                Debug.Log("positionz = " + (positionz).ToString());
+                Debug.Log("positionx = " + (positionx).ToString());
+
                 // Reset the counters for how far each axis has moved.
                 yMovementStepped = 0;
                 zMovementStepped = 0;
                 xMovementStepped = 0;
                 // Update the new max the camera is allowed to move.
                 MaxMovement = new Vector3(positionx, positiony, positionz);
+                Debug.Log("MaxMovement = " + (MaxMovement).ToString());
             }
             // Else the camera is not moving relative to the subject and is moving to a new position.
             else {
@@ -664,6 +677,7 @@ namespace AdventureFVTC {
             
             // If our OffsetRotation is between our default and our midway point.
             if (OffsetRotation != defaultCameraRotation && OffsetRotation != MaxRotation) {
+                Debug.Log("We're between our default and midwaypoint!");
                 // We're ready to rotate.
                 isRotating = true;
                 // We're swapping the direction, so invert the rotationStepped.
@@ -674,15 +688,20 @@ namespace AdventureFVTC {
             // Else the camera has finished its last rotation and is at its default rotation or max rotation.
             else {
                 // If the camera is trying to rotate towards its defaultRotation but the camera is already there.
-                if (isReturning && OffsetRotation == defaultCameraRotation)
+                if (isReturning && OffsetRotation == defaultCameraRotation) {
                     // We shouldn't rotate.
                     isRotating = false;
+                    Debug.Log("We're at default and are not rotating!");
+                }
                 // If the camera is trying to rotate towards its max rotation but the camera is already there.
-                else if (!isReturning && OffsetRotation == MaxRotation)
-                    // We shouldn't rotate.
+                else if (!isReturning && OffsetRotation == MaxRotation) { 
+                // We shouldn't rotate. 
                     isRotating = false;
+                    Debug.Log("We're at max and are not rotating!");
+                }
                 // Else we're trying to rotate towards a rotation that we're not at yet.
                 else {
+                    Debug.Log("We're rotating! towards a direction we're not at!");
                     // We're ready to rotate.
                     isRotating = true;
                     // Reset the amount rotated.

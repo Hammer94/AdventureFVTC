@@ -57,8 +57,8 @@ namespace AdventureFVTC {
         public Services() {
             if (self == null)
                 self = this;
-            else
-                throw new System.Exception("Cannot create mutliple Services.");
+            //else
+                //throw new System.Exception("Cannot create mutliple Services.");
         }
 
 	    void Start() {

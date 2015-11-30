@@ -31,6 +31,8 @@ namespace AdventureFVTC {
         protected GameObject subjectFacingDirection;
         protected GameObject subjectBehindDirection;
 
+
+
         /**
          * The subject is an object which the camera can
          * focus on. When locked the camera maintains
