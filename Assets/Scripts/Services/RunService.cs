@@ -8,7 +8,7 @@ namespace AdventureFVTC {
      * Allows access to the player and camera publicly.
      *
      * @author  Ryan
-     * @date    28 Nov 2015
+     * @date    29 Nov 2015
      * @see     Service
      */
     public class RunService:Service {
@@ -19,6 +19,13 @@ namespace AdventureFVTC {
 
         private Player player;
         
+        public GameObject Game
+        {
+            get {
+                return gameRoot;
+            }
+        }
+
         public Player Player {
             get {
                 return player;
@@ -51,22 +58,24 @@ namespace AdventureFVTC {
             if (player == null) {
                 player = Object.Instantiate(playerT);
                 player.name = "Player1";
-                player.transform.parent = gameRoot.transform.FindChild("Players").transform;
+                player.transform.parent = gameRoot.transform.Find("Players").transform;
                 player.Character = Object.Instantiate(characterT);
                 player.Character.name = "Player1Character";
-                player.Character.transform.parent = gameRoot.transform.FindChild("Players").transform;
-                GameObject playerSpawner = gameRoot.transform.FindChild("Spawners").transform.FindChild("PlayerSpawner").transform.gameObject;
-
+                GameObject playerSpawner = gameRoot.transform.Find("Spawners").transform.Find("PlayerSpawner").transform.gameObject;
+                Debug.Log("playerSpawner = " + (playerSpawner == null).ToString());
+                player.Character.transform.position.Set(playerSpawner.transform.position.x, playerSpawner.transform.position.y + player.Character.transform.position.y,
+                    playerSpawner.transform.position.z);
+                player.Character.transform.parent = gameRoot.transform.Find("Players").transform;
+                
                 player.Camera = Object.Instantiate(cameraT);
                 player.Camera.name = "Player1Camera";
-                player.Camera.transform.parent = gameRoot.transform.FindChild("Players").transform;
-                GameObject cameraSpawner = gameRoot.transform.FindChild("Spawners").transform.FindChild("CameraSpawner").transform.gameObject;
-                player.Camera.transform.position.Set(cameraSpawner.transform.position.x, cameraSpawner.transform.position.y, cameraSpawner.transform.position.z);
+                player.Camera.transform.parent = gameRoot.transform.Find("Players").transform;
+                GameObject cameraSpawner = gameRoot.transform.Find("Spawners").transform.Find("CameraSpawner").transform.gameObject;
+                player.Camera.SubjectBehindDirection = cameraSpawner;
 
                 SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
                 player.Camera.Subject = subjectNode.transform.gameObject;
-                subjectNode.playerCamera = player.Camera.transform.gameObject;
-                subjectNode.beginLifeTime = true;
+                subjectNode.InitialSetUp(player.Camera.transform.position);
             }
         }
     }

@@ -62,7 +62,7 @@ namespace AdventureFVTC {
             if (obj.tag == "Player" && triggerOnEnter) {
                 if (isAChangeSubjectTrigger) {
                     if (subjectChangeOnEnter) {
-                        Services.Camera.StartSubjectChance(objectTagToLookFor); // Change the subject.
+                        Services.Camera.StartSubjectChange(objectTagToLookFor); // Change the subject.
                     }
                 }
                 if (isATransitionTrigger) {
@@ -93,7 +93,7 @@ namespace AdventureFVTC {
             if (obj.tag == "Player" && triggerOnExit) {
                 if (isAChangeSubjectTrigger) {
                     if (subjectChangeOnExit) {
-                        Services.Camera.StartSubjectChance(objectTagToLookFor); // Change the subject.
+                        Services.Camera.StartSubjectChange(objectTagToLookFor); // Change the subject.
                     }
                 }
                 if (isATransitionTrigger) {

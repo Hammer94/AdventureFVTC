@@ -117,7 +117,7 @@ namespace AdventureFVTC {
          * has a rigidbody. Disables the script if a rigidbody
          * doesn't exist.
          */
-        void Start() {
+        protected virtual void Start() {
             if (GetComponent<Rigidbody>() == null)
                 enabled = false;
             GetComponent<Rigidbody>().maxAngularVelocity = 100;
@@ -143,7 +143,7 @@ namespace AdventureFVTC {
          * and applies the related velocities and angular velocities to the
          * associated rigidbody.
          */
-        void FixedUpdate() {
+        protected virtual void FixedUpdate() {
             Vector2 moveVector = desiredDirection;
             float rot = DeltaAngle(desiredRotation, -(Mathf.Deg2Rad * GetComponent<Transform>().eulerAngles.y) - Mathf.PI / 2);
 

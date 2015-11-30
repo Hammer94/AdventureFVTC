@@ -11,22 +11,45 @@ namespace AdventureFVTC {
     * transition.
     *
     * @author   Ryan
-    * @date     28 Nov 2015
+    * @date     29 Nov 2015
     * @see      CameraNode
     * @see      CameraService
     */
     public class SubjectNode:CameraNode {
         private float timeWaited = 0.0f;
+        private Vector3 desiredPosition;
+
         public bool beginLifeTime = false;
-        public GameObject playerCamera;
+        public Vector3 playerCamera;      
+        public float radius = 10.0f; // How far from the center the camera node rotates.
+        public float radiusSpeed = 0.5f;
 
         [SerializeField] private float transitionToPlayerTime = 3.0f; // The time it takes the camera to get to the player.
         [SerializeField] private float lifeTime = 3.0f; // The time the subject node is active and the time it takes 
                                                         // the node to perform a full rotation around the camera.
-
+        /**
+         * Receives a position to set as this nodes center of rotation.
+         */
+        public void InitialSetUp(Vector3 camera) {
+            playerCamera = camera;
+            transform.position.Set((transform.position.x - playerCamera.x) * radius + playerCamera.x, transform.position.y, 
+                (transform.position.z - playerCamera.z) * radius + playerCamera.z);
+            beginLifeTime = true;
+        }
+        
         protected override void Start() {
             base.Start();
 
+            LifeTime = lifeTime;
+        }
+
+        public float LifeTime {
+            get {
+                return lifeTime;
+            }
+            set {
+                lifeTime = value;
+            }
         }
 
         /**
@@ -39,20 +62,19 @@ namespace AdventureFVTC {
         protected override void Update() {
             base.Update();
 
-            if (beginLifeTime)
-            {
-                float rate = 360 / lifeTime;
+            if (beginLifeTime) {
+                float rate = (360 / lifeTime) * Time.deltaTime;
 
-                transform.RotateAround(playerCamera.transform.position, Vector3.up, rate * Time.deltaTime);
-
-                timeWaited += rate * Time.deltaTime;
-
-                if (timeWaited >= lifeTime)
-                {
+                transform.RotateAround(playerCamera, Vector3.up, rate);
+                desiredPosition = (transform.position - playerCamera).normalized * radius + playerCamera;
+                transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
+                           
+                timeWaited += Time.deltaTime;
+                if (timeWaited >= lifeTime) {                 
                     Services.Camera.SetSubjectToPlayer(transitionToPlayerTime);
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 }
-            }                   
+            }
         }
     }
 }

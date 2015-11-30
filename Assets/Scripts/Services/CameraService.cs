@@ -27,7 +27,7 @@ namespace AdventureFVTC {
          */
         public void SetSubjectToPlayer(float time)
         {
-            StartSubjectChance("Player");
+            StartSubjectChange("Player");
             StartTransition(Services.Run.Player.Camera.DefaultCameraPosition, time, true, "TransitionWithSubject");
         }
 
@@ -54,10 +54,13 @@ namespace AdventureFVTC {
         *
         * @param   objectTag        The object that the camera needs to change its subject to.        
         */
-        public void StartSubjectChance(string objectTag) {
-            GameObject subject = GameObject.FindGameObjectWithTag(objectTag);
-            GameObject subjectFacingDirection = subject.transform.FindChild("CharacterFacingDirection").transform.gameObject;
-            GameObject subjectBehindDirection = subject.transform.FindChild("CharacterBehindDirection").transform.gameObject;
+        public void StartSubjectChange(string objectTag) {
+            GameObject subject = GameObject.FindWithTag(objectTag);
+            Debug.Log("Subject is null = " + (subject == null).ToString());
+
+            //GameObject subjectFacingDirection = subject.transform.FindChild("CharacterFacingDirection").transform.gameObject;
+            GameObject subjectFacingDirection = subject.transform.Find("CharacterFacingDirection").gameObject;
+            GameObject subjectBehindDirection = subject.transform.Find("CharacterBehindDirection").gameObject;
 
             Services.Run.Camera.ChangeSubject(subject, subjectFacingDirection, subjectBehindDirection);
         }
