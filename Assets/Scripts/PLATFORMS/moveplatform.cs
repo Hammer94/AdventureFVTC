@@ -34,9 +34,9 @@ namespace AdventureFVTC
         void Start()
         {
             // Set position A as the position the platform starts at.
-            xPositionA = transform.position.x;
-            yPositionA = transform.position.y;
-            zPositionA = transform.position.z;
+            xPositionA = transform.position.x + xRelativePosition;
+            yPositionA = transform.position.y + yRelativePosition;
+            zPositionA = transform.position.z + zRelativePosition;
         }
 
         void Update()
