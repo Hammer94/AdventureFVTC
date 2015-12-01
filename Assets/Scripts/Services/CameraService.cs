@@ -42,9 +42,9 @@ namespace AdventureFVTC {
         */
         public void StartTransition(Vector3 position, float time, bool returnToSubject, string transitionType) {
             if (transitionType == "TransitionWithSubject")
-                Services.Run.Camera.TransitionWithSubject(position, time, returnToSubject);
+                Services.Run.Player.Camera.TransitionWithSubject(position, time, returnToSubject);
             else if (transitionType == "TransitionToPoint")
-                Services.Run.Camera.TransitionToPoint(position, time, returnToSubject);
+                Services.Run.Player.Camera.TransitionToPoint(position, time, returnToSubject);
         }
 
         /** 

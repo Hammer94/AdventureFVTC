@@ -26,7 +26,7 @@ namespace AdventureFVTC {
         [SerializeField] private float radius = 10.0f; // How far from the center the camera node rotates.
         [SerializeField] private float radiusSpeed = 0.5f;
         [SerializeField] private float transitionToPlayerTime = 3.0f; // The time it takes the camera to get to the player.
-        [SerializeField] private float orbitTime = 3.0f; // The time it takes the subject node to orbit the camera. 
+        [SerializeField] private float orbitTime = 7.0f; // The time it takes the subject node to orbit the camera. 
         [SerializeField] private float destroyTime = 2.0f; // The time it takes the subject node to destroy itself.
                                                         
         /**

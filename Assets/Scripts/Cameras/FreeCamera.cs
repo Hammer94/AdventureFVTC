@@ -357,6 +357,8 @@ namespace AdventureFVTC {
             hasChangedSubject = true;
             // Signal that a new subject needs to be transitioned to.
             isSubjectChangeStillTransitioning = false;
+            // Remove the subject's facing direction.
+            subjectFacingDirection = null;
 
             // Rotate towards the current subject before subjectchange.
             //lookAtSubject();
@@ -375,6 +377,13 @@ namespace AdventureFVTC {
                 // Get the new position difference of the new subject position and the camera.
                 positionDifference = newsubject.transform.position - transform.position;
             Debug.Log("positionDifference = " + positionDifference);
+
+            if (positionDifference.x < 0)
+                positionDifference.x *= -1;
+            if (positionDifference.y < 0)
+                positionDifference.y *= -1;
+            if (positionDifference.z < 0)
+                positionDifference.z *= -1;
 
             // Set the relativePosition to the difference so the camera keep its position relative to its new subject.
             relativePosition = relativePosition + positionDifference;
@@ -400,6 +409,13 @@ namespace AdventureFVTC {
 
             // Get the subject's facing direction.
             subjectFacingDirection = newFacingDirection;
+
+            if (rotationDifference.x < 0)
+                rotationDifference.x *= -1;
+            if (rotationDifference.y < 0)
+                rotationDifference.y *= -1;
+            if (rotationDifference.z < 0)
+                rotationDifference.z *= -1;
 
             // Set the max the camera can rotate to the current rotationDifference.
             MaxRotation = rotationDifference;
@@ -504,7 +520,8 @@ namespace AdventureFVTC {
                     }
 
                     // Try to rotate the camera to the next x, y, and z offset rotation step (frame).
-                    OffsetPosition.Set(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
+                    //OffsetPosition.Set(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
+                    OffsetPosition = new Vector3(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
                 }
 
                 // Used as flags once the destination has been reached.
