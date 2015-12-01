@@ -59,7 +59,7 @@ namespace AdventureFVTC {
             GameObject subjectFacingDirection = subject.transform.Find("CharacterFacingDirection").gameObject;
             GameObject subjectBehindDirection = subject.transform.Find("CharacterBehindDirection").gameObject;
 
-            Services.Run.Camera.ChangeSubject(subject, subjectFacingDirection, subjectBehindDirection);
+            Services.Run.Player.Camera.ChangeSubject(subject, subjectFacingDirection, subjectBehindDirection);
         }
     }
 }

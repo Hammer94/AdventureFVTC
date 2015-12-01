@@ -76,13 +76,13 @@ namespace AdventureFVTC {
                 subjectNode.InitialSetUp(player.Camera.transform.position);
 
                 // Testing purposes:
-                CameraBase[] cameras = CameraBase.FindObjectsOfType(typeof(CameraBase)) as CameraBase[];
-                int amount = 0;
-                foreach (CameraBase camera in cameras)
-                {
-                    amount += 1;
-                    Debug.Log("Camera#" + amount);
-                }
+                //CameraBase[] cameras = CameraBase.FindObjectsOfType(typeof(CameraBase)) as CameraBase[];
+                //int amount = 0;
+                //foreach (CameraBase camera in cameras)
+                //{
+                //    amount += 1;
+                //    Debug.Log("Camera#" + amount);
+                //}
 
             }
         }

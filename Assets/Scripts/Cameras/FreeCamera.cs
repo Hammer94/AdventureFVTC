@@ -358,7 +358,6 @@ namespace AdventureFVTC {
             // Signal that a new subject needs to be transitioned to.
             isSubjectChangeStillTransitioning = false;
 
-            Debug.Log("Subject is null = " + subject == null);
             // Rotate towards the current subject before subjectchange.
             //lookAtSubject();
             transform.LookAt(subject.transform.position + offsetPosition, offsetRotation);
@@ -367,7 +366,7 @@ namespace AdventureFVTC {
             Vector3 oldRotation = transform.rotation.eulerAngles;
             Debug.Log("oldRotation = " + (oldRotation).ToString());
 
-            //Debug.Log("positionDifference = " + positionDifference);
+            Debug.Log("positionDifference = " + positionDifference);
             // If the subject has a behind direction.
             if (newBehindDirection != null)
                 // Get the new position difference of the new subject's new behind position and the camera.
@@ -375,16 +374,16 @@ namespace AdventureFVTC {
             else
                 // Get the new position difference of the new subject position and the camera.
                 positionDifference = newsubject.transform.position - transform.position;
+            Debug.Log("positionDifference = " + positionDifference);
 
             // Set the relativePosition to the difference so the camera keep its position relative to its new subject.
-            relativePosition = positionDifference;
+            relativePosition = relativePosition + positionDifference;
+            Debug.Log("relativePosition = " + relativePosition);
             // Set the current behind direction to the new behind direction.
             subjectBehindDirection = newBehindDirection;
             // Set the current subject to the new subject.
             subject = newsubject;
 
-            Debug.Log("Subject is null = " + subject == null);
-            Debug.Log("subjectname = " + subject.name);
             // Rotate towards the new subject after subjectchange.
             //lookAtSubject();
             transform.LookAt(subject.transform.position + offsetPosition, offsetRotation);
@@ -394,7 +393,10 @@ namespace AdventureFVTC {
             Debug.Log("newRotation = " + (newRotation).ToString());
             // Get the difference between the old and new rotation, the new offset.
             rotationDifference = oldRotation - newRotation;
-            Debug.Log("offsetRotation = " + (offsetRotation).ToString());
+            Debug.Log("rotationDifference = " + (rotationDifference).ToString());
+
+            // Update the camera's new rotation.
+            OffsetPosition = rotationDifference;
 
             // Get the subject's facing direction.
             subjectFacingDirection = newFacingDirection;

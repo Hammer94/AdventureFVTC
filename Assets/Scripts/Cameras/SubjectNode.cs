@@ -75,10 +75,11 @@ namespace AdventureFVTC {
             if (destroySelf) {
                 timeWaited += Time.deltaTime;
 
-                Debug.Log("timeWaited = " + timeWaited);
-
                 if (timeWaited >= destroyTime)
-                    Destroy(gameObject);              
+                {
+                    Destroy(gameObject);   
+                }
+
             }
         }
     }
