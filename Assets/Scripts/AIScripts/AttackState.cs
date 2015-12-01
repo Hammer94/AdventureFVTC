@@ -32,7 +32,7 @@ public class AttackState : State
 
         float dist = (trans.position - target).magnitude;
 
-        if(dist < 4)
+        if(dist < 8)
         {
             Controller.ChangeState(EngagedState.KEY);
         }
