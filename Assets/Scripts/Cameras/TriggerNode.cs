@@ -12,7 +12,7 @@ namespace AdventureFVTC {
      * can perform.
      *
      * @author  Ryan
-     * @date    28 Nov 2015
+     * @date    30 Nov 2015
      * @see     CameraNode
      */
     public class TriggerNode:CameraNode {
@@ -70,7 +70,7 @@ namespace AdventureFVTC {
                         // Is the camera returning to its default position on enter?
                         if (returningOnEnter)
                             // Set the position as the camera's default position and send returning as true.
-                            Services.Camera.StartTransition(Services.Run.Camera.DefaultCameraPosition, time, true, transitionEnterType.ToString());
+                            Services.Camera.StartTransition(Services.Run.Camera.DefaultRelativePosition, time, true, transitionEnterType.ToString());
                         // Else the camera is moving to a new position.
                         else
                             // Set the position as the new position and send returning as false.
@@ -101,7 +101,7 @@ namespace AdventureFVTC {
                         // Is the camera returning to its default position on exit?
                         if (returningOnExit)
                             // Set the position as the camera's default position and send returning as true.
-                            Services.Camera.StartTransition(Services.Run.Camera.DefaultCameraPosition, time, true, transitionExitType.ToString());
+                            Services.Camera.StartTransition(Services.Run.Camera.DefaultRelativePosition, time, true, transitionExitType.ToString());
                         // Else the camera is moving to a new position.
                         else
                             // Set the position as the new position and send returning as false.

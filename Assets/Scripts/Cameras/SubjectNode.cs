@@ -11,22 +11,24 @@ namespace AdventureFVTC {
     * transition.
     *
     * @author   Ryan
-    * @date     29 Nov 2015
+    * @date     30 Nov 2015
     * @see      CameraNode
     * @see      CameraService
     */
     public class SubjectNode:CameraNode {
-        private float timeWaited = 0.0f;
+        private float timeWaited = 0.0f;         
+        private bool orbit = false;
+        private bool destroySelf = false;
+        private Vector3 playerCamera;
         private Vector3 desiredPosition;
 
-        public bool beginLifeTime = false;
-        public Vector3 playerCamera;      
-        public float radius = 10.0f; // How far from the center the camera node rotates.
-        public float radiusSpeed = 0.5f;
 
+        [SerializeField] private float radius = 10.0f; // How far from the center the camera node rotates.
+        [SerializeField] private float radiusSpeed = 0.5f;
         [SerializeField] private float transitionToPlayerTime = 3.0f; // The time it takes the camera to get to the player.
-        [SerializeField] private float lifeTime = 3.0f; // The time the subject node is active and the time it takes 
-                                                        // the node to perform a full rotation around the camera.
+        [SerializeField] private float orbitTime = 3.0f; // The time it takes the subject node to orbit the camera. 
+        [SerializeField] private float destroyTime = 2.0f; // The time it takes the subject node to destroy itself.
+                                                        
         /**
          * Receives a position to set as this nodes center of rotation.
          */
@@ -34,46 +36,48 @@ namespace AdventureFVTC {
             playerCamera = camera;
             transform.position.Set((transform.position.x - playerCamera.x) * radius + playerCamera.x, transform.position.y, 
                 (transform.position.z - playerCamera.z) * radius + playerCamera.z);
-            beginLifeTime = true;
+            orbit = true;
         }
         
         protected override void Start() {
             base.Start();
 
-            LifeTime = lifeTime;
-        }
 
-        public float LifeTime {
-            get {
-                return lifeTime;
-            }
-            set {
-                lifeTime = value;
-            }
         }
 
         /**
          * This override of update adds in the functionality
-         * of the subject node having a lifetime. and orbiting
-         * the camera. Once the lifeTime has been met, calls for 
-         * the subject changing to the player and the removal of
-         * the node from the gamespace.
+         * of the subject node having a orbit and then destroying 
+         * itself. Once the orbitTime has been met, calls for a 
+         * subject change to the player and then flags that the 
+         * node is ready to move itself. Once destroyTime has 
+         * been met, this node destroy itself.
          */
         protected override void Update() {
             base.Update();
 
-            if (beginLifeTime) {
-                float rate = (360 / lifeTime) * Time.deltaTime;
+            // If the node is orbiting the camera.
+            if (orbit) {
+                float rate = (360 / orbitTime) * Time.deltaTime;
 
                 transform.RotateAround(playerCamera, Vector3.up, rate);
                 desiredPosition = (transform.position - playerCamera).normalized * radius + playerCamera;
                 transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * radiusSpeed);
                            
                 timeWaited += Time.deltaTime;
-                if (timeWaited >= lifeTime) {                 
+                if (timeWaited >= orbitTime) {                 
                     Services.Camera.SetSubjectToPlayer(transitionToPlayerTime);
-                    Destroy(gameObject);
+                    timeWaited = 0.0f;
+                    orbit = false;
+                    destroySelf = true;
                 }
+            }
+            // If the node is counting down to destroy itself.
+            if (destroySelf) {
+                timeWaited += Time.deltaTime;
+
+                if (timeWaited >= destroyTime)
+                    Destroy(gameObject);              
             }
         }
     }

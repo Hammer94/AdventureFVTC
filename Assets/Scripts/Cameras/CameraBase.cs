@@ -20,18 +20,16 @@ namespace AdventureFVTC {
      */
     public class CameraBase:MonoBehaviour {
         protected Vector3 offsetPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        protected Vector3 offsetRotation = new Vector3(0.0f, 20.0f, 0.0f);
+        protected Vector3 offsetRotation = new Vector3(0.0f, 1.0f, 0.0f);
         protected Vector3 relativePosition = new Vector3(0.0f, 0.0f, 0.0f);
 
         [SerializeField] protected GameObject subject;
         [SerializeField] protected bool lockPosition = false;
 
-        protected Vector3 defaultCameraRotation;
-        protected Vector3 defaultCameraPosition;
+        protected Vector3 defaultRelativePosition;
+        protected Vector3 defaultOffsetPosition;   
         protected GameObject subjectFacingDirection;
         protected GameObject subjectBehindDirection;
-
-
 
         /**
          * The subject is an object which the camera can
@@ -118,12 +116,12 @@ namespace AdventureFVTC {
          * @param   value   The value to set as the defaultCameraPosition.
          * @return          The defaultCameraPosition.
          */
-        public Vector3 DefaultCameraPosition {
+        public Vector3 DefaultRelativePosition {
             get {
-                return defaultCameraPosition;
+                return defaultRelativePosition;
             }
             set {
-                defaultCameraPosition = value;
+                defaultRelativePosition = value;
             }
         }
 
@@ -178,7 +176,7 @@ namespace AdventureFVTC {
         /**
          * Rotates the camera to face the subject.
          */
-        private void lookAtSubject() {
+        protected void lookAtSubject() {
             if (subject != null)
                 GetComponent<Transform>().LookAt(subject.GetComponent<Transform>().position + offsetPosition, offsetRotation);
         }

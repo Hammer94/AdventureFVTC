@@ -12,7 +12,7 @@ namespace AdventureFVTC {
      * Uses RunService to access the camera.
      *
      * @author  Ryan
-     * @date    28 Nov 2015
+     * @date    30 Nov 2015
      * @see     Service
      * @see     Services
      * @see     RunService
@@ -28,7 +28,7 @@ namespace AdventureFVTC {
         public void SetSubjectToPlayer(float time)
         {
             StartSubjectChange("Player");
-            StartTransition(Services.Run.Player.Camera.DefaultCameraPosition, time, true, "TransitionWithSubject");
+            StartTransition(Services.Run.Player.Camera.DefaultRelativePosition, time, true, "TransitionWithSubject");
         }
 
         /** 
