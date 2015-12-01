@@ -74,12 +74,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8a348f7b3048c438d67eb6f613a470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beginLifeTime: 0
-  playerCamera: {x: 0, y: 0, z: 0}
   radius: 15
   radiusSpeed: .5
   transitionToPlayerTime: 3
-  lifeTime: 12
+  orbitTime: 3
+  destroyTime: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

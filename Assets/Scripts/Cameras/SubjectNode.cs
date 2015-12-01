@@ -42,7 +42,6 @@ namespace AdventureFVTC {
         protected override void Start() {
             base.Start();
 
-
         }
 
         /**
@@ -75,6 +74,8 @@ namespace AdventureFVTC {
             // If the node is counting down to destroy itself.
             if (destroySelf) {
                 timeWaited += Time.deltaTime;
+
+                Debug.Log("timeWaited = " + timeWaited);
 
                 if (timeWaited >= destroyTime)
                     Destroy(gameObject);              

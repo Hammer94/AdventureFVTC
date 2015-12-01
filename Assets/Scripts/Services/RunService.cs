@@ -74,6 +74,16 @@ namespace AdventureFVTC {
                 SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
                 player.Camera.Subject = subjectNode.transform.gameObject;
                 subjectNode.InitialSetUp(player.Camera.transform.position);
+
+                // Testing purposes:
+                CameraBase[] cameras = CameraBase.FindObjectsOfType(typeof(CameraBase)) as CameraBase[];
+                int amount = 0;
+                foreach (CameraBase camera in cameras)
+                {
+                    amount += 1;
+                    Debug.Log("Camera#" + amount);
+                }
+
             }
         }
     }
