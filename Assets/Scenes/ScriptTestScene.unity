@@ -128,8 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 15
   radiusSpeed: .5
-  transitionToPlayerTime: 3
-  orbitTime: 3
+  transitionToPlayerTime: 6
+  orbitTime: 6
   destroyTime: 2
 --- !u!23 &392744146
 MeshRenderer:
@@ -492,8 +492,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1183692681}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 5.44000006, z: -23.8999996}
+  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
+  m_LocalPosition: {x: -10.6800003, y: 1.39999998, z: -10.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -535,7 +535,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1589216558}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.60814476, y: .301999986, z: -15.1040001}
+  m_LocalPosition: {x: 7.60814524, y: .5, z: -14.3999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 684601964}
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 11432984, guid: fe028776fa5142645a5edbc1f8e3e63a, type: 2}
-  characterObject: {fileID: 11448924, guid: d45df096b919f1140a566062d0473135, type: 2}
+  characterObject: {fileID: 11442156, guid: d45df096b919f1140a566062d0473135, type: 2}
   cameraObject: {fileID: 11412260, guid: 8cef8aa816e55234c90618e380bf99fb, type: 2}
 --- !u!1 &2034810955
 GameObject:

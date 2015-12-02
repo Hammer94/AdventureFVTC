@@ -254,8 +254,6 @@ namespace AdventureFVTC {
         public override void TransitionWithSubject(Vector3 position, float time, bool returnTo) {
             base.TransitionWithSubject(position, time, returnTo);
 
-            Debug.Log("Inside TransitionWithSubject");
-
             // Has the change subject transition finished?
             if (!isSubjectChangeStillTransitioning) {
                 // If the subject was just changed.
@@ -271,6 +269,7 @@ namespace AdventureFVTC {
 
                 isTransitioningRelativeToSubject = true;
                 TransitionSetUp();
+                Debug.Log(OffsetPosition);
                 isTransitioning = true;
             }
         }
@@ -344,13 +343,8 @@ namespace AdventureFVTC {
             // Will hold the position difference between the old and new subject.
             Vector3 positionDifference;
 
-            // Rotate towards the current subject before subjectchange.
-            //lookAtSubject();
-            transform.LookAt(subject.transform.position + offsetPosition, offsetRotation);
-
-            // Get the current rotation before subjectchange.
-            Vector3 oldRotation = transform.rotation.eulerAngles;
-            //Debug.Log("oldRotation = " + (oldRotation).ToString());
+            // Get the current subject's position before subjectChange.
+            Vector3 oldSubjectPosition = subject.transform.position;
 
             // If the subject has a behind direction.
             if (newBehindDirection != null)
@@ -359,7 +353,6 @@ namespace AdventureFVTC {
             else
                 // Get the new position difference of the new subject position and the camera.
                 positionDifference = newsubject.transform.position - transform.position;
-            //Debug.Log("positionDifference = " + positionDifference);
 
             if (positionDifference.x < 0)
                 positionDifference.x *= -1;
@@ -376,19 +369,15 @@ namespace AdventureFVTC {
             // Set the current subject to the new subject.
             subject = newsubject;
 
-            // Rotate towards the new subject after subjectchange.
-            //lookAtSubject();
-            transform.LookAt(subject.transform.position + offsetPosition, offsetRotation);
+            // Get the new subject's position after subjectChange.
+            Vector3 newSubjectPosition = subject.transform.position;
+            // Get the difference between the old and new position, the new offset.
+            Vector3 rotationDifference = oldSubjectPosition - newSubjectPosition;
 
-            // Get the new rotation after looking at the new subject.
-            Vector3 newRotation = transform.rotation.eulerAngles;
-            //Debug.Log("newRotation = " + (newRotation).ToString());
-            // Get the difference between the old and new rotation, the new offset.
-            Vector3 rotationDifference = oldRotation - newRotation;
-            //Debug.Log("rotationDifference = " + (rotationDifference).ToString());
-
+            // Get the current OffsetPosition before it changes.
+            Vector3 offSet = OffsetPosition;
             // Update the camera's new rotation.
-            OffsetPosition = rotationDifference;
+            OffsetPosition += rotationDifference;
 
             // Get the subject's facing direction.
             subjectFacingDirection = newFacingDirection;
@@ -399,10 +388,16 @@ namespace AdventureFVTC {
                 rotationDifference.y *= -1;
             if (rotationDifference.z < 0)
                 rotationDifference.z *= -1;
+          
+            if(offSet.x < 0)
+                offSet.x *= -1;
+            if (offSet.y < 0)
+                offSet.y *= -1;
+            if (offSet.z < 0)
+                offSet.z *= -1;
 
             // Set the max the camera can rotate to the current rotationDifference.
-            MaxRotation = rotationDifference;
-            //Debug.Log("maxRotation = " + maxRotation);
+            MaxRotation = rotationDifference + offSet;
             // Set the max the camera can move to the current positionDifference.
             MaxMovement = positionDifference;
         }
@@ -448,41 +443,76 @@ namespace AdventureFVTC {
                     bool yRotationReached = false;
                     bool zRotationReached = false;
                     bool xRotationReached = false;
+                    float rotationRateY;
+                    float rotationRateZ;
+                    float rotationRateX;
 
-                    // Get the rotation rates of the camera's max rotation, insuring that
-                    // the camera's rotation rate is is relative to how far the camera is allowed to rotate per full rotation.
-                    // Rotate the camera in three-quarters the time it takes to transition the camera's position (0.75 amount of time).
+                    /// Get the y, z, and x rotation rates per frame.
+                    // Rotate the camera in three-quarters the time it takes to transition the camera's position (0.50 amount of time).
                     // This way the camera will be looking at the player before the camera gets to the player.
-                    float rotationRateY = maxRotation.y / (transitionTime * 0.75f) * Time.deltaTime;
-                    float rotationRateZ = maxRotation.z / (transitionTime * 0.75f) * Time.deltaTime;
-                    float rotationRateX = maxRotation.x / (transitionTime * 0.75f) * Time.deltaTime;
+                    // If amount the y rotation needs to rotate is zero.
+                    if (MaxRotation.y == 0) {
+                        rotationRateY = 0; // Set the rate of change to zero.
+                        yRotationReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        rotationRateY = Mathf.Min((transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.y);
+                    // If amount the z rotation needs to rotate is zero.
+                    if (MaxRotation.z == 0)
+                    {
+                        rotationRateZ = 0; // Set the rate of change to zero.
+                        zRotationReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        rotationRateZ = Mathf.Min((transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.z);
+                    // If amount the x rotation needs to rotate is zero.
+                    if (MaxRotation.x == 0)
+                    {
+                        rotationRateX = 0; // Set the rate of change to zero.
+                        xRotationReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        rotationRateX = Mathf.Min((transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.x);
 
                     // Keep track of how far the camera has rotated so we can stop it later.
-                    yRotationStepped += rotationRateY;
-                    zRotationStepped += rotationRateZ;
-                    xRotationStepped += rotationRateX;
+                    // If rotationRateY is negative.
+                    if (rotationRateY < 0)
+                        yRotationStepped += -1 * rotationRateY;
+                    else
+                        yRotationStepped += rotationRateY;
+                    // If rotationRateZ is negative.
+                    if (rotationRateZ < 0)
+                        zRotationStepped += -1 * rotationRateZ;
+                    else
+                        zRotationStepped += rotationRateZ;
+                    // If rotationRateX is negative.
+                    if (rotationRateX < 0)
+                        xRotationStepped += -1 * rotationRateX;
+                    else
+                        xRotationStepped += rotationRateX;
 
                     // If the y-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (yRotationStepped >= maxRotation.y) {
-                        // Reduce the y-axis rotation rate.
-                        rotationRateY -= (yRotationStepped - maxRotation.y);
+                    if (yRotationStepped >= MaxRotation.y) {          
+                        rotationRateY -= (yRotationStepped - MaxRotation.y); // Reduce the y-axis rotation rate.
                         yRotationReached = true;
                     }
                     // If the z-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (zRotationStepped >= maxRotation.z) {
+                    if (zRotationStepped >= MaxRotation.z) {
                         // Reduce the z-axis rotation rate.
-                        rotationRateZ -= (zRotationStepped - maxRotation.z);
+                        rotationRateZ -= (zRotationStepped - MaxRotation.z);
                         zRotationReached = true;
                     }
                     // If the x-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (xRotationStepped >= maxRotation.x) {
+                    if (xRotationStepped >= MaxRotation.x) {
                         // Reduce the x-axis rotation rate.
-                        rotationRateX -= (xRotationStepped - maxRotation.x);
+                        rotationRateX -= (xRotationStepped - MaxRotation.x);
                         xRotationReached = true;
                     }
 
-                    // Once all rotations have been flagged. 
+                    // Once all rotations have been reached. 
                     if (yRotationReached && zRotationReached && xRotationReached) {
+                        Debug.Log(MaxRotation);
+                        Debug.Log(OffsetPosition);                   
                         isRotating = false; // Stop the transition.
                         // If the subject has just been changed.
                         if (hasChangedSubject) {
@@ -494,14 +524,6 @@ namespace AdventureFVTC {
                         }       
                     }
                        
-                    // If the camera is rotating back towards the subject's facing position.
-                    if (isReturning) {
-                        // Invert all the rotation rates.
-                        rotationRateY *= -1;
-                        rotationRateZ *= -1;
-                        rotationRateX *= -1;
-                    }
-
                     // Try to rotate the camera to the next x, y, and z offset rotation step (frame).
                     //OffsetPosition.Set(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
                     OffsetPosition = new Vector3(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
@@ -515,7 +537,7 @@ namespace AdventureFVTC {
                 float zChangeRate;
                 float xChangeRate;
 
-                // Calculate the y, z, and x position increase rates per frame.
+                // Get the y, z, and x position increase rates per frame.
                 // If amount the y position needs to move is zero.
                 if (MaxMovement.y == 0) {                  
                     yChangeRate = 0; // Set the rate of change to zero.
@@ -571,7 +593,7 @@ namespace AdventureFVTC {
                     xReached = true; // Signal that the x axis position has been reached.
                 }
 
-                // Once all destinations have been flagged.
+                // Once all destinations have been reached.
                 if (yReached && zReached && xReached) {
                     isTransitioning = false; // Stop the transition.
                     
@@ -596,7 +618,7 @@ namespace AdventureFVTC {
          * Saves this camera's initial offset rotation as its defaultCameraRotation.
          */
         private void setCameraDefault() {
-            DefaultRelativePosition.Set(drawside, height, drawback);
+            DefaultRelativePosition.Set(relativePosition.x, relativePosition.y, relativePosition.z);
             defaultOffsetPosition = OffsetPosition;
         }
 
@@ -612,11 +634,8 @@ namespace AdventureFVTC {
         * is ready to rotate and reset the amounts rotated.
         */
         private void TransitionSetUp() {
-            Debug.Log("Inside TransitionSetUp");
-
             // If the camera is moving relative to the subject and to a new relative position.
             if (isTransitioningRelativeToSubject) {
-                Debug.Log("Inside TransitioningRelativeToSubject");
                 // Move the camera with the subject.
                 LockPosition = true;
 
@@ -682,7 +701,7 @@ namespace AdventureFVTC {
 
             // If our OffsetPosition is between our default and our midway point.
             if (offSet != defaultOffsetPosition && offSet != MaxRotation) {
-                Debug.Log("We're between our default and midwaypoint!");
+                Debug.Log("We're between our default and MaxRotation!");
                 // Swap the direction.
                 Vector3 swap = transitionToRotation;
                 transitionToRotation = transitionFromRotation;

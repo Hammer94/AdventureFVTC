@@ -63,6 +63,8 @@ namespace AdventureFVTC {
                 player.Character.name = "Player1Character";
                 GameObject playerSpawner = gameRoot.transform.Find("Spawners").transform.Find("PlayerSpawner").transform.gameObject;
                 player.Character.transform.parent = gameRoot.transform.Find("Players").transform;
+                //player.Character.transform.position = new Vector3(playerSpawner.transform.position.x, player.Character.transform.position.y,
+                //playerSpawner.transform.position.z);
                 player.Character.transform.position = playerSpawner.transform.position;
 
 
