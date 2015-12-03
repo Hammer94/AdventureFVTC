@@ -10,8 +10,16 @@ namespace AdventureFVTC {
      * @date    16 Nov 2015
      */
     public abstract class Item {
+        enum ItemTypes
+        {
+            Level1,
+            Level2
+        }
+    
+        
         [SerializeField] protected string name;
         [SerializeField] protected string desc;
+        [SerializeField] protected ItemTypes ItemType = ItemTypes.Level1;
 
         [SerializeField] private int quantity;
 
