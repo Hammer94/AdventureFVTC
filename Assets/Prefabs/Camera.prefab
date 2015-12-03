@@ -60,7 +60,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -93,8 +92,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subject: {fileID: 0}
   lockPosition: 1
-  height: 0
-  drawback: 0
+  height: 20
+  drawback: 5
   drawside: 0
 --- !u!124 &12481238
 Behaviour:
@@ -113,6 +112,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: drawside
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: drawback
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: height
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
