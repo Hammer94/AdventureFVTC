@@ -343,10 +343,6 @@ namespace AdventureFVTC {
             // Set the relativePosition to the difference so the camera keep its position relative to its new subject.
             relativePosition = positionDifference;
 
-            Debug.Log(oldSubjectPosition);
-            Debug.Log(newSubjectPosition);
-            Debug.Log(relativePosition);
-
             // Set the current behind direction to the new behind direction.
             subjectBehindDirection = newBehindDirection;
             // Set the current subject to the new subject.
@@ -373,10 +369,8 @@ namespace AdventureFVTC {
 
             // Set the max the camera can rotate to the current rotationDifference.
             MaxRotation = rotationDifference;
-            Debug.Log(MaxRotation);
             // Set the max the camera can move to the current positionDifference.
             MaxMovement = positionDifference;
-            Debug.Log(MaxMovement);
         }
 
         /**
@@ -493,13 +487,7 @@ namespace AdventureFVTC {
                     }
 
                     // Once all rotations have been reached. 
-                    if (yRotationReached && zRotationReached && xRotationReached) {
-                        Debug.Log(MaxRotation);
-                        Debug.Log(transitionFromRotation);
-                        Debug.Log(transitionToRotation);
-
-                        Debug.Log(OffsetPosition);    
-                                       
+                    if (yRotationReached && zRotationReached && xRotationReached) {       
                         isRotating = false; // Stop the transition.
 
                         // If the subject has just been changed.
@@ -711,11 +699,9 @@ namespace AdventureFVTC {
                 if (offSet.z < 0)
                     offSet.z *= -1;
 
-                Debug.Log(offSet);
                 // If our OffsetPosition is between our default and our midway point.
                 if (offSet != defaultOffsetPosition && offSet != MaxRotation)
                 {
-                    Debug.Log("We're between our default and MaxRotation!");
                     // Swap the direction.
                     Vector3 swap = transitionFromRotation;
                     transitionFromRotation = transitionToRotation;
@@ -736,19 +722,16 @@ namespace AdventureFVTC {
                     {
                         // We shouldn't rotate.
                         isRotating = false;
-                        Debug.Log("We're at default and are we're not rotating!");
                     }
                     // If the camera is trying to rotate towards its max rotation but the camera is already there.
                     else if (!isReturning && offSet == MaxRotation)
                     {
                         // We shouldn't rotate. 
                         isRotating = false;
-                        Debug.Log("We're at max and are we're not rotating!");
                     }
                     // Else we're trying to rotate towards a rotation that we're not at yet.
                     else
                     {
-                        Debug.Log("We're rotating! Towards a direction we're not at!");
                         // If the camera is returning to its subject.
                         if (isReturning)
                         {
