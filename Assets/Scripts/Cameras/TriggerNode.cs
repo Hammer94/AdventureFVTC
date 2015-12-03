@@ -12,7 +12,7 @@ namespace AdventureFVTC {
      * can perform.
      *
      * @author  Ryan
-     * @date    30 Nov 2015
+     * @date    03 Dec 2015
      * @see     CameraNode
      */
     public class TriggerNode:CameraNode {
@@ -22,32 +22,25 @@ namespace AdventureFVTC {
             TransitionToPoint
         }
              
-        [SerializeField] private Vector3 newPosition; // The position the camera should move to.
-        [SerializeField] private float time; // The amount of time it should take for the camera to move there.
-        [SerializeField] private bool returningOnEnter = false; // Should the camera return to its default position on enter?
-        [SerializeField] private bool returningOnExit = false; // Should the camera return to its default position on exit?
-
+        [SerializeField] private Vector3 enterPosition; // The position the camera should move to.
+        [SerializeField] private Vector3 exitPosition;
+        [SerializeField] private float enterTime; // The amount of time it should take for the camera to move onEnter.
+        [SerializeField] private float exitTime; // The amount of time it should take for the camera to move onExit.
         [SerializeField] private string objectTagToLookFor; // What objectTag the services will look for when doing a subject change.
+        [SerializeField] private bool triggerOnEnter = false;
+        [SerializeField] private bool triggerOnExit = false;
         [SerializeField] private TransitionType transitionEnterType; // What type of transition does this trigger use OnEnter?
         [SerializeField] private TransitionType transitionExitType; // What type of transition does this trigger use OnExit?
 
         // The conditions that define how the trigger should be triggered.
-        [SerializeField]
-        private bool triggerOnEnter = false;
-        [SerializeField]
-        private bool triggerOnExit = false;
-        [SerializeField]
-        private bool isATransitionTrigger = false;
-        [SerializeField]
-        private bool isAChangeSubjectTrigger = false;
-        [SerializeField]
-        private bool transitionOnEnter = false;
-        [SerializeField]
-        private bool subjectChangeOnEnter = false;
-        [SerializeField]
-        private bool transitionOnExit = false;
-        [SerializeField]
-        private bool subjectChangeOnExit = false;
+        [SerializeField] private bool returningOnEnter = false; // Should the camera return to its default position on enter?
+        [SerializeField] private bool returningOnExit = false; // Should the camera return to its default position on exit?
+        [SerializeField] private bool isATransitionTrigger = false;
+        [SerializeField] private bool isAChangeSubjectTrigger = false;
+        [SerializeField] private bool transitionOnEnter = false;
+        [SerializeField] private bool subjectChangeOnEnter = false;
+        [SerializeField] private bool transitionOnExit = false;
+        [SerializeField] private bool subjectChangeOnExit = false;
 
         /**
          * Runs when the player enters the trigger and the trigger is a OnEnterTrigger.
@@ -60,22 +53,33 @@ namespace AdventureFVTC {
          */
         void OnTriggerEnter(Collider obj) {
             if (obj.tag == "Player" && triggerOnEnter) {
+                               
                 if (isAChangeSubjectTrigger) {
                     if (subjectChangeOnEnter) {
                         Services.Camera.StartSubjectChange(objectTagToLookFor); // Change the subject.
                     }
                 }
                 if (isATransitionTrigger) {
-                    if (transitionOnEnter) {
-                        // Is the camera returning to its default position on enter?
-                        if (returningOnEnter)
-                            // Set the position as the camera's default position and send returning as true.
-                            Services.Camera.StartTransition(Services.Run.Camera.DefaultRelativePosition, time, true, transitionEnterType.ToString());
-                        // Else the camera is moving to a new position.
-                        else
-                            // Set the position as the new position and send returning as false.
-                            Services.Camera.StartTransition(newPosition, time, false, transitionEnterType.ToString());
-                    }
+                    // If the subject isn't already at its designated position.
+                    if ((transitionEnterType == TransitionType.TransitionWithSubject && Services.Run.Player.Camera.RelativePosition != enterPosition)
+                        || (transitionEnterType == TransitionType.TransitionToPoint && Services.Run.Player.Camera.transform.position != enterPosition))
+                    {
+                         if (transitionOnEnter) {
+                            // Is the camera returning to its default position on enter?
+                            if (returningOnEnter)
+                            {
+                                // Set the position as the camera's default position and send returning as true.
+                                Services.Camera.StartTransition(Services.Run.Player.Camera.DefaultRelativePosition, enterTime, true, transitionEnterType.ToString());
+                            }                 
+                            // Else the camera is moving to a new position.
+                            else
+                            {
+                                Debug.Log("Transitioning on enter to a new point!");
+                                // Set the position as the new position and send returning as false.
+                                Services.Camera.StartTransition(enterPosition, enterTime, false, transitionEnterType.ToString());
+                            }
+                        }
+                    }                    
                 }              
             }
         }
@@ -90,6 +94,8 @@ namespace AdventureFVTC {
          * @param   obj         The object that triggers the method. 
          */
         void OnTriggerExit(Collider obj) {
+
+            Debug.Log("In TriggerExit!");
             if (obj.tag == "Player" && triggerOnExit) {
                 if (isAChangeSubjectTrigger) {
                     if (subjectChangeOnExit) {
@@ -97,16 +103,32 @@ namespace AdventureFVTC {
                     }
                 }
                 if (isATransitionTrigger) {
-                    if (transitionOnExit) {
-                        // Is the camera returning to its default position on exit?
-                        if (returningOnExit)
-                            // Set the position as the camera's default position and send returning as true.
-                            Services.Camera.StartTransition(Services.Run.Camera.DefaultRelativePosition, time, true, transitionExitType.ToString());
-                        // Else the camera is moving to a new position.
-                        else
-                            // Set the position as the new position and send returning as false.
-                            Services.Camera.StartTransition(newPosition, time, false, transitionExitType.ToString());
-                    }
+                    Debug.Log("isATransitionTrigger!");
+                    //Debug.Log(transitionExitType);
+                    //Debug.Log(Services.Run.Player.Camera.RelativePosition);
+                    // If the subject isn't already at its designated position.
+                    if ((transitionExitType == TransitionType.TransitionWithSubject && Services.Run.Player.Camera.RelativePosition != exitPosition)
+                        || (transitionExitType == TransitionType.TransitionToPoint && Services.Run.Player.Camera.transform.position != exitPosition))
+                    {
+                        Debug.Log("Subject isn't already at its designated position!");
+                        if (transitionOnExit)
+                        {
+                            // Is the camera returning to its default position on exit?
+                            if (returningOnExit)
+                            {
+                                Debug.Log("Subject is returning!");
+                                // Set the position as the camera's default position and send returning as true.
+                                Services.Camera.StartTransition(Services.Run.Player.Camera.DefaultRelativePosition, exitTime, true, transitionExitType.ToString());
+                            }
+                            // Else the camera is moving to a new position.
+                            else
+                            {
+                                Debug.Log("Subject isn't returning!");
+                                // Set the position as the new position and send returning as false.
+                                Services.Camera.StartTransition(exitPosition, exitTime, false, transitionExitType.ToString());
+                            }
+                        }
+                    }               
                 }            
             }
         }

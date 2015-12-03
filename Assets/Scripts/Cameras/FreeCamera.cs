@@ -10,7 +10,7 @@ namespace AdventureFVTC {
      * still looking at a subject.
      *
      * @author  Ryan
-     * @date    30 Nov 2015
+     * @date    03 Dec 2015
      * @see     Camera
      */
     public class FreeCamera:CameraBase {  
@@ -26,9 +26,9 @@ namespace AdventureFVTC {
         private bool hasChangedSubject = false;
         protected bool isSubjectChangeStillTransitioning = false;
         private bool isReturning = false;
-        private float yRotationStepped = 0;
-        private float zRotationStepped = 0;
-        private float xRotationStepped = 0;
+        private float yRotationStepped = 0.0f;
+        private float zRotationStepped = 0.0f;
+        private float xRotationStepped = 0.0f;
         private float yMovementStepped = 0.0f;
         private float zMovementStepped = 0.0f;
         private float xMovementStepped = 0.0f;
@@ -204,21 +204,6 @@ namespace AdventureFVTC {
                 offsetRotation = value;
             }
         }
-
-        /**
-         * Public accessor/mutator to relativePosition in Camera.
-         *
-         * @param value  The value to set as the position
-         * @return       The relative position.
-         */
-        public Vector3 RelativePosition {
-            get {
-                return relativePosition;
-            }
-            set {
-                relativePosition = value;
-            }
-        }
         #endregion
 
         #region Overrides
@@ -269,7 +254,6 @@ namespace AdventureFVTC {
 
                 isTransitioningRelativeToSubject = true;
                 TransitionSetUp();
-                Debug.Log(OffsetPosition);
                 isTransitioning = true;
             }
         }
@@ -338,21 +322,46 @@ namespace AdventureFVTC {
             hasChangedSubject = true;
             // Signal that a new subject needs to be transitioned to.
             isSubjectChangeStillTransitioning = false;
-            // Remove the subject's facing direction.
-            subjectFacingDirection = null;
-            // Will hold the position difference between the old and new subject.
+            // Holds the position difference between the old and new subject.
             Vector3 positionDifference;
 
             // Get the current subject's position before subjectChange.
             Vector3 oldSubjectPosition = subject.transform.position;
+            // Get the new subject's position after subjectChange.
+            Vector3 newSubjectPosition = newsubject.transform.position;
+            // Get the difference between the old and new position, the new offset.
+            Vector3 rotationDifference = oldSubjectPosition - newSubjectPosition;
 
-            // If the subject has a behind direction.
             if (newBehindDirection != null)
-                // Get the new position difference of the new subject's new behind position and the camera.
-                positionDifference = newBehindDirection.transform.position - transform.position;
+                // Get the position difference of the newsubject's behind position and the subject's behind position.
+                positionDifference = transform.position - newBehindDirection.transform.position;
             else
-                // Get the new position difference of the new subject position and the camera.
-                positionDifference = newsubject.transform.position - transform.position;
+                // Get the position difference of the newsubject's position and the subject's position.
+                positionDifference = transform.position - newsubject.transform.position;
+
+            // Set the relativePosition to the difference so the camera keep its position relative to its new subject.
+            relativePosition = positionDifference;
+
+            Debug.Log(oldSubjectPosition);
+            Debug.Log(newSubjectPosition);
+            Debug.Log(relativePosition);
+
+            // Set the current behind direction to the new behind direction.
+            subjectBehindDirection = newBehindDirection;
+            // Set the current subject to the new subject.
+            subject = newsubject;
+            // Get the subject's facing direction.
+            subjectFacingDirection = newFacingDirection;
+
+            // Update the camera's new rotation.
+            OffsetPosition = rotationDifference;
+
+            if (rotationDifference.x < 0)
+                rotationDifference.x *= -1;
+            if (rotationDifference.y < 0)
+                rotationDifference.y *= -1;
+            if (rotationDifference.z < 0)
+                rotationDifference.z *= -1;
 
             if (positionDifference.x < 0)
                 positionDifference.x *= -1;
@@ -361,45 +370,12 @@ namespace AdventureFVTC {
             if (positionDifference.z < 0)
                 positionDifference.z *= -1;
 
-            // Set the relativePosition to the difference so the camera keep its position relative to its new subject.
-            relativePosition = relativePosition + positionDifference;
-
-            // Set the current behind direction to the new behind direction.
-            subjectBehindDirection = newBehindDirection;
-            // Set the current subject to the new subject.
-            subject = newsubject;
-
-            // Get the new subject's position after subjectChange.
-            Vector3 newSubjectPosition = subject.transform.position;
-            // Get the difference between the old and new position, the new offset.
-            Vector3 rotationDifference = oldSubjectPosition - newSubjectPosition;
-
-            // Get the current OffsetPosition before it changes.
-            Vector3 offSet = OffsetPosition;
-            // Update the camera's new rotation.
-            OffsetPosition += rotationDifference;
-
-            // Get the subject's facing direction.
-            subjectFacingDirection = newFacingDirection;
-
-            if (rotationDifference.x < 0)
-                rotationDifference.x *= -1;
-            if (rotationDifference.y < 0)
-                rotationDifference.y *= -1;
-            if (rotationDifference.z < 0)
-                rotationDifference.z *= -1;
-          
-            if(offSet.x < 0)
-                offSet.x *= -1;
-            if (offSet.y < 0)
-                offSet.y *= -1;
-            if (offSet.z < 0)
-                offSet.z *= -1;
-
             // Set the max the camera can rotate to the current rotationDifference.
-            MaxRotation = rotationDifference + offSet;
+            MaxRotation = rotationDifference;
+            Debug.Log(MaxRotation);
             // Set the max the camera can move to the current positionDifference.
             MaxMovement = positionDifference;
+            Debug.Log(MaxMovement);
         }
 
         /**
@@ -438,95 +414,107 @@ namespace AdventureFVTC {
                  * If the camera's subject has changed, transition the camera's rotation
                  * to the camera's new max rotation.
                  */
-                if (isRotating || hasChangedSubject) {
+                if (isRotating) {
                     // Used to flag once the rotations have been reached.
                     bool yRotationReached = false;
                     bool zRotationReached = false;
                     bool xRotationReached = false;
-                    float rotationRateY;
-                    float rotationRateZ;
-                    float rotationRateX;
-
+                    float yRotationRate;
+                    float zRotationRate;
+                    float xRotationRate;
+                    
                     /// Get the y, z, and x rotation rates per frame.
                     // Rotate the camera in three-quarters the time it takes to transition the camera's position (0.50 amount of time).
                     // This way the camera will be looking at the player before the camera gets to the player.
                     // If amount the y rotation needs to rotate is zero.
                     if (MaxRotation.y == 0) {
-                        rotationRateY = 0; // Set the rate of change to zero.
+                        yRotationRate = 0; // Set the rate of change to zero.
                         yRotationReached = true; // Signal that the position has been reached.
                     }
                     else
-                        rotationRateY = Mathf.Min((transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.y);
+                        //rotationRateY = Mathf.Min((transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.y);
+                        yRotationRate = (transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime;
                     // If amount the z rotation needs to rotate is zero.
                     if (MaxRotation.z == 0)
                     {
-                        rotationRateZ = 0; // Set the rate of change to zero.
+                        zRotationRate = 0; // Set the rate of change to zero.
                         zRotationReached = true; // Signal that the position has been reached.
                     }
                     else
-                        rotationRateZ = Mathf.Min((transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.z);
+                        //rotationRateZ = Mathf.Min((transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.z);
+                        zRotationRate = (transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime;
                     // If amount the x rotation needs to rotate is zero.
                     if (MaxRotation.x == 0)
                     {
-                        rotationRateX = 0; // Set the rate of change to zero.
+                        xRotationRate = 0; // Set the rate of change to zero.
                         xRotationReached = true; // Signal that the position has been reached.
                     }
                     else
-                        rotationRateX = Mathf.Min((transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.x);
+                        //rotationRateX = Mathf.Min((transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.x);
+                        xRotationRate = (transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime;
 
-                    // Keep track of how far the camera has rotated so we can stop it later.
-                    // If rotationRateY is negative.
-                    if (rotationRateY < 0)
-                        yRotationStepped += -1 * rotationRateY;
+                    // If yRotationRate is negative.
+                    if (yRotationRate < 0)
+                        yRotationStepped += -1 * yRotationRate;
                     else
-                        yRotationStepped += rotationRateY;
-                    // If rotationRateZ is negative.
-                    if (rotationRateZ < 0)
-                        zRotationStepped += -1 * rotationRateZ;
+                        yRotationStepped += yRotationRate;
+                    // If zRotationRate is negative.
+                    if (zRotationRate < 0)
+                        zRotationStepped += -1 * zRotationRate;
                     else
-                        zRotationStepped += rotationRateZ;
-                    // If rotationRateX is negative.
-                    if (rotationRateX < 0)
-                        xRotationStepped += -1 * rotationRateX;
+                        zRotationStepped += zRotationRate;
+                    // If xRotationRate is negative.
+                    if (xRotationRate < 0)
+                        xRotationStepped += -1 * xRotationRate;
                     else
-                        xRotationStepped += rotationRateX;
+                        xRotationStepped += xRotationRate;
 
-                    // If the y-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (yRotationStepped >= MaxRotation.y) {          
-                        rotationRateY -= (yRotationStepped - MaxRotation.y); // Reduce the y-axis rotation rate.
-                        yRotationReached = true;
+                    // The camera has reached its y destination (or passed it) and hasn't already signaled it has reached its location.
+                    if (yRotationStepped >= MaxRotation.y)
+                    {
+                        //yRotationRate = 0; // shrink the movement rate a bit.
+                        yRotationRate -= (yRotationStepped - MaxRotation.y);  // shrink the movement rate a bit.
+                        yRotationReached = true; // Signal that the y axis position has been reached.
                     }
-                    // If the z-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (zRotationStepped >= MaxRotation.z) {
-                        // Reduce the z-axis rotation rate.
-                        rotationRateZ -= (zRotationStepped - MaxRotation.z);
-                        zRotationReached = true;
+                    // The camera has reached its z destination (or passed it) and hasn't already signaled it has reached its location.
+                    if (zRotationStepped >= MaxRotation.z)
+                    {
+                        //zRotationRate = 0; // shrink the movement rate a bit.
+                        zRotationRate -= (zRotationStepped - MaxRotation.z);  // shrink the movement rate a bit.
+                        zRotationReached = true; // Signal that the z axis position has been reached.
                     }
-                    // If the x-axis has rotated to (or passed) its maximum allowed rotation.
-                    if (xRotationStepped >= MaxRotation.x) {
-                        // Reduce the x-axis rotation rate.
-                        rotationRateX -= (xRotationStepped - MaxRotation.x);
-                        xRotationReached = true;
+                    // The camera has reached its x destination (or passed it) and hasn't already signaled it has reached its location.
+                    if (xRotationStepped >= MaxRotation.x)
+                    {
+                        //xRotationRate = 0; // shrink the movement rate a bit.
+                        xRotationRate -= (xRotationStepped - MaxRotation.x); // shrink the movement rate a bit.
+                        xRotationReached = true; // Signal that the x axis position has been reached.
                     }
 
                     // Once all rotations have been reached. 
                     if (yRotationReached && zRotationReached && xRotationReached) {
                         Debug.Log(MaxRotation);
-                        Debug.Log(OffsetPosition);                   
+                        Debug.Log(transitionFromRotation);
+                        Debug.Log(transitionToRotation);
+
+                        Debug.Log(OffsetPosition);    
+                                       
                         isRotating = false; // Stop the transition.
+
                         // If the subject has just been changed.
                         if (hasChangedSubject) {
-                            // Signal the subject change rotation has finished.
-                            hasChangedSubject = false;
-                            // Reset the camera's max rotation to its default rotation or the position
-                            // relative to the subject and its facing direction.
-                            MaxRotation = maxRotation;
+                            hasChangedSubject = false; // Signal the subject change rotation has finished.                              
+                            MaxRotation = maxRotation; // Reset the camera's max rotation to relative to its new subject.
                         }       
                     }
-                       
+
                     // Try to rotate the camera to the next x, y, and z offset rotation step (frame).
-                    //OffsetPosition.Set(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
-                    OffsetPosition = new Vector3(OffsetPosition.x + rotationRateX, OffsetPosition.y + rotationRateY, OffsetPosition.z + rotationRateZ);
+                    float offSetY = offsetPosition.y + yRotationRate;
+                    offsetPosition.y = offSetY;
+                    float offSetZ = offsetPosition.z + zRotationRate;
+                    offsetPosition.z = offSetZ;
+                    float offSetX = offsetPosition.x + xRotationRate;
+                    offsetPosition.x = offSetX;
                 }
 
                 // Used as flags once the destination has been reached.
@@ -598,11 +586,12 @@ namespace AdventureFVTC {
                     isTransitioning = false; // Stop the transition.
                     
                     // If the subject change was still transitioning.
-                    if (isSubjectChangeStillTransitioning) {
+                    if (isSubjectChangeStillTransitioning) {                                       
                         isSubjectChangeStillTransitioning = false; // Signal that the subject change transition has finished.                      
                     }
                 }
 
+                // Try to move the camera to the next x, y, and z position step (frame).
                 float relativeY = relativePosition.y + yChangeRate;
                 relativePosition.y = relativeY;
                 float relativeZ = relativePosition.z + zChangeRate;
@@ -687,66 +676,81 @@ namespace AdventureFVTC {
                 MaxMovement = new Vector3(positionx, positiony, positionz);
             }
 
-            // Get the current rotation relative to the subject.
-            transitionFromRotation = OffsetPosition;
+            // If the subject has just changed, perform check if rotations are necessary.
+            if (hasChangedSubject) {
+                transitionFromRotation = OffsetPosition + defaultOffsetPosition; // Get the from rotation relative to the difference between the old subject and
+                                                                                 // new subject position, plus the defaultOffset (where we will be rotating to).
+                // Get the positive values of the OffsetPosition.
+                Vector3 offSet = OffsetPosition;
+                if (offSet.x < 0)
+                    offSet.x *= -1;
+                if (offSet.y < 0)
+                    offSet.y *= -1;
+                if (offSet.z < 0)
+                    offSet.z *= -1;
 
-            // Get the positive values of the OffsetPosition.
-            Vector3 offSet = OffsetPosition;
-            if (offSet.x < 0)
-                offSet.x *= -1;
-            if (offSet.y < 0)
-                offSet.y *= -1;
-            if (offSet.z < 0)
-                offSet.z *= -1;
+                Debug.Log(offSet);
+                // If our OffsetPosition is between our default and our midway point.
+                if (offSet != defaultOffsetPosition && offSet != MaxRotation)
+                {
+                    Debug.Log("We're between our default and MaxRotation!");
+                    // Swap the direction.
+                    Vector3 swap = transitionFromRotation;
+                    transitionFromRotation = transitionToRotation;
+                    transitionToRotation = swap;
+                    // We're swapping the direction, so invert the rotationStepped.
+                    yRotationStepped = MaxRotation.y - yRotationStepped;
+                    zRotationStepped = MaxRotation.z - zRotationStepped;
+                    xRotationStepped = MaxRotation.x - xRotationStepped;
 
-            // If our OffsetPosition is between our default and our midway point.
-            if (offSet != defaultOffsetPosition && offSet != MaxRotation) {
-                Debug.Log("We're between our default and MaxRotation!");
-                // Swap the direction.
-                Vector3 swap = transitionToRotation;
-                transitionToRotation = transitionFromRotation;
-                transitionFromRotation = transitionToRotation;
-                // We're swapping the direction, so invert the rotationStepped.
-                yRotationStepped = MaxRotation.y - yRotationStepped;
-                zRotationStepped = MaxRotation.z - zRotationStepped;
-                xRotationStepped = MaxRotation.x - xRotationStepped;   
-                      
-                // We're ready to rotate.
-                isRotating = true;
-            }
-            // Else the camera has finished its last rotation and is at its default rotation or max rotation.
-            else {
-                // If the camera is trying to rotate towards its defaultOffsetPosition but the camera is already there.
-                if (isReturning && offSet == defaultOffsetPosition) {
-                    // We shouldn't rotate.
-                    isRotating = false;
-                    Debug.Log("We're at default and are we're not rotating!");
-                }
-                // If the camera is trying to rotate towards its max rotation but the camera is already there.
-                else if (!isReturning && offSet == MaxRotation) { 
-                // We shouldn't rotate. 
-                    isRotating = false;
-                    Debug.Log("We're at max and are we're not rotating!");
-                }
-                // Else we're trying to rotate towards a rotation that we're not at yet.
-                else {
-                    Debug.Log("We're rotating! Towards a direction we're not at!");
-                    // If the camera is returning to its subject.
-                    if (isReturning)
-                        transitionToRotation = defaultOffsetPosition; // Set the rotation we need to rotate to as the default (0,0,0).
-                    // Else the camera is looking away from the subject.
-                    else
-                        transitionToRotation = MaxRotation; // Set the rotation we ned to rotate to as the MaxRotation (the specified distance from the subject).
-
-                    // Reset the amount rotated.
-                    yRotationStepped = 0;
-                    zRotationStepped = 0;
-                    xRotationStepped = 0;
                     // We're ready to rotate.
                     isRotating = true;
-                   
-                }              
-            }    
+                }
+                // Else the camera has finished its last rotation and is at its default rotation or max rotation.
+                else
+                {
+                    // If the camera is trying to rotate towards its defaultOffsetPosition but the camera is already there.
+                    if (isReturning && offSet == defaultOffsetPosition)
+                    {
+                        // We shouldn't rotate.
+                        isRotating = false;
+                        Debug.Log("We're at default and are we're not rotating!");
+                    }
+                    // If the camera is trying to rotate towards its max rotation but the camera is already there.
+                    else if (!isReturning && offSet == MaxRotation)
+                    {
+                        // We shouldn't rotate. 
+                        isRotating = false;
+                        Debug.Log("We're at max and are we're not rotating!");
+                    }
+                    // Else we're trying to rotate towards a rotation that we're not at yet.
+                    else
+                    {
+                        Debug.Log("We're rotating! Towards a direction we're not at!");
+                        // If the camera is returning to its subject.
+                        if (isReturning)
+                        {
+                            transitionToRotation = defaultOffsetPosition; // Set the rotation we need to rotate to as the initial default (the closest distance to the player).
+                        }
+                        // Else the camera is looking away from the subject.
+                        else
+                        {
+                            transitionToRotation = MaxRotation; // Set the rotation we ned to rotate to as the MaxRotation (the specified distance from the subject).
+                        }
+
+                        // Reset the amount rotated.
+                        yRotationStepped = 0;
+                        zRotationStepped = 0;
+                        xRotationStepped = 0;
+                        // We're ready to rotate.
+                        isRotating = true;
+
+                    }
+                }
+            }
+            //else {
+            //    transitionFromRotation = OffsetPosition; // Else get the current OffsetPosition and move from there.
+            //}              
         }    
     }
 }

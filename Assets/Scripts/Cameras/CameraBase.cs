@@ -16,7 +16,7 @@ namespace AdventureFVTC {
      * to allow the camera to be rotated while still facing the subject.
      * 
      * @author  Ryan
-     * @date    29 Nov 2015
+     * @date    03 Dec 2015
      */
     public class CameraBase:MonoBehaviour {
         protected Vector3 offsetPosition = new Vector3(0.0f, 1.0f, 0.0f);
@@ -122,6 +122,24 @@ namespace AdventureFVTC {
             }
             set {
                 defaultRelativePosition = value;
+            }
+        }
+
+        /**
+        * Public accessor/mutator to relativePosition in Camera.
+        *
+        * @param value  The value to set as the position
+        * @return       The relative position.
+        */
+        public Vector3 RelativePosition
+        {
+            get
+            {
+                return relativePosition;
+            }
+            set
+            {
+                relativePosition = value;
             }
         }
 

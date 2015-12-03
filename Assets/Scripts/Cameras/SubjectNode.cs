@@ -11,7 +11,7 @@ namespace AdventureFVTC {
     * transition.
     *
     * @author   Ryan
-    * @date     30 Nov 2015
+    * @date     03 Dec 2015
     * @see      CameraNode
     * @see      CameraService
     */
