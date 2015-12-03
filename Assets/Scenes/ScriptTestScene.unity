@@ -219,10 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterPosition: {x: 0, y: 20, z: 20}
+  enterPosition: {x: 15, y: 10, z: 5}
   exitPosition: {x: 0, y: 5, z: 0}
-  enterTime: 3
-  exitTime: 3
+  enterTime: 2
+  exitTime: 2
   objectTagToLookFor: Player
   triggerOnEnter: 1
   triggerOnExit: 0
@@ -288,7 +288,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 203225330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.46000004, y: 2.1400001, z: -10.4300003}
+  m_LocalPosition: {x: 6.80999994, y: 2.1400001, z: -12.75}
   m_LocalScale: {x: 7.9662118, y: 7.96621513, z: 7.96621513}
   m_Children: []
   m_Father: {fileID: 0}
@@ -595,10 +595,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterPosition: {x: 5, y: 2, z: 5}
+  enterPosition: {x: 15, y: 10, z: 10}
   exitPosition: {x: 0, y: 5, z: 0}
-  enterTime: 3
-  exitTime: 3
+  enterTime: 2
+  exitTime: 2
   objectTagToLookFor: Player
   triggerOnEnter: 1
   triggerOnExit: 0
@@ -664,7 +664,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 753160885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.4700003, y: 2.1400001, z: -9.10999966}
+  m_LocalPosition: {x: 15.5500002, y: 2.1400001, z: -6.86999989}
   m_LocalScale: {x: 7.9662118, y: 7.96621513, z: 7.96621513}
   m_Children: []
   m_Father: {fileID: 0}
@@ -985,14 +985,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterPosition: {x: 0, y: 10, z: 10}
+  enterPosition: {x: 0, y: 5, z: 5}
   exitPosition: {x: 0, y: 5, z: 0}
-  enterTime: 3
-  exitTime: 3
+  enterTime: 2
+  exitTime: 2
   objectTagToLookFor: Player
   triggerOnEnter: 1
   triggerOnExit: 0
-  transitionEnterType: 0
+  transitionEnterType: 1
   transitionExitType: 0
   returningOnEnter: 0
   returningOnExit: 0

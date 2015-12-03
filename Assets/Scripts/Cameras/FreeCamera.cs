@@ -249,11 +249,12 @@ namespace AdventureFVTC {
                 isTransitioning = false;
                 isReturning = returnTo;
                 transitionToPosition = position;
+                isTransitioningRelativeToSubject = true;
+                TransitionSetUp();
                 transitionFromPosition = relativePosition;
                 transitionTime = time;
 
-                isTransitioningRelativeToSubject = true;
-                TransitionSetUp();
+                
                 isTransitioning = true;
             }
         }
@@ -293,7 +294,7 @@ namespace AdventureFVTC {
                 transitionTime = time;
 
                 isTransitioningRelativeToSubject = false;
-                TransitionSetUp();
+                TransitionSetUp();        
                 isTransitioning = true;
             }
         }
@@ -591,13 +592,24 @@ namespace AdventureFVTC {
                     }
                 }
 
-                // Try to move the camera to the next x, y, and z position step (frame).
-                float relativeY = relativePosition.y + yChangeRate;
-                relativePosition.y = relativeY;
-                float relativeZ = relativePosition.z + zChangeRate;
-                relativePosition.z = relativeZ;
-                float relativeX = relativePosition.x + xChangeRate;
-                relativePosition.x = relativeX;
+                if (isTransitioningRelativeToSubject)
+                {
+                    // Try to move the camera to the next x, y, and z position step (frame).
+                    float relativeY = relativePosition.y + yChangeRate;
+                    relativePosition.y = relativeY;
+                    float relativeZ = relativePosition.z + zChangeRate;
+                    relativePosition.z = relativeZ;
+                    float relativeX = relativePosition.x + xChangeRate;
+                    relativePosition.x = relativeX;
+                }
+                else
+                {
+                    // Try to move the camera to the next x, y, and z position step (frame).
+                    float positionY = transform.position.y + yChangeRate;
+                    float positionZ = transform.position.z + zChangeRate;
+                    float positionX = transform.position.x + xChangeRate;
+                    transform.position = new Vector3(positionX, positionY, positionZ);
+                }              
             }    
         }       
         #endregion
@@ -626,8 +638,18 @@ namespace AdventureFVTC {
             // If the camera is moving relative to the subject and to a new relative position.
             if (isTransitioningRelativeToSubject) {
                 // Move the camera with the subject.
-                LockPosition = true;
-
+                if (!LockPosition) {
+                    if (subjectBehindDirection != null)
+                        relativePosition = new Vector3(transform.position.x - subjectBehindDirection.transform.position.x, 
+                            transform.position.y - subjectBehindDirection.transform.position.y, 
+                            transform.position.z - subjectBehindDirection.transform.position.z); // Update the camera's new relative position.
+                    else
+                        relativePosition = new Vector3(transform.position.x - subject.transform.position.x,
+                            transform.position.y - subject.transform.position.y,
+                            transform.position.z - subject.transform.position.z); // Update the camera's new relative position.
+                    LockPosition = true;
+                }
+                
                 // Get the difference between where the camera relatively needs to go to and where the camera relatively is.
                 float positiony = transitionToPosition.y - relativePosition.y;
                 float positionz = transitionToPosition.z - relativePosition.z;
