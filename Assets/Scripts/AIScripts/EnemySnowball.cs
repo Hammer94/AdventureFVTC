@@ -9,7 +9,7 @@ public class EnemySnowball : MonoBehaviour {
     private GameObject ball;
     private Transform trans;
     private Transform playerTrans;
-    private Transform camTrans;
+    
     
     private GameObject player;
     private float time = 3f;
@@ -20,6 +20,7 @@ public class EnemySnowball : MonoBehaviour {
     
     
     private Vector3 offset = new Vector3(0, 0.8f, 0);
+    private Vector3 noffset = new Vector3(0, 3f, 0);
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class EnemySnowball : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         playerTrans = player.GetComponent<Transform>();
 
-        camTrans = GetComponentInChildren<Camera>().GetComponent<Transform>();
+        
         
 
         Cursor.visible = false;
@@ -46,18 +47,19 @@ public class EnemySnowball : MonoBehaviour {
         float dist = (trans.position - target).magnitude;
 
 
-        if (dist < 8)
+        if (dist < 12)
         {
             if (timeWaited == 0) 
             {
                 attacked = true;
                 GameObject clone = GameObject.Instantiate(ball);
-                clone.GetComponent<Transform>().position = trans.position + offset + trans.forward * 0.5f;
+                //clone.GetComponent<Transform>().position = trans.position + offset + trans.forward * 0.5f;
+                clone.GetComponent<Transform>().position = trans.position + offset - trans.forward * 0.5f;
                 //clone.GetComponent<RemoveMe>().Setup();
 
                 Rigidbody rbody = clone.GetComponent<Rigidbody>();
                 rbody.useGravity = true;
-                Vector3 force = (new Vector3(0, camTrans.forward.y + 0.2f, 0) + trans.forward) * 1000;
+                Vector3 force = (new Vector3(0, trans.position.y, 0) - trans.forward) / 500;
                 rbody.AddForce(force);
                 
             }
