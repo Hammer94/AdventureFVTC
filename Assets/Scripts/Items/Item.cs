@@ -7,10 +7,10 @@ namespace AdventureFVTC {
      * for including more specific properties that may vary between items.
      * 
      * @author  Ryan
-     * @date    16 Nov 2015
+     * @date    03 Dec 2015
      */
     public abstract class Item {
-        enum ItemTypes
+        public enum ItemTypes
         {
             Level1,
             Level2
@@ -19,7 +19,7 @@ namespace AdventureFVTC {
         
         [SerializeField] protected string name;
         [SerializeField] protected string desc;
-        [SerializeField] protected ItemTypes ItemType = ItemTypes.Level1;
+        [SerializeField] protected ItemTypes itemType;
 
         [SerializeField] private int quantity;
 
@@ -75,6 +75,24 @@ namespace AdventureFVTC {
                     quantity = 0;
             }
         }
+
+        /**
+         * Allows setting the itemType.
+         * Always allows getting the itemType.
+         * 
+         * @param   value   The value to set the itemType to.
+         * @return          The itemType.
+         */
+        public ItemTypes ItemType
+        {
+            get {
+                return itemType;
+            }
+            set {
+                itemType = value;
+            }
+        }
+
 
         /**
          * Constructs a new Item.
