@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
+// @author  Ryan
+// @date    04 Dec 2015
 namespace AdventureFVTC {
     public class moveplatform : MonoBehaviour {
         private Vector3 positionA;
         private Vector3 positionB;
-        private bool movementHasFinished = false;
         private bool waitingAtPosition = true;     
         private bool moveToPointB = true;
         private Vector3 spaceMoved = Vector3.zero;
@@ -14,16 +15,11 @@ namespace AdventureFVTC {
         private bool yReached = false;
         private bool zReached = false;
 
-        [SerializeField]
-        protected float timeToMove = 3.0f; // The seconds it takes the platform to move from A to B.
-        [SerializeField]
-        protected float waitingAtPositionTime = 2.0f; // The time the platform waits before moving again.  
-        [SerializeField]
-        protected float xRelativePosition = 0.0f; // The x distance the platform will move from its start position.
-        [SerializeField]
-        protected float yRelativePosition = 5.0f; // The y distance the platform will move from its start position.
-        [SerializeField]
-        protected float zRelativePosition = 0.0f; // The z distance the platform will move from its start position.
+        [SerializeField] protected float timeToMove = 3.0f; // The seconds it takes the platform to move from A to B.
+        [SerializeField] protected float waitingAtPositionTime = 2.0f; // The time the platform waits before moving again.  
+        [SerializeField] protected float xRelativePosition = 0.0f; // The x distance the platform will move from its start position.
+        [SerializeField] protected float yRelativePosition = 5.0f; // The y distance the platform will move from its start position.
+        [SerializeField] protected float zRelativePosition = 0.0f; // The z distance the platform will move from its start position.
 
         void Start()
         {
@@ -47,6 +43,7 @@ namespace AdventureFVTC {
             else 
                 spaceAllowedToMove.z = positionB.z - positionA.z;
 
+            Debug.Log(positionA);
             Debug.Log(spaceAllowedToMove);
         }
 
@@ -54,7 +51,6 @@ namespace AdventureFVTC {
             if (waitingAtPosition)
                 timeWaited += Time.deltaTime;
             
-
             if (timeWaited >= waitingAtPositionTime) {
                 timeWaited = 0.0f;
                 spaceMoved = new Vector3(0, 0, 0); // Reset the amount moved.
@@ -62,16 +58,38 @@ namespace AdventureFVTC {
                 yReached = false;
                 zReached = false;
                 waitingAtPosition = false; // Start the platform's movement.
-                Debug.Log(timeWaited);
             }
 
             if (!waitingAtPosition) {
                 if (moveToPointB) {
                     // Get the rate of the platform moving per update equal to the difference between the two positions divided by the time
                     // it should take for the movement to complete, multiplied by the time since last update.
-                    float xRate = (positionB.x - positionA.x) / timeToMove * Time.deltaTime;
-                    float yRate = (positionB.y - positionA.y) / timeToMove * Time.deltaTime;
-                    float zRate = (positionB.z - positionA.z) / timeToMove * Time.deltaTime;
+                    float xRate;
+                    float yRate;
+                    float zRate;
+
+                    // Get the x, y, and z position increase rates per frame.
+                    // If amount the y position needs to move is zero.
+                    if (spaceAllowedToMove.x == 0) {
+                        xRate = 0; // Set the rate of change to zero.
+                        xReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        xRate = Mathf.Min((positionB.x - positionA.x) / timeToMove * Time.deltaTime, spaceAllowedToMove.x);
+                    // If amount the z position needs to move is zero.
+                    if (spaceAllowedToMove.y == 0) {
+                        yRate = 0; // Set the rate of change to zero.
+                        yReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        yRate = Mathf.Min((positionB.y - positionA.y) / timeToMove * Time.deltaTime, spaceAllowedToMove.y);
+                    // If amount the x position needs to move is zero.
+                    if (spaceAllowedToMove.z == 0) {
+                        zRate = 0; // Set the rate of change to zero.
+                        zReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        zRate = Mathf.Min((positionB.z - positionA.z) / timeToMove * Time.deltaTime, spaceAllowedToMove.z);
 
                     // Get the whole values for the amount moved on each axis.
                     if (xRate < 0)
@@ -87,45 +105,64 @@ namespace AdventureFVTC {
                     else                  
                         spaceMoved.z += zRate;
 
-                    Debug.Log(spaceMoved);
-
                     // If the space moved has reached or surpassed the space allowed to move.
-                    if (spaceMoved.x >= spaceAllowedToMove.x)
-                    {
+                    if (spaceMoved.x >= spaceAllowedToMove.x) {
                         xRate -= (spaceMoved.x - spaceAllowedToMove.x); // Shrink the axis rate.  
                         xReached = true;
                     }
-                    if (spaceMoved.y >= spaceAllowedToMove.y)
-                    {
+                    if (spaceMoved.y >= spaceAllowedToMove.y) {
                         yRate -= (spaceMoved.y - spaceAllowedToMove.y); // Shrink the axis rate. 
                         yReached = true;
                     }
-                    if (spaceMoved.z >= spaceAllowedToMove.z)
-                    {
+                    if (spaceMoved.z >= spaceAllowedToMove.z) {
                         zRate -= (spaceMoved.z - spaceAllowedToMove.z); // Shrink the axis rate. 
                         zReached = true;
                     }
-                    Debug.Log(yRate);
-                    
-                    // If the rates are zero, which will happen when the platform no longer needs to move on this axis.
-                    if (xReached && yReached && zReached)
-                    {
-                        moveToPointB = false; // Alternate the movement.
-                        movementHasFinished = true; // Start the waiting period.
-                    }
 
+                    // If the rates are zero, which will happen when the platform no longer needs to move on this axis.
+                    if (xReached && yReached && zReached) {
+                        moveToPointB = false; // Alternate the movement.
+                        waitingAtPosition = true; // Start the waiting period.
+                        Debug.Log(spaceMoved);
+                    }
+                  
+                    float positionX = transform.position.x + xRate;
+                    float positionY = transform.position.y + yRate;
+                    float positionZ = transform.position.z + zRate;
+                    Vector3 newPosition = new Vector3(positionX, positionY, positionZ);
                     // Move the platform to the next step.
-                    //transform.position.Set(transform.position.x + xRate, transform.position.y + xRate, transform.position.z + xRate);
-                    transform.position = new Vector3(transform.position.x + xRate, transform.position.y + yRate, transform.position.z + zRate);
+                    transform.position = newPosition;
                 }
                 // Else move to pointA.
-                else
-                {
+                else {
                     // Get the rate of the platform moving per update equal to the difference between the two positions divided by the time
                     // it should take for the movement to complete, multiplied by the time since last update.
-                    float xRate = (positionA.x - positionB.x) / timeToMove * Time.deltaTime;
-                    float yRate = (positionA.y - positionB.y) / timeToMove * Time.deltaTime;
-                    float zRate = (positionA.z - positionB.z) / timeToMove * Time.deltaTime;
+                    float xRate;
+                    float yRate;
+                    float zRate;
+
+                    // Get the x, y, and z position increase rates per frame.
+                    // If amount the y position needs to move is zero.
+                    if (spaceAllowedToMove.x == 0) {
+                        xRate = 0; // Set the rate of change to zero.
+                        xReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        xRate = Mathf.Min((positionA.x - positionB.x) / timeToMove * Time.deltaTime, spaceAllowedToMove.x);
+                    // If amount the z position needs to move is zero.
+                    if (spaceAllowedToMove.y == 0) {
+                        yRate = 0; // Set the rate of change to zero.
+                        yReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        yRate = Mathf.Min((positionA.y - positionB.y) / timeToMove * Time.deltaTime, spaceAllowedToMove.y);
+                    // If amount the x position needs to move is zero.
+                    if (spaceAllowedToMove.z == 0) {
+                        zRate = 0; // Set the rate of change to zero.
+                        zReached = true; // Signal that the position has been reached.
+                    }
+                    else
+                        zRate = Mathf.Min((positionA.z - positionB.z) / timeToMove * Time.deltaTime, spaceAllowedToMove.z);
 
                     // Get the whole values for the amount moved on each axis.
                     if (xRate < 0)
@@ -156,26 +193,19 @@ namespace AdventureFVTC {
                     }
 
                     // If the rates are zero, which will happen when the platform no longer needs to move on this axis.
-                    if (xReached && yReached && zReached)
-                    {
+                    if (xReached && yReached && zReached) {
                         moveToPointB = true; // Alternate the movement.
-                        movementHasFinished = true; // Start the waiting period.
+                        waitingAtPosition = true; // Start the waiting period.
+                        Debug.Log(spaceMoved);
                     }
 
+                    float positionX = transform.position.x + xRate;
+                    float positionY = transform.position.y + yRate;
+                    float positionZ = transform.position.z + zRate;
                     // Move the platform to the next step.
-                    //transform.position.Set(transform.position.x + xRate, transform.position.y + xRate, transform.position.z + xRate);
-                    transform.position = new Vector3(transform.position.x + xRate, transform.position.y + yRate, transform.position.z + zRate);
+                    transform.position = new Vector3(positionX, positionY, positionZ);
                 }                                   
-            }  
-            
-            // If the platform has finished all of its movement.
-            if (movementHasFinished)
-            {
-                // Begin waiting before the platform moves again.
-                waitingAtPosition = true;
-                // Prepare the platform for the next movement.
-                movementHasFinished = false;
-            }
+            }           
         }
     }
 }

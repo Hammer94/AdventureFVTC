@@ -71,7 +71,9 @@ namespace AdventureFVTC {
                 player.Camera.transform.parent = gameRoot.transform.Find("Cameras").transform;
                 GameObject cameraSpawner = gameRoot.transform.Find("Spawners").transform.Find("CameraSpawner").transform.gameObject;
                 player.Camera.SubjectBehindDirection = cameraSpawner;
+                player.Camera.transform.position = cameraSpawner.transform.position;         
                 SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
+
                 player.Camera.Subject = subjectNode.transform.gameObject;
                 subjectNode.InitialSetUp(player.Camera.transform.position);
             }

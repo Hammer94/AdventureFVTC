@@ -7,7 +7,7 @@ namespace AdventureFVTC {
      * for including more specific properties that may vary between items.
      * 
      * @author  Ryan
-     * @date    03 Dec 2015
+     * @date    04 Dec 2015
      */
     public abstract class Item {
         public enum ItemTypes

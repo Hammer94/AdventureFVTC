@@ -28,7 +28,9 @@ namespace AdventureFVTC {
         public void SetSubjectToPlayer(float time)
         {
             StartSubjectChange("Player");
-            StartTransition(Services.Run.Player.Camera.DefaultRelativePosition, time, true, "TransitionWithSubject");
+            GameObject PlayerSpawnerCameraPosition = GameObject.FindGameObjectWithTag("PlayerSpawnerCameraPosition").gameObject;
+
+            StartTransition(PlayerSpawnerCameraPosition.transform.position, time, true, "TransitionToPoint");
         }
 
         /** 
@@ -56,10 +58,9 @@ namespace AdventureFVTC {
         */
         public void StartSubjectChange(string objectTag) {
             GameObject subject = GameObject.FindWithTag(objectTag);
-            GameObject subjectFacingDirection = subject.transform.Find("CharacterFacingDirection").gameObject;
             GameObject subjectBehindDirection = subject.transform.Find("CharacterBehindDirection").gameObject;
 
-            Services.Run.Player.Camera.ChangeSubject(subject, subjectFacingDirection, subjectBehindDirection);
+            Services.Run.Player.Camera.ChangeSubject(subject, subjectBehindDirection);
         }
     }
 }

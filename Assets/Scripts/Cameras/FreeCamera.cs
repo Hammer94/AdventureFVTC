@@ -10,7 +10,7 @@ namespace AdventureFVTC {
      * still looking at a subject.
      *
      * @author  Ryan
-     * @date    03 Dec 2015
+     * @date    04 Dec 2015
      * @see     Camera
      */
     public class FreeCamera:CameraBase {  
@@ -20,7 +20,7 @@ namespace AdventureFVTC {
         private Vector3 transitionToRotation;
         private Vector3 transitionFromRotation;
         private bool isTransitioning = false;
-        private bool isTransitioningRelativeToSubject = true;
+        private bool isTransitioningRelativeToSubject = false;
         private bool isRotating = false;
 
         private bool hasChangedSubject = false;
@@ -67,18 +67,7 @@ namespace AdventureFVTC {
                 // Else the subject hasn't just been changed.
                 else
                 {
-                    // If the subject has a facing direction.
-                    if (subjectFacingDirection != null) {
-                        // Calculate the new max rotation to be halfway between the subject and its facing direction.
-                        float rotationY = (subjectFacingDirection.transform.position.y - subject.transform.position.y) / 2;
-                        float rotationZ = (subjectFacingDirection.transform.position.z - subject.transform.position.z) / 2;
-                        float rotationX = (subjectFacingDirection.transform.position.x - subject.transform.position.x) / 2;
-                        maxRotation = new Vector3(rotationX, rotationY, rotationZ);
-                    }
-                    // Else the subject doesn't have a facing direction.
-                    else
-                        // Set the max rotation to the default rotation, 
-                        maxRotation = defaultOffsetPosition;            
+                    maxRotation = defaultOffsetPosition;
                 }
             }
         }
@@ -113,12 +102,9 @@ namespace AdventureFVTC {
                 return height;
             }
             set {
-                height = value;
+                height = value;             
                 if (enabled) {
-                    if (isTransitioningRelativeToSubject)
-                        relativePosition.y = height;
-                    else
-                        transform.position.Set(transform.position.x, height, transform.position.z);
+                    relativePosition.y = height;
                 }                 
             }
         }
@@ -140,10 +126,7 @@ namespace AdventureFVTC {
             set {
                 drawback = value;
                 if (enabled) {
-                    if (isTransitioningRelativeToSubject)
-                        relativePosition.z = drawback;
-                    else
-                        transform.position.Set(transform.position.x, transform.position.y, drawback);
+                    relativePosition.z = drawback;
                 }                                 
             }
         }
@@ -167,10 +150,7 @@ namespace AdventureFVTC {
             set {
                 drawside = value;
                 if (enabled) {
-                    if (isTransitioningRelativeToSubject)
-                        relativePosition.x = drawside;
-                    else
-                        transform.position.Set(drawside, transform.position.y, transform.position.z);
+                    relativePosition.x = drawside;
                 }                   
             }
         }
@@ -311,13 +291,12 @@ namespace AdventureFVTC {
          * Sets the new max amounts the camera can rotate and move.
          *
          * @param   newSubject              The new subject the camera will look to.
-         * @param   newFacingDirection      The new subject facing direction the camera will use to calculate max rotations.
          * @param   newBehindDirection      The new subject behind direction the camera will move relative to.
          * @see     MaxRotation
          * @see     MaxMovement
          */
-        public override void ChangeSubject(GameObject newsubject, GameObject newFacingDirection, GameObject newBehindDirection) {
-            base.ChangeSubject(newsubject, newFacingDirection, newBehindDirection);
+        public override void ChangeSubject(GameObject newsubject, GameObject newBehindDirection) {
+            base.ChangeSubject(newsubject, newBehindDirection);
 
             // Signal that the subject has just been changed.
             hasChangedSubject = true;
@@ -347,8 +326,6 @@ namespace AdventureFVTC {
             subjectBehindDirection = newBehindDirection;
             // Set the current subject to the new subject.
             subject = newsubject;
-            // Get the subject's facing direction.
-            subjectFacingDirection = newFacingDirection;
 
             // Update the camera's new rotation.
             OffsetPosition = rotationDifference;
@@ -417,18 +394,19 @@ namespace AdventureFVTC {
                     float yRotationRate;
                     float zRotationRate;
                     float xRotationRate;
-                    
+
                     /// Get the y, z, and x rotation rates per frame.
                     // Rotate the camera in three-quarters the time it takes to transition the camera's position (0.50 amount of time).
                     // This way the camera will be looking at the player before the camera gets to the player.
                     // If amount the y rotation needs to rotate is zero.
-                    if (MaxRotation.y == 0) {
+                    if (MaxRotation.y == 0)
+                    {
                         yRotationRate = 0; // Set the rate of change to zero.
                         yRotationReached = true; // Signal that the position has been reached.
                     }
                     else
                         //rotationRateY = Mathf.Min((transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.y);
-                        yRotationRate = (transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime;
+                        yRotationRate = Mathf.Min((transitionToRotation.y - transitionFromRotation.y) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.y);
                     // If amount the z rotation needs to rotate is zero.
                     if (MaxRotation.z == 0)
                     {
@@ -437,7 +415,7 @@ namespace AdventureFVTC {
                     }
                     else
                         //rotationRateZ = Mathf.Min((transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.z);
-                        zRotationRate = (transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime;
+                        zRotationRate = Mathf.Min((transitionToRotation.z - transitionFromRotation.z) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.z);
                     // If amount the x rotation needs to rotate is zero.
                     if (MaxRotation.x == 0)
                     {
@@ -446,7 +424,7 @@ namespace AdventureFVTC {
                     }
                     else
                         //rotationRateX = Mathf.Min((transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.x);
-                        xRotationRate = (transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime;
+                        xRotationRate = Mathf.Min((transitionToRotation.x - transitionFromRotation.x) / (transitionTime * 0.3f) * Time.deltaTime, MaxRotation.x);
 
                     // If yRotationRate is negative.
                     if (yRotationRate < 0)
@@ -607,7 +585,7 @@ namespace AdventureFVTC {
          * Saves this camera's initial offset rotation as its defaultCameraRotation.
          */
         private void setCameraDefault() {
-            DefaultRelativePosition.Set(relativePosition.x, relativePosition.y, relativePosition.z);
+            DefaultRelativePosition = new Vector3(relativePosition.x, relativePosition.y, relativePosition.z);
             defaultOffsetPosition = OffsetPosition;
         }
 
@@ -749,13 +727,9 @@ namespace AdventureFVTC {
                         xRotationStepped = 0;
                         // We're ready to rotate.
                         isRotating = true;
-
                     }
                 }
             }
-            //else {
-            //    transitionFromRotation = OffsetPosition; // Else get the current OffsetPosition and move from there.
-            //}              
         }    
     }
 }

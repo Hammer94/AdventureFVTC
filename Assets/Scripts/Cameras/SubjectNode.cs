@@ -37,6 +37,7 @@ namespace AdventureFVTC {
             transform.position.Set((transform.position.x - playerCamera.x) * radius + playerCamera.x, transform.position.y, 
                 (transform.position.z - playerCamera.z) * radius + playerCamera.z);
             orbit = true;
+            Services.Run.Player.Camera.LockPosition = false;
         }
         
         protected override void Start() {

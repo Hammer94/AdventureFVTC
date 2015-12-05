@@ -16,7 +16,7 @@ namespace AdventureFVTC {
      * to allow the camera to be rotated while still facing the subject.
      * 
      * @author  Ryan
-     * @date    03 Dec 2015
+     * @date    04 Dec 2015
      */
     public class CameraBase:MonoBehaviour {
         protected Vector3 offsetPosition = new Vector3(0.0f, 1.0f, 0.0f);
@@ -28,7 +28,6 @@ namespace AdventureFVTC {
 
         protected Vector3 defaultRelativePosition;
         protected Vector3 defaultOffsetPosition;   
-        protected GameObject subjectFacingDirection;
         protected GameObject subjectBehindDirection;
 
         /**
@@ -47,24 +46,6 @@ namespace AdventureFVTC {
                 subject = value;
                 if (enabled)
                     lookAtSubject();
-            }
-        }
-
-        /**
-         * The facing direction of the subject, which is a child gameObject parented to
-         * the front side of the subject.
-         * 
-         * @param   value   The value to set as the subject's facing direction.
-         * @return          The subject's facing direction.
-         */
-        public GameObject SubjectFacingDirection {
-            get
-            {
-                return subjectFacingDirection;
-            }
-            set
-            {
-                subjectFacingDirection = value;            
             }
         }
 
@@ -186,7 +167,7 @@ namespace AdventureFVTC {
          * @see     RelativePosition
          * @see     TransitionWithSubject()
          */
-        public virtual void ChangeSubject(GameObject newsubject, GameObject newFacingDirection, GameObject newBehindDirection)
+        public virtual void ChangeSubject(GameObject newsubject, GameObject newBehindDirection)
         {
 
         }
@@ -218,7 +199,7 @@ namespace AdventureFVTC {
             if (GetComponent<UnityEngine.Camera>() == null)
                 enabled = false;
             Subject = subject;
-            LockPosition = lockPosition;
+            LockPosition = false;
         }
 
         /**
