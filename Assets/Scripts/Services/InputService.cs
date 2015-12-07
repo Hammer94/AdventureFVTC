@@ -8,12 +8,22 @@ namespace AdventureFVTC {
      * Uses RunService to access the objects that need input.
      *
      * @author  Ryan
-     * @date    26 Nov 2015
+     * @date    06 Dec 2015
      * @see     Service
      * @see     Services
      * @see     RunService
      */
     public class InputService:Service {
+        private bool allowPlayerInput = false;
+
+        public bool AllowPlayerInput {
+            get {
+                return allowPlayerInput;
+            }
+            set {
+                allowPlayerInput = value;
+            }
+        }
 
         public InputService():base() {
 

@@ -298,6 +298,8 @@ namespace AdventureFVTC {
         public override void ChangeSubject(GameObject newsubject, GameObject newBehindDirection) {
             base.ChangeSubject(newsubject, newBehindDirection);
 
+            // Stop the player from moving / attacking.
+            Services.Input.AllowPlayerInput = false;
             // Signal that the subject has just been changed.
             hasChangedSubject = true;
             // Signal that a new subject needs to be transitioned to.
@@ -470,7 +472,7 @@ namespace AdventureFVTC {
 
                         // If the subject has just been changed.
                         if (hasChangedSubject) {
-                            hasChangedSubject = false; // Signal the subject change rotation has finished.                              
+                            hasChangedSubject = false; // Signal the subject rotation change has finished.                              
                             MaxRotation = maxRotation; // Reset the camera's max rotation to relative to its new subject.
                         }       
                     }
@@ -554,7 +556,8 @@ namespace AdventureFVTC {
                     
                     // If the subject change was still transitioning.
                     if (isSubjectChangeStillTransitioning) {                                       
-                        isSubjectChangeStillTransitioning = false; // Signal that the subject change transition has finished.                      
+                        isSubjectChangeStillTransitioning = false; // Signal that the subject change transition has finished.                                                                   
+                        Services.Input.AllowPlayerInput = true;  // Allow the player to move / attack again.
                     }
                 }
 
