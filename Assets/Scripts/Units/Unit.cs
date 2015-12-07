@@ -8,9 +8,26 @@ namespace AdventureFVTC {
      * @date    16 Nov 2015
      */
     public class Unit:MonoBehaviour {
+        public enum UnitTypes {
+            Unit,
+            Player,
+            Snowman,
+            WaterMonster,
+            Demon
+        }
+
         private Vector2 desiredDirection;
-        [SerializeField] private int maxHealth;
+        [SerializeField] private int maxHealth;     
+        [SerializeField] private UnitTypes unitType = UnitTypes.Unit;
+        [SerializeField] private MeleeAttack meleeAttack;
+        [SerializeField] private RangedAttack rangedAttack;
+        [SerializeField] private float attackInterval = 1.0f;
+        private bool attacked = false;
+        private float currentAttackInterval = 0.0f;
         private int health;
+        private bool dead = false;
+        private float deathTime = 3.0f;
+        private float currentDeathTime = 0.0f;
 
         public float speed;
         public float rotationSpeed;
@@ -53,6 +70,15 @@ namespace AdventureFVTC {
                     health = maxHealth;
                 else if (health < 0)
                     health = 0;
+            }
+        }
+
+        public UnitTypes UnitType {
+            get {
+                return unitType;
+            }
+            set {
+                unitType = value;
             }
         }
 
@@ -121,6 +147,7 @@ namespace AdventureFVTC {
             if (GetComponent<Rigidbody>() == null)
                 enabled = false;
             GetComponent<Rigidbody>().maxAngularVelocity = 100;
+            health = maxHealth;
         }
 
         /**
@@ -136,6 +163,43 @@ namespace AdventureFVTC {
             if (diff > Mathf.PI)
                 diff = -Mathf.PI * 2 + diff;
             return diff;
+        }
+
+        // If the unit has a ranged attack, do that. Otherwise, do its melee attack.
+        public virtual void Attack() {
+            if (!attacked) { // If the unit hasn't just attacked. 
+                if (rangedAttack != null) {
+                    attacked = true;
+                    rangedAttack = new RangedAttack(unitType.ToString(), transform);
+                    GameObject attack = Object.Instantiate(meleeAttack.GetComponent<GameObject>());
+                }
+                else if (meleeAttack != null) {
+                    attacked = true;
+                    meleeAttack = new MeleeAttack(unitType.ToString(), transform);
+                    GameObject attack = Object.Instantiate(meleeAttack.GetComponent<GameObject>());
+                }
+            }
+            
+        }
+
+        protected virtual void Update() {
+            if (attacked) {
+                currentAttackInterval += Time.deltaTime;
+
+                if (currentAttackInterval >= attackInterval) {
+                    currentAttackInterval = 0.0f;
+                    attacked = false;
+                }
+            }           
+                                   
+            if (health == 0)          
+                dead = true;
+            if (dead) {
+                //increment timer once per frame
+                currentDeathTime += Time.deltaTime;
+                if (currentDeathTime > deathTime)
+                    Destroy(gameObject);
+            }     
         }
 
         /**

@@ -7,7 +7,7 @@ namespace AdventureFVTC {
      * for including more specific properties that may vary between items.
      * 
      * @author  Ryan
-     * @date    04 Dec 2015
+     * @date    06 Dec 2015
      */
     public abstract class Item {
         public enum ItemTypes
@@ -15,8 +15,7 @@ namespace AdventureFVTC {
             Level1,
             Level2
         }
-    
-        
+          
         [SerializeField] protected string name;
         [SerializeField] protected string desc;
         [SerializeField] protected ItemTypes itemType;
