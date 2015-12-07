@@ -44,7 +44,7 @@ namespace AdventureFVTC {
          */
         protected override void Start()
         {
-            
+            Health = MaxHealth;
         }
 
         /**
