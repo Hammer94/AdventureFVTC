@@ -19,7 +19,6 @@ namespace AdventureFVTC {
         void OnTriggerExit(Collider obj) {
             if (obj.tag == "Player") {
                 platform.PlayerIsOnPlatform = false;
-                Debug.Log("Player exited the platform!");
             }
         }
     }
