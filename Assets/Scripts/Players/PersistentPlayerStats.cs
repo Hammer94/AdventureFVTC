@@ -90,7 +90,7 @@ namespace AdventureFVTC {
         }
 
         private static void ResetCurrentHealthAndLives() { // Reset on a gameover.
-            HealthOnEnter = 6;
+            HealthOnEnter = 3;
             Lives = 3;
         }
     }

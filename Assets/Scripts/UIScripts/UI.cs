@@ -35,30 +35,32 @@ namespace AdventureFVTC
         // Update is called once per frame
         void Update()
         {
+            Services.Run.Player.Character.Health = 1;
+
             if (Services.Run.Player.Character.Health == 3)
             {
-                filled1.GetComponent<Renderer>().enabled = true;
-                filled2.GetComponent<Renderer>().enabled = true;
-                filled3.GetComponent<Renderer>().enabled = true;
+                filled1.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                filled2.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                filled3.GetComponent<CanvasRenderer>().SetAlpha(1f);
 
             }
             else if(Services.Run.Player.Character.Health == 2)
             {
-                filled1.GetComponent<Renderer>().enabled = true;
-                filled2.GetComponent<Renderer>().enabled = true;
-                filled3.GetComponent<Renderer>().enabled = false;
+                filled1.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                filled2.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                filled3.GetComponent<CanvasRenderer>().SetAlpha(0f);
             }
             else if (Services.Run.Player.Character.Health == 1)
             {
-                filled1.GetComponent<Renderer>().enabled = true;
-                filled2.GetComponent<Renderer>().enabled = false;
-                filled3.GetComponent<Renderer>().enabled = false;
+                filled1.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                filled2.GetComponent<CanvasRenderer>().SetAlpha(0f);
+                filled3.GetComponent<CanvasRenderer>().SetAlpha(0f);
             }
             else if (Services.Run.Player.Character.Health == 0)
             {
-                filled1.GetComponent<Renderer>().enabled = false;
-                filled2.GetComponent<Renderer>().enabled = false;
-                filled3.GetComponent<Renderer>().enabled = false;
+                filled1.GetComponent<CanvasRenderer>().SetAlpha(0f);
+                filled2.GetComponent<CanvasRenderer>().SetAlpha(0f);
+                filled3.GetComponent<CanvasRenderer>().SetAlpha(0f);
             }
         }
     }
