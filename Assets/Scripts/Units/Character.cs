@@ -8,7 +8,7 @@ namespace AdventureFVTC
      * No longer relies on a rigidbody for movement.
      * 
      * @author  Ryan
-     * @date    29 Nov 2015
+     * @date    08 Dec 2015
      * @see     Item
      */
     public class Character : Unit
@@ -47,22 +47,20 @@ namespace AdventureFVTC
         /**
          * This override of Start disables the character relying on a rigidbody. 
          */
-        protected override void Start()
-        {
+        protected override void Start() {
             Health = MaxHealth;
 
             if (RangedUnitAttack != null)
                 RangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
             if (MeleeUnitAttack != null)
-                MeleeUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                MeleeUnitAttack.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
         }
 
         /**
          * This override of FixedUpdate removes the updating of the character's
          * rigidbody.
          */
-        protected override void FixedUpdate()
-        {
+        protected override void FixedUpdate() {
 
         }
 

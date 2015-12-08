@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    07 Dec 2015
+     * @date    08 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -22,11 +22,12 @@ namespace AdventureFVTC {
         [SerializeField] private GameObject rangedUnitAttack;
         [SerializeField] private GameObject meleeUnitAttack;
         [SerializeField] private float attackInterval = 1.0f;
+        [SerializeField] private float deathTime = 3.0f;
         protected bool attacked = false;
         private float currentAttackInterval = 0.0f;
         private int health;
         private bool dead = false;
-        private float deathTime = 3.0f;
+        
         private float currentDeathTime = 0.0f;
 
         public float speed;
@@ -73,6 +74,7 @@ namespace AdventureFVTC {
             }
         }
 
+        // The type of this unit.
         public UnitTypes UnitType {
             get {
                 return unitType;
@@ -82,12 +84,14 @@ namespace AdventureFVTC {
             }
         }
 
+        // This unit's time between attacks.
         public float CurrentAttackInterval {
             get {
                 return currentAttackInterval;
             }
         }
 
+        // This unit's rangedAttack.
         public GameObject RangedUnitAttack
         {
             get {
@@ -98,6 +102,7 @@ namespace AdventureFVTC {
             }
         }
 
+        // This unit's meleeAttack.
         public GameObject MeleeUnitAttack
         {
             get
@@ -108,6 +113,18 @@ namespace AdventureFVTC {
             {
                 meleeUnitAttack = value;
             }
+        }
+
+        // The time this unit is allowed to be in the gamespace after dying.
+        protected float DeathTime
+        {
+            get { return deathTime; }
+        }
+
+        // The time since this unit has died. Will be compared to DeathTime.
+        protected float CurrentDeathTime {
+            get { return currentDeathTime; }
+            set { currentDeathTime = value; }
         }
 
         /**
@@ -166,8 +183,6 @@ namespace AdventureFVTC {
             return new Vector3(vec.x, 0, vec.y);
         }
 
-        
-
         /**
          * Calculates the difference between two angles.
          * 
@@ -192,12 +207,21 @@ namespace AdventureFVTC {
                     rangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
                     Object.Instantiate(RangedUnitAttack);
                 }
-                else if (MeleeUnitAttack != null) {
+                else if (meleeUnitAttack != null) {
                     attacked = true;
-                    meleeUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
-                    Object.Instantiate(RangedUnitAttack);
+                    meleeUnitAttack.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
+                    Object.Instantiate(meleeUnitAttack);
                 }
             }
+        }
+
+        /**
+         * Called when the unit's health reaches zero.
+         */
+        public virtual void Die() {
+            currentDeathTime += Time.deltaTime; // Update the time since this unit has died.
+            if (currentDeathTime > deathTime) // Once the unit has been dead for the allowed time.
+                Destroy(gameObject); // Remove this unit.
         }
 
         /**
@@ -214,27 +238,21 @@ namespace AdventureFVTC {
             if (rangedUnitAttack != null)
                 rangedUnitAttack.GetComponent<RangedAttack>().GetValues(unitType.ToString(), transform);
             if (meleeUnitAttack != null)
-                meleeUnitAttack.GetComponent<RangedAttack>().GetValues(unitType.ToString(), transform);
+                meleeUnitAttack.GetComponent<MeleeAttack>().GetValues(unitType.ToString(), transform);
         }
 
         protected virtual void Update() {
-            if (attacked) {
-                currentAttackInterval += Time.deltaTime;
+            if (attacked) { // If the unit has just attacked.
+                currentAttackInterval += Time.deltaTime; // Count since the unit last attacked.
 
-                if (currentAttackInterval >= attackInterval) {
-                    currentAttackInterval = 0.0f;
-                    attacked = false;
+                if (currentAttackInterval >= attackInterval) { // If the count has reached the set interval between this unit's attacks.
+                    currentAttackInterval = 0.0f; // Reset the count.
+                    attacked = false; // Allow the unit to attack again.
                 }
-            }           
-                                   
-            if (health == 0)          
-                dead = true;
-            if (dead) {
-                //increment timer once per frame
-                currentDeathTime += Time.deltaTime;
-                if (currentDeathTime > deathTime)
-                    Destroy(gameObject);
-            }     
+            }
+
+            if (health == 0)
+                Die(); // Start the unit's death sequence.        
         }
 
         /**
