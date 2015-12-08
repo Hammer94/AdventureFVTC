@@ -4,10 +4,10 @@
 // @date    08 Dec 2015  
 namespace AdventureFVTC {
     public static class PersistentPlayerStats {
-        private static int HealthOnExit = 6;
-        private static int HealthOnEnter = 6;
+        private static int HealthOnExit = 3;
+        private static int HealthOnEnter = 3;
         private static int Lives = 3;
-        private static int ScoreTotal = 0;
+        private static int ScoreTotal = 100;
         private static int ScoreCurrent = 0;
         private static int Lvl1Goal = 5;
         private static int Lvl2Goal = 5;
@@ -22,6 +22,10 @@ namespace AdventureFVTC {
             get { return Lives; }
         }
 
+        public static int GetScoreTotal
+        {
+            get { return ScoreTotal; }
+        }
         public static void GameOver() { // Occurs when a player dies after having no lives left.
             ResetCurrentHealthAndLives();
             ResetCurrentScore();

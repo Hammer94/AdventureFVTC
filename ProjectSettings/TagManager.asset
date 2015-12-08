@@ -8,6 +8,11 @@ TagManager:
   - Snowball
   - Enemysight
   - PlayerSpawnerCameraPosition
+  - Lives
+  - Score
+  - filled3
+  - filled2
+  - filled1
   layers:
   - Default
   - TransparentFX
