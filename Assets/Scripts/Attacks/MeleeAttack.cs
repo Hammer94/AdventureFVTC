@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    07 Dec 2015
+// @date    08 Dec 2015
 namespace AdventureFVTC {
     public class MeleeAttack:Attack {
-
-        public MeleeAttack(string type, Transform transform) :base() {
-            originType = (OriginTypes)System.Enum.Parse(typeof(OriginTypes), type);
-            unitTrans = transform;
-        }
+        public Transform unitTrans;
 
         protected override void Start() {
             base.Start();
@@ -24,6 +20,12 @@ namespace AdventureFVTC {
                     transform.position = unitTrans.position + offset + unitTrans.forward * 0.5f; // Move the attack to the front of its unit.
                 Vector3 newPosition = transform.forward + (transform.forward * speed); // And then move the attack forward.
             }
+        }
+
+        public void GetValues(string type, Transform transform)
+        {
+            originType = (OriginTypes)System.Enum.Parse(typeof(OriginTypes), type);
+            unitTrans = transform;
         }
     }
 }

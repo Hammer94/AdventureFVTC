@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    16 Nov 2015
+     * @date    07 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -19,10 +19,10 @@ namespace AdventureFVTC {
         private Vector2 desiredDirection;
         [SerializeField] private int maxHealth;     
         [SerializeField] private UnitTypes unitType = UnitTypes.Unit;
-        [SerializeField] private MeleeAttack meleeAttack;
-        [SerializeField] private RangedAttack rangedAttack;
+        [SerializeField] private GameObject rangedUnitAttack;
+        [SerializeField] private GameObject meleeUnitAttack;
         [SerializeField] private float attackInterval = 1.0f;
-        private bool attacked = false;
+        protected bool attacked = false;
         private float currentAttackInterval = 0.0f;
         private int health;
         private bool dead = false;
@@ -82,6 +82,34 @@ namespace AdventureFVTC {
             }
         }
 
+        public float CurrentAttackInterval {
+            get {
+                return currentAttackInterval;
+            }
+        }
+
+        public GameObject RangedUnitAttack
+        {
+            get {
+                return rangedUnitAttack;
+            }
+            set {
+                rangedUnitAttack = value;
+            }
+        }
+
+        public GameObject MeleeUnitAttack
+        {
+            get
+            {
+                return meleeUnitAttack;
+            }
+            set
+            {
+                meleeUnitAttack = value;
+            }
+        }
+
         /**
          * Moves the Unit to a specific position in map space.
          * 
@@ -138,17 +166,7 @@ namespace AdventureFVTC {
             return new Vector3(vec.x, 0, vec.y);
         }
 
-        /**
-         * Called when the script starts. Ensures this Unit
-         * has a rigidbody. Disables the script if a rigidbody
-         * doesn't exist.
-         */
-        protected virtual void Start() {
-            if (GetComponent<Rigidbody>() == null)
-                enabled = false;
-            GetComponent<Rigidbody>().maxAngularVelocity = 100;
-            health = maxHealth;
-        }
+        
 
         /**
          * Calculates the difference between two angles.
@@ -167,19 +185,36 @@ namespace AdventureFVTC {
 
         // If the unit has a ranged attack, do that. Otherwise, do its melee attack.
         public virtual void Attack() {
-            if (!attacked) { // If the unit hasn't just attacked. 
-                if (rangedAttack != null) {
+            if (!attacked)
+            { // If the unit hasn't just attacked. 
+                if (rangedUnitAttack != null) {
                     attacked = true;
-                    rangedAttack = new RangedAttack(unitType.ToString(), transform);
-                    GameObject attack = Object.Instantiate(meleeAttack.GetComponent<GameObject>());
+                    rangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                    Object.Instantiate(RangedUnitAttack);
                 }
-                else if (meleeAttack != null) {
+                else if (MeleeUnitAttack != null) {
                     attacked = true;
-                    meleeAttack = new MeleeAttack(unitType.ToString(), transform);
-                    GameObject attack = Object.Instantiate(meleeAttack.GetComponent<GameObject>());
+                    meleeUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                    Object.Instantiate(RangedUnitAttack);
                 }
             }
-            
+        }
+
+        /**
+         * Called when the script starts. Ensures this Unit
+         * has a rigidbody. Disables the script if a rigidbody
+         * doesn't exist.
+         */
+        protected virtual void Start() {
+            if (GetComponent<Rigidbody>() == null)
+                enabled = false;
+            GetComponent<Rigidbody>().maxAngularVelocity = 100;
+            health = maxHealth;
+
+            if (rangedUnitAttack != null)
+                rangedUnitAttack.GetComponent<RangedAttack>().GetValues(unitType.ToString(), transform);
+            if (meleeUnitAttack != null)
+                meleeUnitAttack.GetComponent<RangedAttack>().GetValues(unitType.ToString(), transform);
         }
 
         protected virtual void Update() {

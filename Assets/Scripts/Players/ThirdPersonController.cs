@@ -17,7 +17,7 @@ namespace AdventureFVTC {
         public float landAnimationSpeed = 1.0f;
 
         private Animation _animation;
-
+        
         enum CharacterState
         {
             Idle = 0,

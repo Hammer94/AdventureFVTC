@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace AdventureFVTC {
+namespace AdventureFVTC
+{
     /**
      * A Unit that operates like a player, able to collect and use items.
      * No longer relies on a rigidbody for movement.
@@ -10,7 +11,8 @@ namespace AdventureFVTC {
      * @date    29 Nov 2015
      * @see     Item
      */
-    public class Character:Unit {
+    public class Character : Unit
+    {
         private List<Item> list;
 
         /**
@@ -19,7 +21,8 @@ namespace AdventureFVTC {
          * 
          * @see Item
          */
-        Character() {
+        Character()
+        {
             list = new List<Item>();
         }
 
@@ -31,9 +34,11 @@ namespace AdventureFVTC {
          * @see     Pickup
          * @see     Item
          */
-        void OnTriggerEnter(Collider collider) {
+        void OnTriggerEnter(Collider collider)
+        {
             Pickup item = collider.GetComponentInParent<Pickup>();
-            if (item != null) {
+            if (item != null)
+            {
                 list.Add(item.Item);
                 Destroy(item.gameObject);
             }
@@ -45,6 +50,11 @@ namespace AdventureFVTC {
         protected override void Start()
         {
             Health = MaxHealth;
+
+            if (RangedUnitAttack != null)
+                RangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+            if (MeleeUnitAttack != null)
+                MeleeUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
         }
 
         /**
@@ -53,7 +63,20 @@ namespace AdventureFVTC {
          */
         protected override void FixedUpdate()
         {
-            
+
+        }
+
+        public override void Attack() {
+            if (!attacked) { // If the unit hasn't just attacked. 
+                if (RangedUnitAttack != null) {
+                    attacked = true;
+                    Object.Instantiate(RangedUnitAttack);
+                }
+                else if (MeleeUnitAttack != null) {
+                    attacked = true;
+                    Object.Instantiate(MeleeUnitAttack);
+                }
+            }
         }
     }
 }

@@ -1,73 +1,87 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Animator))]
-public class RabbitActionController : MonoBehaviour {
-	
+namespace AdventureFVTC {
+    [RequireComponent(typeof(Animator))]
+    public class RabbitActionController : MonoBehaviour {
+        private Animator animator;
+        private CharacterController controller;
 
-	private Animator animator;
-	private CharacterController controller;
+        private int hashHit = Animator.StringToHash("Base Layer.Hit");
+        private int hashDead = Animator.StringToHash("Base Layer.Dead");
+        private int hashWalk = Animator.StringToHash("Base Layer.Walk");
+        private int hashJump = Animator.StringToHash("Base Layer.Jump");
+        private int hashPick = Animator.StringToHash("Base Layer.Pick");
+        private int hashPunch = Animator.StringToHash("Base Layer.Punch");
 
-	private int hashHit = Animator.StringToHash("Base Layer.Hit");
-	private int hashDead = Animator.StringToHash("Base Layer.Dead");
-	private int hashWalk = Animator.StringToHash("Base Layer.Walk");
-	private int hashJump = Animator.StringToHash("Base Layer.Jump");
-	private int hashPick = Animator.StringToHash("Base Layer.Pick");
-	private int hashPunch = Animator.StringToHash("Base Layer.Punch");
+        private Character player;
 
-	// Use this for initialization
-	void Start () {
-		animator = GetComponent<Animator>();
-		controller = GetComponent<CharacterController>();
-	}
+        // Use this for initialization
+        void Start()
+        {
+            animator = GetComponent<Animator>();
+            controller = GetComponent<CharacterController>();
+            player = GetComponentInParent<Character>();
+        }
 
-	void OnGUI()
-	{
-		if(Input.GetKeyDown(KeyCode.P))
-		{
-			animator.Play(hashPunch);
-		}
+        void OnGUI()
+        {
+            // Is the player is allowed to move / attack?
+            if (Services.Input.AllowPlayerInput)
+            {
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    if (player.CurrentAttackInterval == 0)
+                    {
+                        animator.Play(hashPunch);
+                        player.Attack();
+                    }
+                }
 
-        if (Input.GetKeyDown(KeyCode.L))
-		{
-			animator.Play(hashDead);
-		}
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    animator.Play(hashDead);
+                }
 
-        if (Input.GetKeyDown(KeyCode.O))
-		{
-			animator.Play(hashPick);
-		}
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    animator.Play(hashPick);
+                }
 
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    animator.Play(hashHit);
-        //}
+                //if (Input.GetKeyDown(KeyCode.U))
+                //{
+                //    animator.Play(hashHit);
+                //}
 
-        if (Input.GetKeyDown(KeyCode.Space))
-		{
-			animator.Play(hashJump);
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    animator.Play(hashJump);
+                }
+            }      
+        }
 
-	
-
-		float v  = Input.GetAxis ("Vertical");
-		float h = Input.GetAxis ("Horizontal");
-		bool move = (v != 0.0f || h != 0.0f);
-
-		animator.speed = move ? 2.0f : 1.0f;
-
-
-		animator.SetFloat("Speed", move ? 1.0f : 0.0f);
-
-
-	}
-
-	void OnAnimatorMove() {
+        // Update is called once per frame
+        void Update()
+        {
 
 
-	}
+
+            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxis("Horizontal");
+            bool move = (v != 0.0f || h != 0.0f);
+
+            animator.speed = move ? 2.0f : 1.0f;
+
+
+            animator.SetFloat("Speed", move ? 1.0f : 0.0f);
+
+
+        }
+
+        void OnAnimatorMove()
+        {
+
+
+        }
+    }
 }
