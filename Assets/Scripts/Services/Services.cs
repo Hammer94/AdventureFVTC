@@ -9,7 +9,7 @@ namespace AdventureFVTC {
      * given to RunService.
      *
      * @author  Ryan
-     * @date    30 Nov 2015
+     * @date    08 Dec 2015
      * @see     RunService
      * @see     InputService
      * @see     CameraService
@@ -19,6 +19,8 @@ namespace AdventureFVTC {
         private static RunService run;
         private static InputService input;
         private static CameraService cameraS;
+        private static RespawnService respawn;
+        private static DayCycleService cycle;
 
         [SerializeField] private Player playerObject;
         [SerializeField] private Character characterObject;
@@ -54,6 +56,26 @@ namespace AdventureFVTC {
             }
         }
 
+        public static RespawnService Respawn
+        {
+            get
+            {
+                if (respawn == null)
+                    respawn = new RespawnService();
+                return respawn;
+            }
+        }
+
+        public static DayCycleService Cycle
+        {
+            get
+            {
+                if (cycle == null)
+                    cycle = new DayCycleService();
+                return cycle;
+            }
+        }
+
         public Services() {
             if (self == null)
                 self = this;
@@ -66,18 +88,24 @@ namespace AdventureFVTC {
             Run.start();
             Input.start();
             Camera.start();
+            Respawn.start();
+            Cycle.start();
 	    }
 
 	    void Update() {
             Run.update();
             Input.update();
             Camera.update();
+            Respawn.update();
+            Cycle.update();
 	    }
 
         void FixedUpdate() {
             Run.fixedUpdate();
             Input.fixedUpdate();
             Camera.fixedUpdate();
+            Respawn.fixedUpdate();
+            Cycle.fixedUpdate();
         }
     }
 }
