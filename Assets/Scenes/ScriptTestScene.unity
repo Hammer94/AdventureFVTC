@@ -3547,7 +3547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterPosition: {x: 5, y: 4, z: 0}
+  enterPosition: {x: 5, y: 4, z: -.850000024}
   exitPosition: {x: 0, y: 10, z: 10}
   enterTime: 2
   exitTime: 2
@@ -3733,7 +3733,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 404334, guid: d8998ce48ec1f5f4b8f56ff76b797770, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 25.8700008
+      value: 25.1800003
       objectReference: {fileID: 0}
     - target: {fileID: 404334, guid: d8998ce48ec1f5f4b8f56ff76b797770, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3769,7 +3769,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11410206, guid: d8998ce48ec1f5f4b8f56ff76b797770, type: 2}
       propertyPath: moveDistance.x
-      value: -10
+      value: -9.31000042
       objectReference: {fileID: 0}
     - target: {fileID: 11410206, guid: d8998ce48ec1f5f4b8f56ff76b797770, type: 2}
       propertyPath: moveDistance.y
@@ -4820,7 +4820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterPosition: {x: -5, y: 4, z: 0}
+  enterPosition: {x: -5, y: 4, z: -.850000024}
   exitPosition: {x: 0, y: 10, z: 10}
   enterTime: 2
   exitTime: 2
