@@ -6,7 +6,6 @@ public class DoorTrigger : MonoBehaviour
     private DoorOpener door;
 
     public int Channel = 1;
-    public bool ClickToOpen = true;
 
     void Start()
     {
@@ -23,7 +22,7 @@ public class DoorTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "Player" && door != null && !ClickToOpen)
+        if (obj.tag == "Player" && door != null)
         {
             door.Open();
         }
@@ -31,18 +30,18 @@ public class DoorTrigger : MonoBehaviour
 
     void OnTriggerExit(Collider obj)
     {
-        if (obj.tag == "Player" && door != null && !ClickToOpen)
+        if (obj.tag == "Player" && door != null)
         {
             door.Close();
         }
     }
 
-    void OnTriggerStay(Collider obj)
-    {
-        if (Input.GetMouseButtonDown(0) && obj.tag == "Player"
-            && door != null && ClickToOpen)
-        {
-            door.Toggle();
-        }
-    }
+    //void OnTriggerStay(Collider obj)
+    //{
+    //    if (Input.GetMouseButtonDown(0) && obj.tag == "Player"
+    //        && door != null)
+    //    {
+    //        door.Toggle();
+    //    }
+    //}
 }
