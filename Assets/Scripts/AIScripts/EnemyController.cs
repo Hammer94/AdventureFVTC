@@ -1,47 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
-public class EnemyController : StateController
+namespace AdventureFVTC
 {
-    // inspector variables
-    public List<string> PatrolPointNames = new List<string>();
-    public float patrolSpeed = 3f;
-    public float attackSpeed = 5f;
-
-    private PatrolState patrol; // so we can update the properties
-    private AttackState attack;
-    private EngagedState engage;
-
-    public virtual void Start()
+    public class EnemyController : StateController
     {
-        patrol = new PatrolState(this); // create the state
-        attack = new AttackState(this);
-        engage = new EngagedState(this);
+        // inspector variables
+        public List<string> PatrolPointNames = new List<string>();
+        public float patrolSpeed = 3f;
+        public float attackSpeed = 5f;
 
-        // set the patrol points
-        foreach (string name in PatrolPointNames)
+        private PatrolState patrol; // so we can update the properties
+        private AttackState attack;
+        private EngagedState engage;
+
+        public virtual void Start()
         {
-            GameObject point = GameObject.Find(name);
-            if (point != null)
+            patrol = new PatrolState(this); // create the state
+            attack = new AttackState(this);
+            engage = new EngagedState(this);
+
+            // set the patrol points
+            foreach (string name in PatrolPointNames)
             {
-                Transform t = point.GetComponent<Transform>();
-                patrol.PatrolPoints.Add(t);
+                GameObject point = GameObject.Find(name);
+                if (point != null)
+                {
+                    Transform t = point.GetComponent<Transform>();
+                    patrol.PatrolPoints.Add(t);
+                }
             }
+
+            States.Add(patrol); // add to the list
+            States.Add(attack);
+            States.Add(engage);
+
+            ChangeState(patrol.GetKey()); // set the first state to patrol
         }
 
-        States.Add(patrol); // add to the list
-        States.Add(attack);
-        States.Add(engage);
+        protected override void Update()
+        {
+            base.Update();
 
-        ChangeState(patrol.GetKey()); // set the first state to patrol
+            patrol.Speed = patrolSpeed; // so we can dynamically update the speed
+            attack.Speed = attackSpeed;
+        }
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        patrol.Speed = patrolSpeed; // so we can dynamically update the speed
-        attack.Speed = attackSpeed;
-    }
 }
-

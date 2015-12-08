@@ -87,6 +87,30 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &102259678 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 199930, guid: be5c88eada5b5794eae9345eafdc2287, type: 2}
+  m_PrefabInternal: {fileID: 2109079263}
+--- !u!114 &102259684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102259678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5072246ba2efeac408f72e3523e08b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  unitType: 0
+  rangedUnitAttack: {fileID: 125906, guid: eadb5f6d6b22bc54a903764831707ade, type: 2}
+  meleeUnitAttack: {fileID: 0}
+  attackInterval: 1
+  deathTime: 3
+  speed: 0
+  rotationSpeed: 0
+  desiredRotation: 0
 --- !u!1 &109550872
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,21 +417,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
---- !u!1 &1468392338 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 142918, guid: be5c88eada5b5794eae9345eafdc2287, type: 2}
-  m_PrefabInternal: {fileID: 2109079263}
---- !u!114 &1468392343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1468392338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7734517df810953449f55db5d1918557, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1676213075 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}

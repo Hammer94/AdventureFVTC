@@ -1,32 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class EnemySight : MonoBehaviour
+namespace AdventureFVTC
 {
-    private Transform trans;
-    private EnemyController controller;
-
-    void Start()
+    public class EnemySight : MonoBehaviour
     {
-        controller = GetComponentInParent<EnemyController>();
-        trans = GetComponent<Transform>().parent.GetComponent<Transform>();
-    }
+        private Transform trans;
+        private EnemyController controller;
 
-    void OnTriggerEnter(Collider coll)
-    {
-        if (coll.tag == "Player")
+        void Start()
         {
-            Vector3 playerPos = coll.GetComponent<Transform>().position;
-            Vector3 dir = playerPos - trans.position;
-            dir.Normalize();
-            Ray ray = new Ray(trans.position, dir);
-            RaycastHit hitInfo;
+            controller = GetComponentInParent<EnemyController>();
+            trans = GetComponent<Transform>().parent.GetComponent<Transform>();
+        }
 
-            if (Physics.Raycast(ray, out hitInfo, 24))
+        void OnTriggerEnter(Collider coll)
+        {
+            if (coll.tag == "Player")
             {
-                if (hitInfo.collider.tag == "Player")
+                Vector3 playerPos = coll.GetComponent<Transform>().position;
+                Vector3 dir = playerPos - trans.position;
+                dir.Normalize();
+                Ray ray = new Ray(trans.position, dir);
+                RaycastHit hitInfo;
+
+                if (Physics.Raycast(ray, out hitInfo, 24))
                 {
-                    controller.ChangeState(AttackState.KEY);
+                    if (hitInfo.collider.tag == "Player")
+                    {
+                        controller.ChangeState(AttackState.KEY);
+                    }
                 }
             }
         }

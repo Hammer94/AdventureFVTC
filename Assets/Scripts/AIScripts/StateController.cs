@@ -1,44 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-public abstract class StateController : MonoBehaviour {
-
-    protected List<State> States { get; private set; }
-
-    protected State CurrentState { get; private set; }
-
-    public StateController()
+namespace AdventureFVTC
+{
+    public abstract class StateController : MonoBehaviour
     {
-        States = new List<State>(); 
-    }
 
-    protected virtual void Update()
-    {
-        if (CurrentState != null)
+        protected List<State> States { get; private set; }
+
+        protected State CurrentState { get; private set; }
+
+        public StateController()
         {
-            print(CurrentState.GetKey());
-            CurrentState.Update(Time.deltaTime); // update the state
+            States = new List<State>();
         }
-    }
 
-    public void ChangeState(string state)
-    {
-        foreach (State s in States)
+        protected virtual void Update()
         {
-            if (s.GetKey() == state)
+            if (CurrentState != null)
             {
-                CurrentState = s;
-                break;
+                print(CurrentState.GetKey());
+                CurrentState.Update(Time.deltaTime); // update the state
             }
         }
-    }
 
-    public void Print(string output) // help for debugging
-    {
-        print(output);
+        public void ChangeState(string state)
+        {
+            foreach (State s in States)
+            {
+                if (s.GetKey() == state)
+                {
+                    CurrentState = s;
+                    break;
+                }
+            }
+        }
+
+        public void Print(string output) // help for debugging
+        {
+            print(output);
+        }
     }
 }
-
     
 

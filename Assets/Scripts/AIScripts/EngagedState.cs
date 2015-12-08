@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+namespace AdventureFVTC{
 public class EngagedState : State
 {
     private Transform trans;
     private Transform playerTrans;
     private GameObject player;
+    private Unit enemy;
 
     public float Speed { get; set; }    // patrol speed
 
@@ -14,6 +16,7 @@ public class EngagedState : State
     {
         // get the trans from the controller
         trans = GameObject.GetComponent<Transform>();
+        enemy = GameObject.GetComponent<Unit>();
 
         // player stuff
         player = GameObject.FindGameObjectWithTag("Player");
@@ -35,6 +38,7 @@ public class EngagedState : State
         if (dist < 12)
         {
             Controller.Print("Engaged");
+            enemy.Attack();
         }
         else if (dist > 12)
         {
@@ -48,5 +52,6 @@ public class EngagedState : State
     {
         return KEY;
     }
-
 }
+}
+
