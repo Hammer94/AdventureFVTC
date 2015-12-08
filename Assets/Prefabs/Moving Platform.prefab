@@ -31,6 +31,7 @@ GameObject:
   - 65: {fileID: 6544904}
   - 23: {fileID: 2301722}
   - 114: {fileID: 11492520}
+  - 114: {fileID: 11426792}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -45,8 +46,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.07499981, z: -12.2799997}
-  m_LocalScale: {x: 3.80639791, y: .228014246, z: 3.41219163}
+  m_LocalPosition: {x: -22.6399994, y: 29.1700001, z: 17.7700005}
+  m_LocalScale: {x: 5.21514559, y: .228014126, z: 4.5538106}
   m_Children:
   - {fileID: 426920}
   m_Father: {fileID: 0}
@@ -58,8 +59,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.30000019, z: 0}
-  m_LocalScale: {x: 1, y: 7.57814789, z: 1}
+  m_LocalPosition: {x: 0, y: 1.99000001, z: 0}
+  m_LocalScale: {x: 1, y: 3.03955436, z: 1}
   m_Children: []
   m_Father: {fileID: 404334}
   m_RootOrder: 0
@@ -164,9 +165,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ace87665862ad742877c7ca3c807183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 3
-  waitingTime: 2
-  moveDistance: {x: 0, y: -7.80000019, z: 0}
+  timeToMove: 2
+  waitingTime: 1
+  moveDistance: {x: 0, y: 15, z: -15}
+--- !u!114 &11426792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886cc9961b481b74297bd08aa5945bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11492520
 MonoBehaviour:
   m_ObjectHideFlags: 1
