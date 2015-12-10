@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    08 Dec 2015
+// @date    10 Dec 2015
 namespace AdventureFVTC {
     public class RangedAttack:Attack {
         public Transform unitTrans;
@@ -25,19 +25,15 @@ namespace AdventureFVTC {
         protected override void FixedUpdate() {
             base.FixedUpdate();
 
-            if (startAttack)
-            {
-                if (!positionSet)
-                {
-                    positionSet = true;
-                    transform.position = unitTrans.position + (offset.z * unitTrans.forward) * 0.5f; // Move the attack to the front of its unit.
+            if (!positionSet) {
+                positionSet = true;
+                transform.position = unitTrans.position + (offset.z * unitTrans.forward) * 0.5f; // Move the attack to the front of its unit.
 
-                    Rigidbody rbody = GetComponent<Rigidbody>();
-                    rbody.useGravity = true;
-                    Vector3 force = (new Vector3(0, 0, 0) + unitTrans.forward) * (projectileSpeed * 1000); // And then move the attack foward.
-                    rbody.AddForce(force);
-                }
-            }         
+                Rigidbody rbody = GetComponent<Rigidbody>();
+                rbody.useGravity = true;
+                Vector3 force = (new Vector3(0, 0, 0) + unitTrans.forward) * (projectileSpeed * 1000); // And then move the attack foward.
+                rbody.AddForce(force);
+                }                 
         }
 
         public void GetValues(string type, Transform transform)
