@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    08 Dec 2015
+     * @date    10 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -23,8 +23,14 @@ namespace AdventureFVTC {
         [SerializeField] private GameObject meleeUnitAttack;
         [SerializeField] private float attackInterval = 1.0f;
         [SerializeField] private float deathTime = 3.0f;
+        [SerializeField] protected float timeCantMoveAfterAttack = 0.2f;
+        [SerializeField] protected float delayBeforeAttackStarts = 0.2f;
+
+        protected bool startDelay = false;
+        protected bool cantMove = false;
         protected bool attacked = false;
         private float currentAttackInterval = 0.0f;
+        protected float timeDelayed = 0.0f;
         private int health;
         private bool dead = false;
         
@@ -84,11 +90,26 @@ namespace AdventureFVTC {
             }
         }
 
+        public bool CantMove
+        {
+            get {
+                return cantMove;
+            }
+        }
+
         // This unit's time between attacks.
         public float CurrentAttackInterval {
             get {
                 return currentAttackInterval;
             }
+            set {
+                currentAttackInterval = value;
+            }
+        }
+
+        public float AttackInterval
+        {
+            get { return attackInterval; }
         }
 
         // This unit's rangedAttack.
@@ -200,19 +221,25 @@ namespace AdventureFVTC {
 
         // If the unit has a ranged attack, do that. Otherwise, do its melee attack.
         public virtual void Attack() {
-            if (!attacked)
-            { // If the unit hasn't just attacked. 
-                if (rangedUnitAttack != null) {
-                    attacked = true;
-                    rangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
-                    Object.Instantiate(RangedUnitAttack);
+            if (!startDelay) // If the delay hasn't been started yet.
+                startDelay = true; // Start the delay before the attack.
+            else { // Attack;
+                if (!attacked)
+                { // If the unit hasn't just attacked. 
+                    if (rangedUnitAttack != null)
+                    {
+                        attacked = true;
+                        GameObject clone = GameObject.Instantiate(RangedUnitAttack);
+                        clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                    }
+                    else if (meleeUnitAttack != null)
+                    {
+                        attacked = true;
+                        GameObject clone = GameObject.Instantiate(RangedUnitAttack);
+                        clone.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
+                    }
                 }
-                else if (meleeUnitAttack != null) {
-                    attacked = true;
-                    meleeUnitAttack.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
-                    Object.Instantiate(meleeUnitAttack);
-                }
-            }
+            }         
         }
 
         /**
@@ -233,21 +260,30 @@ namespace AdventureFVTC {
             if (GetComponent<Rigidbody>() == null)
                 enabled = false;
             GetComponent<Rigidbody>().maxAngularVelocity = 100;
-            health = maxHealth;
-
-            if (rangedUnitAttack != null)
-                rangedUnitAttack.GetComponent<RangedAttack>().GetValues(unitType.ToString(), transform);
-            if (meleeUnitAttack != null)
-                meleeUnitAttack.GetComponent<MeleeAttack>().GetValues(unitType.ToString(), transform);
+            health = maxHealth;           
         }
 
         protected virtual void Update() {
+            if (startDelay) { // If the unit wants to attack.
+                cantMove = true; // Disallow the unit to be able to move.
+                timeDelayed += Time.deltaTime; // Count down.
+
+                if (timeDelayed >= timeCantMoveAfterAttack)
+                    cantMove = false; // Allow the unit to move again.
+
+                if (timeDelayed >= delayBeforeAttackStarts) { // Once the unit has waited enough time.
+                    Attack(); // Attack.
+                }
+            }
+
             if (attacked) { // If the unit has just attacked.
                 currentAttackInterval += Time.deltaTime; // Count since the unit last attacked.
-
+             
                 if (currentAttackInterval >= attackInterval) { // If the count has reached the set interval between this unit's attacks.
                     currentAttackInterval = 0.0f; // Reset the count.
+                    timeDelayed = 0.0f; // Reset the delay.
                     attacked = false; // Allow the unit to attack again.
+                    startDelay = false; // Renable the delay for the next attack.
                 }
             }
 

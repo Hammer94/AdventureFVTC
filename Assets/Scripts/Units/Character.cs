@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace AdventureFVTC
-{
+namespace AdventureFVTC {
     /**
      * A Unit that operates like a player, able to collect and use items.
      * No longer relies on a rigidbody for movement.
      * 
      * @author  Ryan
-     * @date    08 Dec 2015
+     * @date    10 Dec 2015
      * @see     Item
      */
-    public class Character : Unit
-    {
+    public class Character : Unit {
+        private string attackType = "Punch"; // Will either be Punch or Snowball.
         private List<Item> list;
+        private SkinnedMeshRenderer characterRenderer;
+        private Color initialCharacterColor;
 
         /**
          * Constructs a new Character. Intitializes the list of Item
@@ -49,11 +50,8 @@ namespace AdventureFVTC
          */
         protected override void Start() {
             Health = MaxHealth;
-
-            if (RangedUnitAttack != null)
-                RangedUnitAttack.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
-            if (MeleeUnitAttack != null)
-                MeleeUnitAttack.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
+            characterRenderer = GameObject.FindGameObjectWithTag("RabbitRenderer").GetComponent<SkinnedMeshRenderer>();
+            initialCharacterColor = characterRenderer.material.color;         
         }
 
         /**
@@ -64,17 +62,42 @@ namespace AdventureFVTC
 
         }
 
+        // Updates the attack type and then attacks.This will be used for the Demon, other enemy types will ignore attackType.
+        public void AttackSetup(string attack) {
+            startDelay = true;
+            attackType = attack;
+        }
+
         public override void Attack() {
-            if (!attacked) { // If the unit hasn't just attacked. 
-                if (RangedUnitAttack != null) {
+            if (!attacked)
+            { // If the unit hasn't just attacked. 
+                if (RangedUnitAttack != null && attackType == "Snowball") {
                     attacked = true;
-                    Object.Instantiate(RangedUnitAttack);
+                    GameObject clone = GameObject.Instantiate(RangedUnitAttack);
+                    clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
                 }
-                else if (MeleeUnitAttack != null) {
+                else if (MeleeUnitAttack != null && attackType == "Punch") {
                     attacked = true;
-                    Object.Instantiate(MeleeUnitAttack);
+                    GameObject clone = GameObject.Instantiate(MeleeUnitAttack);
+                    clone.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
                 }
-            }
+            }  
+        }
+
+          /**
+         * This override implements the player turning grey upon dying, letting the player know that they have died.
+         * Called when the unit's health reaches zero.
+         */
+        public override void Die() {
+            
+            CurrentDeathTime += Time.deltaTime; // Update the time since this unit has died.
+            if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
+                Destroy(gameObject); // Remove this unit.
+
+            //lerp!
+            float perc = CurrentDeathTime / DeathTime;
+            Color darkGrey = new Color(0.2f, 0.2f, 0.2f, 1f);
+            characterRenderer.material.color = Color.Lerp(initialCharacterColor, darkGrey, perc); // Make the rabbit fade to grey.
         }
     }
 }
