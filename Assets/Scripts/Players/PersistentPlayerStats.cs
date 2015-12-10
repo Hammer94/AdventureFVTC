@@ -7,7 +7,7 @@ namespace AdventureFVTC {
         private static int HealthOnExit = 3;
         private static int HealthOnEnter = 3;
         private static int Lives = 3;
-        private static int ScoreTotal = 100;
+        private static int ScoreTotal = 0;
         private static int ScoreCurrent = 0;
         private static int Lvl1Goal = 5;
         private static int Lvl2Goal = 5;

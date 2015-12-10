@@ -35,7 +35,7 @@ namespace AdventureFVTC
         // Update is called once per frame
         void Update()
         {
-            Services.Run.Player.Character.Health = 1;
+            LifeCounter.text = "x" + PersistentPlayerStats.LivesLeft.ToString();
 
             if (Services.Run.Player.Character.Health == 3)
             {
