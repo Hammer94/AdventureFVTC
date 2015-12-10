@@ -10330,7 +10330,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193762}
-  m_LocalRotation: {x: .729826868, y: -.0515275933, z: .681687117, w: -.000567927666}
+  m_LocalRotation: {x: .729826868, y: -.0515275784, z: .681687117, w: -.000567927666}
   m_LocalPosition: {x: -9.42964107e-09, y: -1.990702e-08, z: -1.97906003e-09}
   m_LocalScale: {x: 1.00000024, y: .99999994, z: 1}
   m_Children: []
@@ -10393,7 +10393,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116500}
-  m_LocalRotation: {x: .729826868, y: .0515274331, z: .681687117, w: .000567975279}
+  m_LocalRotation: {x: .729826868, y: .0515274182, z: .681687117, w: .000567975279}
   m_LocalPosition: {x: -1.72294676e-08, y: -3.10828909e-08, z: -2.32830599e-09}
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children: []
@@ -11889,7 +11889,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -11915,7 +11915,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140840}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -11977,12 +11977,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927bce035cb82e14a8755b1b384c427b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 6
+  maxHealth: 3
   unitType: 1
   rangedUnitAttack: {fileID: 127000, guid: db747a81f56a9914bad9d40b5d08ed26, type: 2}
-  meleeUnitAttack: {fileID: 0}
+  meleeUnitAttack: {fileID: 193636, guid: e5b4b6adbccff454eaec0a5ba9f82270, type: 2}
   attackInterval: 1
-  deathTime: 3
+  deathTime: 6
+  timeCantMoveAfterAttack: .400000006
+  delayBeforeAttackStarts: .200000003
   speed: 6
   rotationSpeed: 15
   desiredRotation: 0
@@ -12206,7 +12208,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deathTime
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeCantMoveAfterAttack
+      value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: delayBeforeAttackStarts
+      value: .200000003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
