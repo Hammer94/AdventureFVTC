@@ -10330,7 +10330,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193762}
-  m_LocalRotation: {x: .729826927, y: -.0515275821, z: .681687176, w: -.000567927724}
+  m_LocalRotation: {x: .729826868, y: -.0515275784, z: .681687117, w: -.000567927666}
   m_LocalPosition: {x: -9.42964107e-09, y: -1.990702e-08, z: -1.97906003e-09}
   m_LocalScale: {x: 1.00000024, y: .99999994, z: 1}
   m_Children: []
@@ -10393,7 +10393,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116500}
-  m_LocalRotation: {x: .729826927, y: .0515274219, z: .681687176, w: .000567975338}
+  m_LocalRotation: {x: .729826868, y: .0515274182, z: .681687117, w: .000567975279}
   m_LocalPosition: {x: -1.72294676e-08, y: -3.10828909e-08, z: -2.32830599e-09}
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children: []
@@ -11901,7 +11901,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -11925,7 +11927,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -12015,11 +12019,26 @@ MonoBehaviour:
   runMaxAnimationSpeed: 1
   jumpAnimationSpeed: 1.14999998
   landAnimationSpeed: 1
+<<<<<<< HEAD
   walkSpeed: 6
+<<<<<<< HEAD
+  trotSpeed: 8
+  runSpeed: 11
+  inAirControlAcceleration: 3
+  jumpHeight: 3
+=======
   trotSpeed: 12
   runSpeed: 12
   inAirControlAcceleration: 3
   jumpHeight: 4
+>>>>>>> origin/master
+=======
+  walkSpeed: 2
+  trotSpeed: 4
+  runSpeed: 6
+  inAirControlAcceleration: 3
+  jumpHeight: .5
+>>>>>>> parent of 6f40f7b... changes to scene and added cameras
   gravity: 20
   speedSmoothing: 10
   rotateSpeed: 500
@@ -12056,7 +12075,9 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -12220,7 +12241,24 @@ Prefab:
       propertyPath: delayBeforeAttackStarts
       value: .200000003
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 0}
+<<<<<<< HEAD
+      propertyPath: jumpHeight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSpeed
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: trotSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: walkSpeed
+      value: 6
+=======
       propertyPath: runSpeed
       value: 12
       objectReference: {fileID: 0}
@@ -12235,7 +12273,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: jumpHeight
       value: 4
+>>>>>>> origin/master
       objectReference: {fileID: 0}
+=======
+>>>>>>> parent of 6f40f7b... changes to scene and added cameras
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157006}
