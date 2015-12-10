@@ -162,6 +162,10 @@ Material:
         second: 313.218384
       data:
         first:
+          name: _InvFade
+        second: .628782988
+      data:
+        first:
           name: _WaveScale
         second: .0462896563
       data:
@@ -182,20 +186,16 @@ Material:
         second: 1.67142856
       data:
         first:
-          name: _InvFade
-        second: .628782988
-      data:
-        first:
-          name: _Displacement
-        second: .278633773
-      data:
-        first:
           name: _HeightDisplacement
         second: 3.27225137
       data:
         first:
           name: _NormalsDisplacement
         second: 0
+      data:
+        first:
+          name: _Displacement
+        second: .278633773
       data:
         first:
           name: _ShoreTiling
@@ -255,6 +255,10 @@ Material:
         second: {r: 1, g: 1, b: 0, a: 0}
       data:
         first:
+          name: _BumpMap_ST
+        second: {r: 1, g: 1, b: 0, a: 0}
+      data:
+        first:
           name: _Displacement
         second: {r: 6.6371665, g: 20.3539829, b: -1, a: -.681415975}
       data:
@@ -268,10 +272,6 @@ Material:
       data:
         first:
           name: _Fresnel_ST
-        second: {r: 1, g: 1, b: 0, a: 0}
-      data:
-        first:
-          name: _BumpMap_ST
         second: {r: 1, g: 1, b: 0, a: 0}
       data:
         first:
