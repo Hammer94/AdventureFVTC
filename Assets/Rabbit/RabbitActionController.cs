@@ -14,14 +14,11 @@ namespace AdventureFVTC {
         private int hashPick = Animator.StringToHash("Base Layer.Pick");
         private int hashPunch = Animator.StringToHash("Base Layer.Punch");
 
-        private Character player;
-
         // Use this for initialization
         void Start()
         {
             animator = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
-            player = GetComponentInParent<Character>();
         }
 
         void OnGUI()
@@ -31,21 +28,26 @@ namespace AdventureFVTC {
             {
                 if (Input.GetKeyDown(KeyCode.P))
                 {
-                    if (player.CurrentAttackInterval == 0)
+                    if (Services.Run.Player.Character.CurrentAttackInterval == 0)
                     {
                         animator.Play(hashPunch);
-                        player.Attack();
+                        Services.Run.Player.Character.AttackSetup("Punch");
                     }
-                }
-
-                if (Input.GetKeyDown(KeyCode.L))
-                {
-                    animator.Play(hashDead);
                 }
 
                 if (Input.GetKeyDown(KeyCode.O))
                 {
-                    animator.Play(hashPick);
+                    if (Services.Run.Player.Character.CurrentAttackInterval == 0 && PersistentPlayerStats.HasSnowBall)
+                    {
+                        animator.Play(hashPunch);
+                        Services.Run.Player.Character.AttackSetup("Snowball");
+                    }
+                }
+
+                if (Services.Run.Player.Character.Health == 0)
+                {
+                    Services.Input.AllowPlayerInput = false;
+                    animator.Play(hashDead);            
                 }
 
                 //if (Input.GetKeyDown(KeyCode.U))

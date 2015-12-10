@@ -196,23 +196,29 @@ namespace AdventureFVTC {
 
                 _characterState = CharacterState.Idle;
 
-                // Pick speed modifier
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                {
-                    targetSpeed *= runSpeed;
-                    _characterState = CharacterState.Running;
-                }
-                else if (Time.time - trotAfterSeconds > walkTimeStart)
-                {
-                    targetSpeed *= trotSpeed;
-                    _characterState = CharacterState.Trotting;
+                if (Services.Run.Player.Character.CantMove) { // If the player just attacked and can't move.
+                    targetSpeed *= 0;
                 }
                 else
                 {
-                    targetSpeed *= walkSpeed;
-                    _characterState = CharacterState.Walking;
+                    // Pick speed modifier
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    {
+                        targetSpeed *= runSpeed;
+                        _characterState = CharacterState.Running;
+                    }
+                    else if (Time.time - trotAfterSeconds > walkTimeStart)
+                    {
+                        targetSpeed *= trotSpeed;
+                        _characterState = CharacterState.Trotting;
+                    }
+                    else
+                    {
+                        targetSpeed *= walkSpeed;
+                        _characterState = CharacterState.Walking;
+                    }
                 }
-
+                
                 moveSpeed = Mathf.Lerp(moveSpeed, targetSpeed, curSmooth);
 
                 // Reset walk time start when we slow down
@@ -305,13 +311,6 @@ namespace AdventureFVTC {
                 Input.ResetInputAxes();
             }
 
-            if (Input.GetButtonDown("Jump"))
-            {
-                lastJumpButtonTime = Time.time;
-            }
-
-            UpdateSmoothedMovementDirection();
-
             // Apply gravity
             // - extra power jump modifies gravity
             // - controlledDescent mode modifies gravity
@@ -320,10 +319,17 @@ namespace AdventureFVTC {
             // Apply jumping logic
             ApplyJumping();
 
+            if (Input.GetButtonDown("Jump"))
+            {
+                lastJumpButtonTime = Time.time;
+            }
+
+            UpdateSmoothedMovementDirection();
+           
             // Calculate actual motion
             Vector3 movement = moveDirection * moveSpeed + new Vector3(0, verticalSpeed, 0) + inAirVelocity;
             movement *= Time.deltaTime;
-
+            
             // Move the controller
             CharacterController controller = GetComponent<CharacterController>();
             collisionFlags = controller.Move(movement);
