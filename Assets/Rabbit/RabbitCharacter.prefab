@@ -12016,10 +12016,17 @@ MonoBehaviour:
   jumpAnimationSpeed: 1.14999998
   landAnimationSpeed: 1
   walkSpeed: 6
+<<<<<<< HEAD
   trotSpeed: 8
   runSpeed: 11
   inAirControlAcceleration: 3
   jumpHeight: 3
+=======
+  trotSpeed: 12
+  runSpeed: 12
+  inAirControlAcceleration: 3
+  jumpHeight: 4
+>>>>>>> origin/master
   gravity: 20
   speedSmoothing: 10
   rotateSpeed: 500
@@ -12221,6 +12228,7 @@ Prefab:
       value: .200000003
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+<<<<<<< HEAD
       propertyPath: jumpHeight
       value: 3
       objectReference: {fileID: 0}
@@ -12235,6 +12243,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: walkSpeed
       value: 6
+=======
+      propertyPath: runSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: walkSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: trotSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpHeight
+      value: 4
+>>>>>>> origin/master
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
