@@ -24,7 +24,6 @@ namespace AdventureFVTC {
         private bool isRotating = false;
 
         private bool hasChangedSubject = true;
-        protected bool isSubjectChangeStillTransitioning = true;
         private bool isReturning = false;
         private float yRotationStepped = 0.0f;
         private float zRotationStepped = 0.0f;
@@ -219,13 +218,13 @@ namespace AdventureFVTC {
         public override void TransitionWithSubject(Vector3 position, float time, bool returnTo) {
             base.TransitionWithSubject(position, time, returnTo);
 
-            // Has the change subject transition finished?
+            // Has the change subject transition finished or has the player just died?
             if (!isSubjectChangeStillTransitioning) {
                 // If the subject was just changed.
                 if (hasChangedSubject)
                     // Mark the transition as in progress.
                     isSubjectChangeStillTransitioning = true;
-
+                
                 isTransitioning = false;
                 isReturning = returnTo;
                 transitionToPosition = position;
@@ -260,13 +259,13 @@ namespace AdventureFVTC {
         public override void TransitionToPoint(Vector3 position, float time, bool returnTo) {
             base.TransitionToPoint(position, time, returnTo);
 
-            // Has the change subject transition finished?
+            // Has the change subject transition finished or has the player just died?
             if (!isSubjectChangeStillTransitioning) {
                 // If the subject was just changed.
-                if (hasChangedSubject)
+                if (hasChangedSubject) 
                     // Mark the transition as in progress.
                     isSubjectChangeStillTransitioning = true;
-
+                
                 isTransitioning = false;
                 isReturning = returnTo;
                 transitionToPosition = position;

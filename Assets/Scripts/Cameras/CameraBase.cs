@@ -22,6 +22,7 @@ namespace AdventureFVTC {
         protected Vector3 offsetPosition = new Vector3(0.0f, 1.0f, 0.0f);
         protected Vector3 offsetRotation = new Vector3(0.0f, 1.0f, 0.0f);
         protected Vector3 relativePosition = new Vector3(0.0f, 0.0f, 0.0f);
+        protected bool isSubjectChangeStillTransitioning = false;
 
         [SerializeField] protected GameObject subject;
         [SerializeField] protected bool lockPosition = false;
@@ -29,6 +30,15 @@ namespace AdventureFVTC {
         protected Vector3 defaultRelativePosition;
         protected Vector3 defaultOffsetPosition;   
         protected GameObject subjectBehindDirection;
+
+        public bool IsSubjectChangeStillTransitioning {
+           get {
+                return isSubjectChangeStillTransitioning;
+            } 
+            set {
+                isSubjectChangeStillTransitioning = value;
+            }
+        }
 
         /**
          * The subject is an object which the camera can
