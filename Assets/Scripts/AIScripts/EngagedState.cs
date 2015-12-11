@@ -1,57 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace AdventureFVTC{
-public class EngagedState : State
+namespace AdventureFVTC
 {
-    private Transform trans;
-    private Transform playerTrans;
-    private GameObject player;
-    private Unit enemy;
-
-    public float Speed { get; set; }    // patrol speed
-
-    public EngagedState(StateController controller)
-        : base(controller) // pass the controller to the base class
+    public class EngagedState : State
     {
-        // get the trans from the controller
-        trans = GameObject.GetComponent<Transform>();
-        enemy = GameObject.GetComponent<Unit>();
+        private Transform trans;
+        private Transform playerTrans;
+        private Unit enemy;
 
-        // player stuff
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerTrans = player.GetComponent<Transform>();
-    }
+        public float Speed { get; set; }    // patrol speed
 
-    public override void Update(float deltaTime)
-    {
-        Vector3 target = playerTrans.position;
-        target.y = trans.position.y;
-
-        trans.LookAt(target);
-
-        //float step = Speed * deltaTime; // calculate how far to move
-        //trans.position += trans.forward * step; // move fwd
-
-        float dist = (trans.position - target).magnitude;
-
-        if (dist < 12)
+        public EngagedState(StateController controller)
+            : base(controller) // pass the controller to the base class
         {
-            Controller.Print("Engaged");
-            enemy.Attack();
-        }
-        else if (dist > 12)
-        {
-            Controller.ChangeState(AttackState.KEY);
-        }
-    }
+            // get the trans from the controller
+            trans = GameObject.GetComponent<Transform>();
+            enemy = GameObject.GetComponent<Unit>();
 
-    // use these for changing state
-    public const string KEY = "EngagedState";
-    public override string GetKey()
-    {
-        return KEY;
+            // player stuff
+            playerTrans = Services.Run.Player.Character.gameObject.GetComponent<Transform>();
+        }
+
+        public override void Update(float deltaTime)
+        {
+            Vector3 target = playerTrans.position;
+            target.y = trans.position.y;
+
+            trans.LookAt(target);
+
+            //float step = Speed * deltaTime; // calculate how far to move
+            //trans.position += trans.forward * step; // move fwd
+
+            float dist = (trans.position - target).magnitude;
+
+            if (dist < 12)
+            {
+                Controller.Print("Engaged");
+                enemy.Attack();
+            }
+            else if (dist > 12)
+            {
+                Controller.ChangeState(AttackState.KEY);
+            }
+        }
+
+        // use these for changing state
+        public const string KEY = "EngagedState";
+        public override string GetKey()
+        {
+            return KEY;
+        }
     }
-}
 }
 
