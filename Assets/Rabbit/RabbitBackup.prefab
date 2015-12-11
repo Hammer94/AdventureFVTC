@@ -7753,7 +7753,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106006}
-  m_LocalRotation: {x: .729826927, y: -.051527597, z: .681687176, w: -.000567927724}
+  m_LocalRotation: {x: .729826927, y: -.0515275933, z: .681687176, w: -.000567927724}
   m_LocalPosition: {x: -9.42964107e-09, y: -1.990702e-08, z: -1.97906003e-09}
   m_LocalScale: {x: 1.00000024, y: .99999994, z: 1}
   m_Children: []
@@ -9277,7 +9277,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136652}
-  m_LocalRotation: {x: .729826927, y: .0515274368, z: .681687176, w: .000567975338}
+  m_LocalRotation: {x: .729826927, y: .0515274331, z: .681687176, w: .000567975338}
   m_LocalPosition: {x: -1.72294676e-08, y: -3.10828909e-08, z: -2.32830599e-09}
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children: []
@@ -11995,8 +11995,8 @@ MonoBehaviour:
   meleeUnitAttack: {fileID: 193636, guid: e5b4b6adbccff454eaec0a5ba9f82270, type: 2}
   attackInterval: .600000024
   deathTime: 6
-  timeCantMoveAfterAttack: .200000003
-  delayBeforeAttackStarts: .400000006
+  timeCantMoveAfterAttack: .600000024
+  delayBeforeAttackStarts: .200000003
   speed: 6
   rotationSpeed: 15
   desiredRotation: 0
@@ -12183,7 +12183,7 @@ CharacterController:
   m_GameObject: {fileID: 171704}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 2
   m_Radius: .5
