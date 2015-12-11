@@ -27,6 +27,7 @@ namespace AdventureFVTC {
          */
         public void SetSubjectToPlayer(float time)
         {
+            Services.Cycle.StartCycle();
             StartSubjectChange("Player");
             GameObject PlayerSpawnerCameraPosition = GameObject.FindGameObjectWithTag("PlayerSpawnerCameraPosition").gameObject;
 

@@ -25,6 +25,8 @@ namespace AdventureFVTC {
         [SerializeField] private Player playerObject;
         [SerializeField] private Character characterObject;
         [SerializeField] private CameraBase cameraObject;
+        [SerializeField] private float dayTime;
+        [SerializeField] private float nightTime;
 
         public static Services Instance {
             get {
@@ -56,22 +58,16 @@ namespace AdventureFVTC {
             }
         }
 
-        public static RespawnService Respawn
-        {
-            get
-            {
+        public static RespawnService Respawn {
+            get {
                 if (respawn == null)
                     respawn = new RespawnService();
                 return respawn;
             }
         }
 
-        public static DayCycleService Cycle
-        {
-            get
-            {
-                if (cycle == null)
-                    cycle = new DayCycleService();
+        public static DayCycleService Cycle {
+            get {
                 return cycle;
             }
         }
@@ -85,6 +81,7 @@ namespace AdventureFVTC {
 
 	    void Start() {
             run = new RunService(gameObject, playerObject, characterObject, cameraObject);
+            cycle = new DayCycleService(dayTime, nightTime);
             Run.start();
             Input.start();
             Camera.start();
