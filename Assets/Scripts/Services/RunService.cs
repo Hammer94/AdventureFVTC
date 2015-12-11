@@ -8,7 +8,7 @@ namespace AdventureFVTC {
      * Allows access to the player and camera publicly.
      *
      * @author  Ryan
-     * @date    30 Nov 2015
+     * @date    11 Dec 2015
      * @see     Service
      */
     public class RunService:Service {
@@ -29,6 +29,12 @@ namespace AdventureFVTC {
         public Player Player {
             get {
                 return player;
+            }
+        }
+
+        public Character CharacterRoot {
+            get {
+                return characterT;
             }
         }
 
@@ -60,15 +66,15 @@ namespace AdventureFVTC {
                 player.name = "Player1";
                 player.transform.parent = gameRoot.transform.Find("Players").transform;
                 
-                player.Character = Object.Instantiate(characterT);
-                player.Character.name = "Player1Character";         
-                player.Character.transform.parent = gameRoot.transform.Find("Players").transform;
-                GameObject playerSpawner = gameRoot.transform.Find("Spawners").transform.Find("PlayerSpawner").transform.gameObject;
-                player.Character.transform.position = playerSpawner.transform.position;
+                //player.Character = Object.Instantiate(characterT);
+                //player.Character.name = "Player1Character";         
+                //player.Character.transform.parent = gameRoot.transform.Find("Players").transform;
+                //GameObject playerSpawner = gameRoot.transform.Find("Spawners").transform.Find("PlayerSpawner").transform.gameObject;
+                //player.Character.transform.position = playerSpawner.transform.position;
             
                 player.Camera = Object.Instantiate(cameraT);
                 player.Camera.name = "Player1Camera";
-                player.Camera.transform.parent = gameRoot.transform.Find("Cameras").transform;
+                player.Camera.transform.parent = gameRoot.transform.Find("Players").transform;
                 GameObject cameraSpawner = gameRoot.transform.Find("Spawners").transform.Find("CameraSpawner").transform.gameObject;
                 player.Camera.SubjectBehindDirection = cameraSpawner;
                 player.Camera.transform.position = cameraSpawner.transform.position;         

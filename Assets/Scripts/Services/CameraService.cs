@@ -18,6 +18,7 @@ namespace AdventureFVTC {
      * @see     RunService
      */
     public class CameraService:Service {
+
         public CameraService():base() {
 
         }
@@ -25,8 +26,7 @@ namespace AdventureFVTC {
         /**
          * Changes the camera's subject to the player and then transitions to the player over time seconds.
          */
-        public void SetSubjectToPlayer(float time)
-        {
+        public void SetSubjectToPlayer(float time) {
             Services.Cycle.StartCycle();
             StartSubjectChange("Player");
             GameObject PlayerSpawnerCameraPosition = GameObject.FindGameObjectWithTag("PlayerSpawnerCameraPosition").gameObject;
@@ -61,7 +61,6 @@ namespace AdventureFVTC {
             GameObject subject = GameObject.FindWithTag(objectTag);
             //GameObject subjectBehindDirection = subject.transform.Find("CharacterBehindDirection").gameObject;
             GameObject subjectBehindDirection = GameObject.FindGameObjectWithTag("CharacterBehindDirection").gameObject;
-
             Services.Run.Player.Camera.ChangeSubject(subject, subjectBehindDirection);
         }
     }
