@@ -58,7 +58,6 @@ namespace AdventureFVTC {
         */
         public void StartSubjectChange(string objectTag) {
             GameObject subject = GameObject.FindWithTag(objectTag);
-            Debug.Log(subject.transform == null);
             //GameObject subjectBehindDirection = subject.transform.Find("CharacterBehindDirection").gameObject;
             GameObject subjectBehindDirection = GameObject.FindGameObjectWithTag("CharacterBehindDirection").gameObject;
 
