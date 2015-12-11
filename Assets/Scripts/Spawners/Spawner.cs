@@ -5,15 +5,16 @@
 namespace AdventureFVTC {
     public class Spawner:MonoBehaviour {
         [SerializeField] private bool spawnImediately = true;       
-        [SerializeField] protected float respawnTime = 5.0f;
-        [SerializeField] protected float currentRespawnTime = 0.0f;
+        [SerializeField] protected float respawnTime = 5.0f;       
         [SerializeField] protected GameObject objectSpawned;
 
-        protected bool reset = true;
+        protected float currentRespawnTime = 0.0f;
+        protected bool reset;
 
-        protected virtual void Reset() {
+        public virtual void Reset() {
             reset = true;
-            Destroy(objectSpawned.gameObject);          
+            if (objectSpawned.gameObject != null)
+                Destroy(objectSpawned.gameObject);          
         }
   
         protected virtual void Respawn() {
@@ -27,8 +28,7 @@ namespace AdventureFVTC {
             else {
                 currentRespawnTime += Time.deltaTime;
 
-                if (currentRespawnTime >= respawnTime) {
-                    //clone.transform.parent = Services.Run.Game.transform.FindChild("Players").transform;
+                if (currentRespawnTime >= respawnTime) {                  
                     GameObject clone = GameObject.Instantiate(objectSpawned);                 
                     clone.transform.parent = transform;
                     clone.transform.position = transform.position;
