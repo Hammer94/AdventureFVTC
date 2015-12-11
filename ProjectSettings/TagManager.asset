@@ -15,6 +15,7 @@ TagManager:
   - filled1
   - RabbitRenderer
   - CharacterBehindDirection
+  - Sun
   layers:
   - Default
   - TransparentFX
