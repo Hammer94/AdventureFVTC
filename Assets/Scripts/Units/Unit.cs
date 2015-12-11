@@ -32,13 +32,23 @@ namespace AdventureFVTC {
         private float currentAttackInterval = 0.0f;
         protected float timeDelayed = 0.0f;
         private int health;
-        private bool dead = false;
+        protected bool dying = false;
+        protected bool dead = false;
         
         private float currentDeathTime = 0.0f;
 
         public float speed;
         public float rotationSpeed;
         public float desiredRotation;
+
+        public bool Dead {
+            get {
+                return dead;
+            }
+            set {
+                dead = value;
+            }
+        }
 
         /**
          * The maximum health of the Unit. Updates health if it becomes
@@ -77,6 +87,8 @@ namespace AdventureFVTC {
                     health = maxHealth;
                 else if (health < 0)
                     health = 0;
+                if (health == 0)
+                    dying = true;
             }
         }
 
@@ -287,7 +299,7 @@ namespace AdventureFVTC {
                 }
             }
 
-            if (health == 0)
+            if (dying) // If this unit has 0 health.
                 Die(); // Start the unit's death sequence.        
         }
 

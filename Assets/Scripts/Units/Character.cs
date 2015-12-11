@@ -16,6 +16,12 @@ namespace AdventureFVTC {
         private SkinnedMeshRenderer characterRenderer;
         private Color initialCharacterColor;
 
+        public Color InitialCharacterColor {
+            get {
+                return initialCharacterColor;
+            }
+        }
+
         /**
          * Constructs a new Character. Intitializes the list of Item
          * for storing item information.
@@ -89,15 +95,25 @@ namespace AdventureFVTC {
          * Called when the unit's health reaches zero.
          */
         public override void Die() {
-            
-            CurrentDeathTime += Time.deltaTime; // Update the time since this unit has died.
-            if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
-                Destroy(gameObject); // Remove this unit.
+            if (dying) {
+                CurrentDeathTime += Time.deltaTime; // Update the time since this unit has died.
+                if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
+                    CurrentDeathTime = DeathTime;
 
-            //lerp!
-            float perc = CurrentDeathTime / DeathTime;
-            Color darkGrey = new Color(0.2f, 0.2f, 0.2f, 1f);
-            characterRenderer.material.color = Color.Lerp(initialCharacterColor, darkGrey, perc); // Make the rabbit fade to grey.
+                Debug.Log(dying);
+
+                //lerp!
+                float perc = CurrentDeathTime / DeathTime;
+                Color darkGrey = new Color(0.2f, 0.2f, 0.2f, 1f);
+                characterRenderer.material.color = Color.Lerp(initialCharacterColor, darkGrey, perc); // Make the rabbit fade to grey.
+
+                if (characterRenderer.material.color == darkGrey)
+                {
+                    CurrentDeathTime = 0.0f;
+                    dying = false;
+                    dead = true;
+                }
+            }           
         }
     }
 }
