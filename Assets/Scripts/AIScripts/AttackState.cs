@@ -6,7 +6,7 @@ namespace AdventureFVTC
     {
         private Transform trans;
         private Transform playerTrans;
-        private GameObject player;
+        //private GameObject player;
 
         public float Speed { get; set; }    // patrol speed
 
@@ -17,8 +17,9 @@ namespace AdventureFVTC
             trans = GameObject.GetComponent<Transform>();
 
             // player stuff
-            player = GameObject.FindGameObjectWithTag("Player");
-            playerTrans = player.GetComponent<Transform>();
+            //player = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log(Services.Run.Player.Character.gameObject == null);
+            playerTrans = Services.Run.Player.Character.transform;          
         }
 
         public override void Update(float deltaTime)

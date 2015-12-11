@@ -15,9 +15,17 @@ namespace AdventureFVTC
 
         public virtual void Start()
         {
+            Debug.Log("In EnemyController Start!");
             patrol = new PatrolState(this); // create the state
+            Debug.Log("In EnemyController Start!");
             attack = new AttackState(this);
+            Debug.Log("In EnemyController Start!");
             engage = new EngagedState(this);
+            Debug.Log("In EnemyController Start!");
+
+            //Debug.Log("Patrol is null? " + (patrol == null).ToString());
+            //Debug.Log("Attack is null? " + (attack == null).ToString());
+            //Debug.Log("Engage is null? " + (engage == null).ToString());
 
             // set the patrol points
             foreach (string name in PatrolPointNames)
