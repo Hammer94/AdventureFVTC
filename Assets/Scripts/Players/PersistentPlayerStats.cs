@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    08 Dec 2015  
+// @date    11 Dec 2015  
 namespace AdventureFVTC {
     public static class PersistentPlayerStats {
         private static int HealthOnExit = 3;
@@ -19,18 +19,19 @@ namespace AdventureFVTC {
         private static bool hasSnowBallCurrent = false;
 
         public static int LivesLeft {
-            get { return Lives; }
+            get {
+                return Lives;
+            }
+            set {
+                Lives = value;
+                if (Lives < 0)
+                    Lives = 0;
+            }
         }
 
         public static int GetScoreTotal
         {
             get { return ScoreTotal; }
-        }
-        public static void GameOver() { // Occurs when a player dies after having no lives left.
-            ResetCurrentHealthAndLives();
-            ResetCurrentScore();
-            ResetCurrentItems();
-            ResetCurrentSnowBall();
         }
 
         public static bool HasLevel1GoalBeenMet { // Has the player gotten the items they needs from level one?
@@ -61,8 +62,11 @@ namespace AdventureFVTC {
             Lvl2Current += amount;
         }
 
-        public static void SetOnEnterHealth() { // Set health on entering a level as the health the player had after exiting the last level.
-            HealthOnEnter = HealthOnExit;
+        public static void SetCurrentsOnEnter() { // Update the currents when entering a level so they start with no progress on the level.
+            SetOnEnterHealth();
+            ResetCurrentScore();
+            ResetCurrentItems();
+            ResetCurrentSnowBall();
         }
 
         public static void UpdateTotalsOnExit() { // Update the totals when exiting a level so you keep track of the player's progress.
@@ -76,22 +80,33 @@ namespace AdventureFVTC {
             HealthOnExit = health;
         }
 
-        public static void ResetCurrentScore() { // Reset on entering a level or on a gameover.
-            ScoreCurrent = 0;
+        public static void GameOver() { // Occurs when a player dies after having no lives left.
+            ResetCurrentHealthAndLives();
+            ResetCurrentItems();
+            ResetCurrentScore();
+            ResetCurrentSnowBall();
         }
 
-        public static void ResetCurrentItems() { // Reset on entering a level or on a gameover.
-            Lvl1Current = 0;
-            Lvl2Current = 0;
-        }
-        
-        public static void ResetCurrentSnowBall() { // Reset on enter a level or on a gameover.
-            hasSnowBallCurrent = false;
+        private static void SetOnEnterHealth() { // Set health on entering a level as the health the player had after exiting the last level.
+            HealthOnEnter = HealthOnExit;
         }
 
         private static void ResetCurrentHealthAndLives() { // Reset on a gameover.
             HealthOnEnter = 3;
             Lives = 3;
         }
+
+        private static void ResetCurrentItems() { // Reset on entering a level or on a gameover.
+            Lvl1Current = 0;
+            Lvl2Current = 0;
+        }
+
+        private static void ResetCurrentScore() { // Reset on entering a level or on a gameover.
+            ScoreCurrent = 0;
+        }
+
+        private static void ResetCurrentSnowBall() { // Reset on enter a level or on a gameover.
+            hasSnowBallCurrent = false;
+        }      
     }
 }
