@@ -47,7 +47,9 @@ namespace AdventureFVTC {
                 if (Services.Run.Player.Character.Health == 0)
                 {
                     Services.Input.AllowPlayerInput = false;
-                    animator.Play(hashDead);            
+                    animator.Play(hashDead);
+                    if (Services.Run.Player.Character.Dead)
+                        animator.Play(hashWalk);                                   
                 }
 
                 //if (Input.GetKeyDown(KeyCode.U))
