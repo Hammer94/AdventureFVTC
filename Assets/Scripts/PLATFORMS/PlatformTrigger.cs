@@ -10,7 +10,7 @@ namespace AdventureFVTC {
             platform = GetComponentInParent<MovingPlatform>();
         }
 
-        void OnTriggerEnter(Collider obj) {
+        void OnTriggerStay(Collider obj) {
             if (obj.tag == "Player") {
                 platform.PlayerIsOnPlatform = true;
             }
