@@ -32,7 +32,9 @@ namespace AdventureFVTC {
                     }
 
                     float xRotation = transform.eulerAngles.x + deathRotationRate; // Get the new x rotation.
-                    transform.rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, transform.eulerAngles.z); // Update the enemy's current rotation.
+                    GameObject body = transform.Find("body").gameObject;
+                    if (body != null)
+                        body.transform.eulerAngles = new Vector3(xRotation, body.transform.eulerAngles.y, body.transform.eulerAngles.z); // Update the enemy's current rotation.
                 }             
             }
 
@@ -50,35 +52,37 @@ namespace AdventureFVTC {
         /**
          * This override implements the enemy attacking based on its UnitType.
          */
-        public override void Attack() { 
-            if (UnitType == UnitTypes.Demon) { // If the enemy is a Demon.
-                if (attackType == "Punch") { // And the attackType is Punch.
-                    if (MeleeUnitAttack != null) {
+        public override void Attack() {
+            if (!attacked) {
+                if (UnitType == UnitTypes.Demon) { // If the enemy is a Demon.
+                    if (attackType == "Punch") { // And the attackType is Punch.
+                        if (MeleeUnitAttack != null) {
+                            attacked = true;
+                            GameObject clone = GameObject.Instantiate(MeleeUnitAttack); // Perform a melee attack.
+                            clone.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
+                        }
+                    }
+                    else if (attackType == "Fireball") { // And the attackType is Fireball.
+                        if (RangedUnitAttack != null) {
+                            attacked = true;
+                            GameObject clone = GameObject.Instantiate(RangedUnitAttack); // Perform a ranged attack.
+                            clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                        }
+                    }
+                }
+                if (UnitType == UnitTypes.Snowman || UnitType == UnitTypes.WaterMonster) { // If the enemy is either a Snowman or a WaterMonster.
+                    if (RangedUnitAttack != null) { // Perform a ranged attack if this enemy has one.
                         attacked = true;
-                        GameObject clone = GameObject.Instantiate(MeleeUnitAttack); // Perform a melee attack.
+                        GameObject clone = GameObject.Instantiate(RangedUnitAttack);
+                        clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
+                    }
+                    else if (MeleeUnitAttack != null) { // Otherwise Perform a melee attack.
+                        attacked = true;
+                        GameObject clone = GameObject.Instantiate(MeleeUnitAttack);
                         clone.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
                     }
                 }
-                else if (attackType == "Fireball") { // And the attackType is Fireball.
-                    if (RangedUnitAttack != null) {
-                        attacked = true;
-                        GameObject clone = GameObject.Instantiate(RangedUnitAttack); // Perform a ranged attack.
-                        clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
-                    }
-                }
-            }
-            if (UnitType == UnitTypes.Snowman || UnitType == UnitTypes.WaterMonster) { // If the enemy is either a Snowman or a WaterMonster.
-                if (RangedUnitAttack != null) { // Perform a ranged attack if this enemy has one.
-                    attacked = true;
-                    GameObject clone = GameObject.Instantiate(RangedUnitAttack);
-                    clone.GetComponent<RangedAttack>().GetValues(UnitType.ToString(), transform);
-                }
-                else if (MeleeUnitAttack != null) { // Otherwise Perform a melee attack.
-                    attacked = true;
-                    GameObject clone = GameObject.Instantiate(MeleeUnitAttack);
-                    clone.GetComponent<MeleeAttack>().GetValues(UnitType.ToString(), transform);
-                }
-            }            
+            }                     
         }
     }
 }
