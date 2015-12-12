@@ -15,12 +15,19 @@ namespace AdventureFVTC {
         private bool readyToBeSpawned = false;
 
         private void Spawn() {
-            GameObject clone = GameObject.Instantiate(objectSpawned);
+            clone = GameObject.Instantiate(objectSpawned);
             clone.GetComponent<EnemyController>().PatrolPointNames = PatrolPoints;
             clone.transform.parent = Services.Run.Game.transform.FindChild("Enemies").transform;
             clone.transform.position = transform.position;
             hasBeenSpawned = true;
             readyToBeSpawned = false;
+        }
+
+         public override void Reset() {
+            reset = true;
+            if (objectSpawned.gameObject != null) {
+                Destroy(clone.gameObject);
+            }
         }
 
         protected override void Start() {
@@ -42,7 +49,7 @@ namespace AdventureFVTC {
 
         protected override void Respawn() {
             if (reset) {
-                GameObject clone = GameObject.Instantiate(objectSpawned);
+                clone = GameObject.Instantiate(objectSpawned);
                 clone.GetComponent<EnemyController>().PatrolPointNames = PatrolPoints;
                 clone.transform.parent = Services.Run.Game.transform.FindChild("Enemies").transform;
                 clone.transform.position = transform.position;
