@@ -7,12 +7,11 @@ namespace AdventureFVTC {
      * No longer relies on a rigidbody for movement.
      * 
      * @author  Ryan
-     * @date    10 Dec 2015
+     * @date    12 Dec 2015
      * @see     Item
      */
     public class Character : Unit {
         private string attackType = "Punch"; // Will either be Punch or Snowball.
-        private List<Item> list;
         private SkinnedMeshRenderer characterRenderer;
         private Color initialCharacterColor;
 
@@ -30,25 +29,7 @@ namespace AdventureFVTC {
          */
         Character()
         {
-            list = new List<Item>();
-        }
 
-        /**
-         * Called when the Character intersects a trigger. If the trigger
-         * is a Pickup it collects its Item.
-         * 
-         * @param   collider    The collider that was entered.
-         * @see     Pickup
-         * @see     Item
-         */
-        void OnTriggerEnter(Collider collider)
-        {
-            Pickup item = collider.GetComponentInParent<Pickup>();
-            if (item != null)
-            {
-                list.Add(item.Item);
-                Destroy(item.gameObject);
-            }
         }
 
         /**
