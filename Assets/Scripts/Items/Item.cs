@@ -2,24 +2,17 @@
 
 namespace AdventureFVTC {
     /**
-     * An abstract class that describes what an item is and how it can be
+     * An class that describes what an item is and how it can be
      * used. Includes basic properties of items. Subclasses are responsible
      * for including more specific properties that may vary between items.
      * 
      * @author  Ryan
-     * @date    06 Dec 2015
+     * @date    12 Dec 2015
      */
-    public abstract class Item {
-        public enum ItemTypes
-        {
-            Level1,
-            Level2
-        }
-          
-        [SerializeField] protected string name;
+    public class Item:MonoBehaviour {
+         
+        [SerializeField] protected string itemName;
         [SerializeField] protected string desc;
-        [SerializeField] protected ItemTypes itemType;
-
         [SerializeField] private int quantity;
 
         /**
@@ -29,13 +22,13 @@ namespace AdventureFVTC {
          * @param   value   The value to set the name to.
          * @return          The name.
          */
-        public string Name {
+        public string ItemName {
             get {
-                return name;
+                return itemName;
             }
             set {
-                if (name == null)
-                    name = value;
+                if (itemName == null)
+                    itemName = value;
             }
         }
 
@@ -76,24 +69,6 @@ namespace AdventureFVTC {
         }
 
         /**
-         * Allows setting the itemType.
-         * Always allows getting the itemType.
-         * 
-         * @param   value   The value to set the itemType to.
-         * @return          The itemType.
-         */
-        public ItemTypes ItemType
-        {
-            get {
-                return itemType;
-            }
-            set {
-                itemType = value;
-            }
-        }
-
-
-        /**
          * Constructs a new Item.
          */
         public Item() {
@@ -111,28 +86,8 @@ namespace AdventureFVTC {
             }
         }
 
-        /**
-         * Defines any actions needed to consume one of this Item.
-         * This method should be implemented by any subclass.
-         * 
-         * @return  True if the Item should be consumed, false otherwise.
-         */
-        protected abstract bool consumeProc();
-
-        /**
-         * Attempts to consume one of this Item. If the action succeeds
-         * the quantity is reduced by one. If the action fails the quantity
-         * remains the same. The action may succeed or fail based on subclass
-         * implementation.
-         * 
-         * @return  True if the action succeeds, false otherwise.
-         * @see     #consumeProc()
-         */
-        public bool consume() {
-            if (quantity <= 0 || !consumeProc())
-                return false;
-            quantity--;
-            return true;
+        void Update() {
+            gameObject.transform.Rotate(0, 5, 0, Space.Self); // Spins the item.
         }
     }
 }
