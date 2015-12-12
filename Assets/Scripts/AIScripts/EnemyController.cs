@@ -12,6 +12,7 @@ namespace AdventureFVTC
         private PatrolState patrol; // so we can update the properties
         private AttackState attack;
         private EngagedState engage;
+        private DyingState dying;
 
         public PatrolState Patrol
         {
@@ -20,13 +21,12 @@ namespace AdventureFVTC
 
         public virtual void Start()
         {
-            Debug.Log("In EnemyController Start!");
             patrol = new PatrolState(this); // create the state
-            Debug.Log("In EnemyController Start!");
             attack = new AttackState(this);
-            Debug.Log("In EnemyController Start!");
             engage = new EngagedState(this);
+            dying = new DyingState(this);
             Debug.Log("In EnemyController Start!");
+            Debug.Log(dying == null);
 
             //Debug.Log("Patrol is null? " + (patrol == null).ToString());
             //Debug.Log("Attack is null? " + (attack == null).ToString());
@@ -46,6 +46,7 @@ namespace AdventureFVTC
             States.Add(patrol); // add to the list
             States.Add(attack);
             States.Add(engage);
+            States.Add(dying);
 
             ChangeState(patrol.GetKey()); // set the first state to patrol
         }
@@ -56,6 +57,7 @@ namespace AdventureFVTC
 
             patrol.Speed = patrolSpeed; // so we can dynamically update the speed
             attack.Speed = attackSpeed;
+            dying.Speed = attackSpeed;       
         }
     }
 
