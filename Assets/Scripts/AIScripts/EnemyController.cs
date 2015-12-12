@@ -32,16 +32,16 @@ namespace AdventureFVTC
             //Debug.Log("Attack is null? " + (attack == null).ToString());
             //Debug.Log("Engage is null? " + (engage == null).ToString());
 
-            // set the patrol points
-            //foreach (string name in PatrolPointNames)
-            //{
-            //    GameObject point = GameObject.Find(name);
-            //    if (point != null)
-            //    {
-            //        Transform t = point.GetComponent<Transform>();
-            //        patrol.PatrolPoints.Add(t);
-            //    }
-            //}
+            //set the patrol points
+            foreach (string name in PatrolPointNames)
+            {
+                GameObject point = GameObject.Find(name);
+                if (point != null)
+                {
+                    Transform t = point.GetComponent<Transform>();
+                    patrol.PatrolPoints.Add(t);
+                }
+            }
 
             States.Add(patrol); // add to the list
             States.Add(attack);

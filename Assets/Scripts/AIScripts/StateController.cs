@@ -19,7 +19,6 @@ namespace AdventureFVTC
         {
             if (CurrentState != null)
             {
-                print(CurrentState.GetKey());
                 CurrentState.Update(Time.deltaTime); // update the state
             }
         }

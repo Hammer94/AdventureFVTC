@@ -17,7 +17,6 @@ namespace AdventureFVTC
 
             // player stuff
             //player = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log(Services.Run.Player.Character.gameObject == null);
             playerTrans = Services.Run.Player.Character.gameObject.transform;          
         }
 
