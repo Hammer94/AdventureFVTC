@@ -21,8 +21,7 @@ namespace AdventureFVTC {
             spawners = GameObject.FindObjectsOfType<Spawner>();
         }
 
-        public void ResetAllSpawners()
-        {
+        public void ResetAllSpawners() {
             foreach (Spawner s in spawners)
             {
                 s.Reset(); // Reset all the spawns to their starting positions and start the game anew.
