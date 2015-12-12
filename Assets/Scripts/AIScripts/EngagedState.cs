@@ -7,7 +7,7 @@ namespace AdventureFVTC
     {
         private Transform trans;
         private Transform playerTrans;
-        private Unit enemy;
+        //private Unit enemy;
 
         public float Speed { get; set; }    // patrol speed
 
@@ -16,7 +16,7 @@ namespace AdventureFVTC
         {
             // get the trans from the controller
             trans = GameObject.GetComponent<Transform>();
-            enemy = GameObject.GetComponent<Unit>();
+            Enemy = GameObject.GetComponent<Enemy>();
 
             // player stuff
             playerTrans = Services.Run.Player.Character.gameObject.GetComponent<Transform>();
@@ -36,8 +36,7 @@ namespace AdventureFVTC
 
             if (dist < 12)
             {
-                Controller.Print("Engaged");
-                enemy.Attack();
+                Enemy.Attack();
             }
             else if (dist > 12)
             {

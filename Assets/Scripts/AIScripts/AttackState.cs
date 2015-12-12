@@ -14,9 +14,9 @@ namespace AdventureFVTC
         {
             // get the trans from the controller
             trans = GameObject.GetComponent<Transform>();
+            Enemy = GameObject.GetComponent<Enemy>();
 
             // player stuff
-            //player = GameObject.FindGameObjectWithTag("Player");
             playerTrans = Services.Run.Player.Character.gameObject.transform;          
         }
 
@@ -32,9 +32,12 @@ namespace AdventureFVTC
 
             float dist = (trans.position - target).magnitude;
 
+            if (Enemy.Health == 0)
+                Controller.ChangeState(DyingState.KEY);
+
             if (dist < 12)
-            {
-                Controller.ChangeState(EngagedState.KEY);
+            {             
+                Enemy.Attack();
             }
             else if (dist < step)
             {
