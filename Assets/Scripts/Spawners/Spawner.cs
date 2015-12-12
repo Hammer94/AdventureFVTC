@@ -7,20 +7,31 @@ namespace AdventureFVTC {
         [SerializeField] private bool spawnImediately = true;       
         [SerializeField] protected float respawnTime = 5.0f;       
         [SerializeField] protected GameObject objectSpawned;
+        protected bool startSpawning = false;
 
         protected float currentRespawnTime = 0.0f;
         protected bool reset;
+        protected GameObject clone;
+
+        public bool StartSpawning {
+            get {
+                return startSpawning;
+            }
+            set {
+                startSpawning = value;
+            }
+        }
 
         public virtual void Reset() {
             reset = true;
-            if (objectSpawned.gameObject != null)
-                reset = true;
-                Destroy(objectSpawned.gameObject);          
+            if (objectSpawned.gameObject != null) {
+                Destroy(clone.gameObject);
+            }               
         }
   
         protected virtual void Respawn() {
             if (reset) {
-                GameObject clone = GameObject.Instantiate(objectSpawned);
+                clone = GameObject.Instantiate(objectSpawned);
                 clone.transform.parent = transform;
                 clone.transform.position = transform.position;
                 currentRespawnTime = 0.0f;
@@ -30,7 +41,7 @@ namespace AdventureFVTC {
                 currentRespawnTime += Time.deltaTime;
 
                 if (currentRespawnTime >= respawnTime) {                  
-                    GameObject clone = GameObject.Instantiate(objectSpawned);                 
+                    clone = GameObject.Instantiate(objectSpawned);                 
                     clone.transform.parent = transform;
                     clone.transform.position = transform.position;
                     currentRespawnTime = 0.0f;
@@ -40,10 +51,13 @@ namespace AdventureFVTC {
 
         protected virtual void Start() {
             reset = spawnImediately;
+            clone = objectSpawned;
         }
 
         protected virtual void Update() {
-            if (!objectSpawned.gameObject.activeInHierarchy)           
+            if (clone.gameObject == null)
+                clone = objectSpawned;
+            if (!clone.gameObject.activeInHierarchy)           
                 Respawn();                   
         }
     }

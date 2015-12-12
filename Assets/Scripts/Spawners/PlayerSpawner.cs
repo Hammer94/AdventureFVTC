@@ -19,8 +19,8 @@ namespace AdventureFVTC {
         }
 
         protected override void Update() {
-            if (Services.Run.Player.Character == null || Services.Run.Player.Character.Dead)
-                Respawn();
+                if (Services.Run.Player.Character == null || Services.Run.Player.Character.Dead)
+                    Respawn();        
         }
 
         protected override void Respawn() {

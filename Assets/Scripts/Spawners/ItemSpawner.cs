@@ -12,16 +12,23 @@ namespace AdventureFVTC {
         private bool readyToBeSpawned = false;
 
          private void Spawn() {
-            GameObject clone = GameObject.Instantiate(objectSpawned);
+            clone = GameObject.Instantiate(objectSpawned);
             clone.transform.parent = Services.Run.Game.transform.FindChild("Items").transform;
             clone.transform.position = transform.position;
             hasBeenSpawned = true;
             readyToBeSpawned = false;
         }
 
+        public override void Reset() {
+            reset = true;
+            if (objectSpawned.gameObject != null) {
+                Destroy(clone.gameObject);
+            }
+        }
+
         protected override void Respawn() {
             if (reset) {
-                GameObject clone = GameObject.Instantiate(objectSpawned);
+                clone = GameObject.Instantiate(objectSpawned);
                 clone.transform.parent = Services.Run.Game.transform.FindChild("Items").transform;
                 clone.transform.position = transform.position;
                 currentRespawnTime = 0.0f;
@@ -53,15 +60,15 @@ namespace AdventureFVTC {
                 }
                 else if (!spawnOnlyOnce) { // If this spawner can spawn its item an infinite amount of times.
                     // If this spawner only spawns its item at night and it is night time.
-                    if (onlySpawnAtNight && Services.Cycle.IsNight) 
-                        Spawn();            
-                    else {
+                    if (onlySpawnAtNight && Services.Cycle.IsNight)                   
+                        Spawn();                    
+                    else if (!onlySpawnAtNight) {
                         // If this spawner can spawn its item at night and at day, spawn whenever ready.
-                        if (spawnAtNight) 
-                            Spawn();
+                        if (spawnAtNight)                     
+                            Spawn();                      
                         // If the spawner doesn't spawn its item at night and it's not night time.
-                        else if (!spawnAtNight && !Services.Cycle.IsNight) 
-                            Spawn();                  
+                        else if (!spawnAtNight && !Services.Cycle.IsNight)                   
+                            Spawn();                       
                     }  
                 }                                        
             }
