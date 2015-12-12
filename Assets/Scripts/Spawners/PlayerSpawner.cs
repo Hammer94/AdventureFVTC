@@ -29,10 +29,8 @@ namespace AdventureFVTC {
                     reset = false; // Don't subtract any of their lives.             
                 else // Else the player has died after being spawned in the beginning.             
                     PersistentPlayerStats.LivesLeft -= 1; // Take away from their remaining lives.
-                Debug.Log(PersistentPlayerStats.LivesLeft);
 
                 Services.Run.Player.Camera.IsSubjectChangeStillTransitioning = true;
-
                 
                 if (Services.Run.Player.Character != null) {
                     Services.Run.Player.Character.Dead = false;

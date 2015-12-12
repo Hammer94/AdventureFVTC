@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    10 Dec 2015
+// @date    12 Dec 2015
 namespace AdventureFVTC {
     public class ItemSpawner:Spawner {
         [SerializeField] private bool spawnAtNight = false;

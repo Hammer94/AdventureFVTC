@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    10 Dec 2015
+// @date    12 Dec 2015
 namespace AdventureFVTC {
     public class Spawner:MonoBehaviour {
         [SerializeField] private bool spawnImediately = true;       
@@ -14,6 +14,7 @@ namespace AdventureFVTC {
         public virtual void Reset() {
             reset = true;
             if (objectSpawned.gameObject != null)
+                reset = true;
                 Destroy(objectSpawned.gameObject);          
         }
   
@@ -42,8 +43,8 @@ namespace AdventureFVTC {
         }
 
         protected virtual void Update() {
-            if (objectSpawned.gameObject == null)           
-                Respawn();           
+            if (!objectSpawned.gameObject.activeInHierarchy)           
+                Respawn();                   
         }
     }
 }
