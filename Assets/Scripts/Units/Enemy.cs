@@ -1,9 +1,18 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    10 Dec 2015
+// @date    13 Dec 2015
 namespace AdventureFVTC {
     public class Enemy:Unit {
+        [SerializeField] private bool useStuckPrevention = false; // Causes an enemy to delete itself if it hasn't moved much (is stuck).
+        private float maxStuckTime = 20.0f;
+        private float currentStuckTime = 0.0f;
+        private bool stuckPositionSet = false;
+        private Vector3 previousPosition;
+        private float spaceMoved;
+        private float delayTime = 1.0f;
+        private float currentDelayTime = 0.0f;
+        private float stuckCheck = 20f;
         private string attackType = "Punch"; // Will either be Punch or Fireball.
         private float rotationStepped = 0.0f; // Used to track how far the enemy has rotated upon dying.
         private bool finishedRotation = false;
@@ -26,9 +35,30 @@ namespace AdventureFVTC {
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
         }
 
-        protected override void FixedUpdate()
-        {
+        protected override void FixedUpdate() {
+            if (useStuckPrevention) {
+                if (!stuckPositionSet) {
+                    stuckPositionSet = true;
+                    previousPosition = transform.position;
+                }
+                    
+                currentDelayTime += Time.deltaTime;
+                currentStuckTime += Time.deltaTime;
 
+                if (currentDelayTime >= delayTime) {
+                    currentDelayTime = 0.0f;
+                    spaceMoved += (previousPosition - transform.position).magnitude;
+                    previousPosition = transform.position;
+                }
+
+                if (currentStuckTime >= maxStuckTime) {
+                    if (spaceMoved < stuckCheck)
+                        Destroy(gameObject);
+                    stuckPositionSet = false;
+                    currentStuckTime = 0.0f;
+                    spaceMoved = 0.0f;
+                }
+            }       
         }
 
         /**
