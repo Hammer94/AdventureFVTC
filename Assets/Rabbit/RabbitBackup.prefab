@@ -7753,7 +7753,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106006}
-  m_LocalRotation: {x: .729826927, y: -.0515275896, z: .681687176, w: -.000567927724}
+  m_LocalRotation: {x: .729826927, y: -.0515275784, z: .681687176, w: -.000567927724}
   m_LocalPosition: {x: -9.42964107e-09, y: -1.990702e-08, z: -1.97906003e-09}
   m_LocalScale: {x: 1.00000024, y: .99999994, z: 1}
   m_Children: []
@@ -9277,7 +9277,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136652}
-  m_LocalRotation: {x: .729826927, y: .0515274294, z: .681687176, w: .000567975338}
+  m_LocalRotation: {x: .729826927, y: .0515274182, z: .681687176, w: .000567975338}
   m_LocalPosition: {x: -1.72294676e-08, y: -3.10828909e-08, z: -2.32830599e-09}
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children: []
@@ -11995,9 +11995,11 @@ MonoBehaviour:
   meleeUnitAttack: {fileID: 193636, guid: e5b4b6adbccff454eaec0a5ba9f82270, type: 2}
   attackInterval: .600000024
   deathTime: 10
-  timeCantMoveAfterAttack: .600000024
+  timeCanMoveAfterAttack: .600000024
   delayBeforeAttackStarts: .200000003
-  speed: 6
+  invulnerabilityTime: .5
+  patrolSpeed: 0
+  attackSpeed: 0
   rotationSpeed: 15
   desiredRotation: 0
 --- !u!114 &11491428
@@ -12215,7 +12217,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: invulnerabilityTime
+      value: .5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 128488}

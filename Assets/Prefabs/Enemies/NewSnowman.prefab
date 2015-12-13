@@ -96,6 +96,7 @@ GameObject:
   - 114: {fileID: 11488068}
   - 114: {fileID: 11422422}
   - 54: {fileID: 5433684}
+  - 136: {fileID: 13634872}
   m_Layer: 0
   m_Name: NewSnowman
   m_TagString: Untagged
@@ -163,8 +164,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 479426}
   - 33: {fileID: 3314772}
-  - 136: {fileID: 13653888}
-  - 23: {fileID: 2317740}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -670,32 +669,6 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!23 &2317740
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137424}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: fd5353ed78423ed4fb69e1d4dc5f7ed9, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1299,7 +1272,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!114 &11422422
 MonoBehaviour:
@@ -1345,9 +1318,10 @@ MonoBehaviour:
   meleeUnitAttack: {fileID: 0}
   attackInterval: 1.5
   deathTime: 3
-  timeCantMoveAfterAttack: .200000003
+  timeCanMoveAfterAttack: .200000003
   delayBeforeAttackStarts: .200000003
-  speed: 6
+  patrolSpeed: 3
+  attackSpeed: 5
   rotationSpeed: 15
   desiredRotation: 0
 --- !u!135 &13506870
@@ -1362,16 +1336,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: .506501615
   m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &13653888
+--- !u!136 &13634872
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137424}
+  m_GameObject: {fileID: 127338}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: .5
+  m_Radius: .300000012
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1381,7 +1355,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: patrolSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127338}
