@@ -7,7 +7,6 @@ namespace AdventureFVTC
         private Transform trans;
         private Transform playerTrans;
         private bool inAttackRange = false;
-        private float dist;
 
         public float Speed { get; set; }    // patrol speed
 
@@ -22,8 +21,7 @@ namespace AdventureFVTC
             playerTrans = Services.Run.Player.Character.gameObject.transform;          
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
             Vector3 target = playerTrans.position;
             target.y = trans.position.y;
 
@@ -31,8 +29,8 @@ namespace AdventureFVTC
 
             float step = Speed * deltaTime; // calculate how far to move
 
-            dist = (trans.position - target).magnitude;
-            float forwardDist = (trans.forward - target).magnitude;
+            float dist = (trans.position - target).magnitude;
+            
 
             if (Enemy.Health == 0)
                 Controller.ChangeState(DieState.KEY);
