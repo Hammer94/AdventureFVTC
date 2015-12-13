@@ -2478,7 +2478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnImediately: 0
   respawnTime: 5
-  objectSpawned: {fileID: 127338, guid: 5a1f06af633a2ea4aa8c85c316f0d6f1, type: 2}
+  objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
   onlySpawnAtNight: 0
   spawnOnlyOnce: 0
@@ -7355,7 +7355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnImediately: 0
   respawnTime: 5
-  objectSpawned: {fileID: 127338, guid: 5a1f06af633a2ea4aa8c85c316f0d6f1, type: 2}
+  objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
   onlySpawnAtNight: 0
   spawnOnlyOnce: 0
