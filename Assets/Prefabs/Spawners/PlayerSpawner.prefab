@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 484852}
   - 33: {fileID: 3386210}
   - 23: {fileID: 2389412}
+  - 114: {fileID: 11454710}
   m_Layer: 0
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -125,13 +126,40 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120230}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11454710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8f965595bc1a1468859a936bdf8ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnImediately: 1
+  respawnTime: 0
+  objectSpawned: {fileID: 0}
+  deathMarker: {fileID: 117478, guid: 42be1999fde237340a9942e0d3f7fbef, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: respawnTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnImediately
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deathMarker
+      value: 
+      objectReference: {fileID: 117478, guid: 42be1999fde237340a9942e0d3f7fbef, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 120230}
