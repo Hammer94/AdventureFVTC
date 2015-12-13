@@ -7,13 +7,15 @@ namespace AdventureFVTC {
      * No longer relies on a rigidbody for movement.
      * 
      * @author  Ryan
-     * @date    12 Dec 2015
+     * @date    13 Dec 2015
      * @see     Item
      */
     public class Character : Unit {
         private string attackType = "Punch"; // Will either be Punch or Snowball.
         private SkinnedMeshRenderer characterRenderer;
-        private Color initialCharacterColor;       
+        private Color initialCharacterColor;
+        
+
 
         public Color InitialCharacterColor {
             get {
@@ -22,16 +24,13 @@ namespace AdventureFVTC {
         }
 
         /**
-         * Constructs a new Character. Intitializes the list of Item
-         * for storing item information.
-         * 
-         * @see Item
+         * Constructs a new Character.
          */
         Character()
         {
 
         }
-
+            
         /**
          * This override of Start disables the character relying on a rigidbody. 
          */
@@ -83,8 +82,6 @@ namespace AdventureFVTC {
                 if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
                     CurrentDeathTime = DeathTime;
 
-                Debug.Log(dying);
-
                 //lerp!
                 float perc = CurrentDeathTime / DeathTime;
                 Color darkGrey = new Color(0.2f, 0.2f, 0.2f, 1f);
@@ -95,7 +92,7 @@ namespace AdventureFVTC {
                     CurrentDeathTime = 0.0f;
                     dying = false;
                     dead = true;
-                    //cantMove = false;
+                    cantMove = true;
                 }
             }           
         }

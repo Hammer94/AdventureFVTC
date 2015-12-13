@@ -23,14 +23,18 @@ namespace AdventureFVTC {
 
         void OnGUI()
         {
-            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Health == 0) {
-                Services.Run.Player.Character.CantMove = true;
+            if (Services.Run.Player.Character != null && Services.Run.Player.Character.TookDamage)
+            {
+                Services.Run.Player.Character.TookDamage = false;
+                animator.Play(hashHit);
+            }
+
+            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Health == 0) {           
                 Services.Input.AllowPlayerInput = false;
                 animator.Play(hashDead);
             }
 
-            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Dead)
-            {
+            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Dead) {
                 Services.Run.Player.Character.CantMove = false;
                 animator.Play(hashHit);
             }

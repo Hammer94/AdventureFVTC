@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    12 Dec 2015
+     * @date    13 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -14,6 +14,13 @@ namespace AdventureFVTC {
             Snowman,
             WaterMonster,
             Demon
+        }
+
+        public enum UnitStates
+        {
+            Patroll,
+            Attack,
+            Die
         }
 
         private Vector2 desiredDirection;
@@ -25,21 +32,42 @@ namespace AdventureFVTC {
         [SerializeField] private float deathTime = 3.0f;
         [SerializeField] protected float timeCanMoveAfterAttack = 0.2f;
         [SerializeField] protected float delayBeforeAttackStarts = 0.2f;
+        [SerializeField] protected float invulnerabilityTime = 0.0f;
 
+        private bool tookDamage;
+        protected bool isInvulnerable = false;
+        protected float currentInvulnTime = 0.0f;
+        protected UnitStates unitState;
         protected bool startDelay = false;
         protected bool cantMove = false;
         protected bool attacked = false;
         private float currentAttackInterval = 0.0f;
         protected float timeDelayed = 0.0f;
-        private int health;
+        protected int health;
         protected bool dying = false;
         protected bool dead = false;
         
         private float currentDeathTime = 0.0f;
 
-        public float speed;
+        public float patrolSpeed;
+        public float attackSpeed;
         public float rotationSpeed;
         public float desiredRotation;
+
+        public bool TookDamage {
+            get {
+                return tookDamage;
+            }
+            set {
+                tookDamage = value;
+            }
+        }
+
+        public bool Dying {
+            get {
+                return dying;
+            }
+        }
 
         public bool Dead {
             get {
@@ -82,13 +110,25 @@ namespace AdventureFVTC {
                 return health;
             }
             set {
-                health = value;
+                if (invulnerabilityTime != 0 && !isInvulnerable) { // If this unit just got hurt, can become invulnerable, and isn't already invulnerable.                  
+                    if (value < health) {
+                        isInvulnerable = true; // Make this unit invulnerable.
+                        tookDamage = true;
+                    }
+                        
+                    health = value; // Hurt this unit.                      
+                }                  
+                else if (invulnerabilityTime == 0) { // Else this unit can't be invulnerable.
+                    if (value < health)
+                        tookDamage = true;
+                    health = value;          
+                }                   
                 if (health > maxHealth)
                     health = maxHealth;
                 else if (health < 0)
-                    health = 0;
-                if (health == 0)
-                    dying = true;
+                    health = 0;              
+                if (health == 0) // If this unit has 0 health left.
+                    dying = true; // Start this unit's death sequence.
             }
         }
 
@@ -102,8 +142,8 @@ namespace AdventureFVTC {
             }
         }
 
-        public bool CantMove
-        {
+        // Used to delay the unit after it attacks, not allowing it to attack and move at the same time.
+        public bool CantMove {
             get {
                 return cantMove;
             }
@@ -112,7 +152,7 @@ namespace AdventureFVTC {
             }
         }
 
-        // This unit's time between attacks.
+        // This unit's time since the last attack. Once this time reaches its maximum, the unit can attack again.
         public float CurrentAttackInterval {
             get {
                 return currentAttackInterval;
@@ -122,14 +162,15 @@ namespace AdventureFVTC {
             }
         }
 
-        public float AttackInterval
-        {
-            get { return attackInterval; }
+        // This unit's time between attacks.
+        public float AttackInterval {
+            get {
+                return attackInterval;
+            }
         }
 
         // This unit's rangedAttack.
-        public GameObject RangedUnitAttack
-        {
+        public GameObject RangedUnitAttack {
             get {
                 return rangedUnitAttack;
             }
@@ -139,14 +180,11 @@ namespace AdventureFVTC {
         }
 
         // This unit's meleeAttack.
-        public GameObject MeleeUnitAttack
-        {
-            get
-            {
+        public GameObject MeleeUnitAttack {
+            get {
                 return meleeUnitAttack;
             }
-            set
-            {
+            set {
                 meleeUnitAttack = value;
             }
         }
@@ -161,6 +199,22 @@ namespace AdventureFVTC {
         protected float CurrentDeathTime {
             get { return currentDeathTime; }
             set { currentDeathTime = value; }
+        }
+
+        public bool IsInvulnerable {
+            get {
+                return isInvulnerable;
+            }
+        }
+
+        protected void RemoveInulverability() {
+            currentInvulnTime += Time.deltaTime;
+            Debug.Log("Is Invulnerable!");
+
+            if (currentInvulnTime >= invulnerabilityTime) {
+                currentInvulnTime = 0.0f;
+                isInvulnerable = false;
+            }
         }
 
         /**
@@ -187,7 +241,10 @@ namespace AdventureFVTC {
          * @param   direction   The vector direction to move in.
          */
         public void moveDirection(Vector2 direction) {
-            desiredDirection = direction.normalized * speed;
+            if (unitState == UnitStates.Patroll)
+                desiredDirection = direction.normalized * patrolSpeed;
+            else if (unitState == UnitStates.Attack)
+                desiredDirection = direction.normalized * attackSpeed;
         }
 
         /**
@@ -302,6 +359,9 @@ namespace AdventureFVTC {
                 }
             }
 
+            if (isInvulnerable) // If this unit has taken damage and has become invulnerable
+                RemoveInulverability(); // After a specified amount of time, allow the unit to get damage again.
+
             if (dying) // If this unit has 0 health.
                 Die(); // Start the unit's death sequence.        
         }
@@ -315,10 +375,19 @@ namespace AdventureFVTC {
             Vector2 moveVector = desiredDirection;
             float rot = DeltaAngle(desiredRotation, -(Mathf.Deg2Rad * GetComponent<Transform>().eulerAngles.y) - Mathf.PI / 2);
 
-            if (moveVector.magnitude >= speed * Time.deltaTime)
-                moveVector = moveVector.normalized * speed;
-            else
-                moveVector = moveVector / Time.deltaTime;
+            if (unitState == UnitStates.Patroll) {
+                if (moveVector.magnitude >= patrolSpeed * Time.deltaTime)
+                    moveVector = moveVector.normalized * patrolSpeed;
+                else
+                    moveVector = moveVector / Time.deltaTime;
+            }
+            else if (unitState == UnitStates.Attack)
+            {
+                if (moveVector.magnitude >= attackSpeed * Time.deltaTime)
+                    moveVector = moveVector.normalized * attackSpeed;
+                else
+                    moveVector = moveVector / Time.deltaTime;            
+            }
             desiredDirection -= moveVector;
 
             if (Mathf.Abs(rot) >= rotationSpeed * Time.deltaTime)
