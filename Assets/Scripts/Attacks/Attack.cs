@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    10 Dec 2015
+// @date    13 Dec 2015
 namespace AdventureFVTC {
     public class Attack:MonoBehaviour {
         public enum OriginTypes {
@@ -28,29 +28,6 @@ namespace AdventureFVTC {
             get {
                 return originType; }
             }
-
-        protected void OnCollisionStay(Collision collisionInfo) {
-            Unit unit = collisionInfo.gameObject.GetComponent<Unit>();
-            hasCollided = true; // Signal that there has been a collision with another collider. 
-
-            // If the object is a unit and is different type than the unit that started this attack.
-            if (unit != null && unit.UnitType.ToString() != originType.ToString()) {
-                unit.Health -= damage; // Hurt the unit this attack hit.    
-                Debug.Log("Has hurt " + unit.name + " " + damage + " damage!");
-                Debug.Log(unit.name + " has " + unit.Health + " health remaining!");
-            }                        
-        }
-
-        protected void OnTriggerEnter(Collider collider) {
-            Unit unit = collider.gameObject.GetComponent<Unit>();
-
-            // If the object is a unit and is different type than the unit that started this attack.
-            if (unit != null && unit.UnitType.ToString() != originType.ToString()) {
-                unit.Health -= damage; // Hurt the unit this attack hit.    
-                Debug.Log("Has hurt " + unit.name + " " + damage + " damage!");
-                Debug.Log(unit.name + " has " + unit.Health + " health remaining!");
-            }
-        }
 
         protected virtual void Start() {     
             if (originType == OriginTypes.Player || originType == OriginTypes.Unit)          

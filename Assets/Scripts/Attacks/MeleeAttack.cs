@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    10 Dec 2015
+// @date    13 Dec 2015
 namespace AdventureFVTC {
     public class MeleeAttack:Attack {
         public Transform unitTrans;
@@ -25,6 +25,17 @@ namespace AdventureFVTC {
             float speed = projectileSpeed * Time.deltaTime; // Get the rate at which the attack moves forward.               
             Vector3 newPosition = transform.position + (atAttackForward * speed); // And then move the attack forward.
             transform.position = newPosition;         
+        }
+
+        protected void OnTriggerEnter(Collider collider) {
+            Unit unit = collider.gameObject.GetComponent<Unit>();
+
+            // If the object is a unit and is different type than the unit that started this attack.
+            if (unit != null && unit.UnitType.ToString() != originType.ToString()) {
+                unit.Health -= damage; // Hurt the unit this attack hit.    
+                Debug.Log("Has hurt " + unit.name + " " + damage + " damage!");
+                Debug.Log(unit.name + " has " + unit.Health + " health remaining!");
+            }
         }
 
         public void GetValues(string type, Transform transform)
