@@ -6,14 +6,14 @@ namespace AdventureFVTC {
      * Recieves input that is used to control the character.
      * 
      * @author  Ryan
-     * @date    30 Nov 2015
+     * @date    12 Dec 2015
      */
     public class Player:MonoBehaviour {
         [SerializeField] private Character character;
         [SerializeField] private CameraBase playerCamera;
 
-        private Vector2 inputMove;
-        private float inputAngle;
+        //private Vector2 inputMove;
+        //private float inputAngle;
 
         /**
          * Allows a Character to be set once and retrieved
@@ -56,9 +56,9 @@ namespace AdventureFVTC {
          * 
          * @param   d   The vector distance to move.
          */
-        public void inputVertical(float d) {
-            inputMove.y = d;
-        }
+        //public void inputVertical(float d) {
+        //    inputMove.y = d;
+        //}
 
         /**
          * Allows the player to recieve input to
@@ -66,9 +66,9 @@ namespace AdventureFVTC {
          * 
          * @param   d   The vector distance to move.
          */
-        public void inputHorizontal(float d) {
-            inputMove.x = d;
-        }
+        //public void inputHorizontal(float d) {
+        //    inputMove.x = d;
+        //}
 
         /**
          * Allows the player to recieve input to
@@ -77,9 +77,9 @@ namespace AdventureFVTC {
          * 
          * @param   r   The angle to rotate in radians.
          */
-        public void inputRotation(float r) {
-            inputAngle = r;
-        }
+        //public void inputRotation(float r) {
+        //    inputAngle = r;
+        //}
 
         /**
          * Called when the script begins running. Stops the script
@@ -99,8 +99,8 @@ namespace AdventureFVTC {
          * This behavior is temporary and will change later.
          */
         void Update() {
-            character.moveDirection(inputMove);
-            character.desiredRotation = inputAngle;
+            //character.moveDirection(inputMove);
+            //character.desiredRotation = inputAngle;
         }
     }
 }
