@@ -23,6 +23,18 @@ namespace AdventureFVTC {
 
         void OnGUI()
         {
+            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Health == 0) {
+                Services.Run.Player.Character.CantMove = true;
+                Services.Input.AllowPlayerInput = false;
+                animator.Play(hashDead);
+            }
+
+            if (Services.Run.Player.Character != null && Services.Run.Player.Character.Dead)
+            {
+                Services.Run.Player.Character.CantMove = false;
+                animator.Play(hashHit);
+            }
+
             // Is the player is allowed to move / attack?
             if (Services.Input.AllowPlayerInput)
             {
@@ -44,18 +56,10 @@ namespace AdventureFVTC {
                     }
                 }
 
-                if (Services.Run.Player.Character.Health == 0)
+                if (Input.GetKeyDown(KeyCode.U))
                 {
-                    Services.Input.AllowPlayerInput = false;
-                    animator.Play(hashDead);
-                    if (Services.Run.Player.Character.Dead)
-                        animator.Play(hashWalk);                                   
+                    animator.Play(hashHit);
                 }
-
-                //if (Input.GetKeyDown(KeyCode.U))
-                //{
-                //    animator.Play(hashHit);
-                //}
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
