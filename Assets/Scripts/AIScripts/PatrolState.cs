@@ -23,6 +23,9 @@ namespace AdventureFVTC
 
         public override void Update(float deltaTime)
         {
+            if (Enemy.WasSetToUseStuckPrevention)
+                Enemy.UseStuckPrevention = true;
+
             if (PatrolPoints.Count > 1)
             {
                 Vector3 target = PatrolPoints[index].position;

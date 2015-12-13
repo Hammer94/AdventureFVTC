@@ -5,6 +5,8 @@
 namespace AdventureFVTC {
     public class Enemy:Unit {
         [SerializeField] private bool useStuckPrevention = false; // Causes an enemy to delete itself if it hasn't moved much (is stuck).
+        //[SerializeField] private int damping = 5;
+        private bool wasSetToUseStuckPrevention;
         private float maxStuckTime = 20.0f;
         private float currentStuckTime = 0.0f;
         private bool stuckPositionSet = false;
@@ -18,13 +20,22 @@ namespace AdventureFVTC {
         private bool finishedRotation = false;
         private Renderer[] enemyRenderers;
         private Vector3 startingScale;
-        private int damping = 2;
+        
+        public bool UseStuckPrevention {
+            get {
+                return useStuckPrevention;
+            }
+            set {
+                useStuckPrevention = value;
+                if (!useStuckPrevention)
+                    stuckPositionSet = false;
+            }
+        }
 
-        protected override void Start() {
-            //base.Start();
-            Health = MaxHealth;
-            enemyRenderers = GetComponents<Renderer>();
-            startingScale = transform.localScale;
+        public bool WasSetToUseStuckPrevention {
+            get {
+                return wasSetToUseStuckPrevention;
+            }
         }
 
         public void RotateTowards(Vector3 targetPosition)
@@ -32,7 +43,7 @@ namespace AdventureFVTC {
             Vector3 lookPos = targetPosition - transform.position;
             lookPos.y = 0;
             Quaternion rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
         }
 
         protected override void FixedUpdate() {
@@ -40,6 +51,8 @@ namespace AdventureFVTC {
                 if (!stuckPositionSet) {
                     stuckPositionSet = true;
                     previousPosition = transform.position;
+                    spaceMoved = 0.0f;
+                    currentStuckTime = 0.0f;
                 }
                     
                 currentDelayTime += Time.deltaTime;
@@ -55,8 +68,6 @@ namespace AdventureFVTC {
                     if (spaceMoved < stuckCheck)
                         Destroy(gameObject);
                     stuckPositionSet = false;
-                    currentStuckTime = 0.0f;
-                    spaceMoved = 0.0f;
                 }
             }       
         }
@@ -104,6 +115,13 @@ namespace AdventureFVTC {
         public void DemonAttack(string attack) {
             attackType = attack;
             Attack();
+        }
+
+        protected override void Start() {
+            Health = MaxHealth;
+            enemyRenderers = GetComponents<Renderer>();
+            startingScale = transform.localScale;
+            wasSetToUseStuckPrevention = useStuckPrevention;
         }
 
         /**

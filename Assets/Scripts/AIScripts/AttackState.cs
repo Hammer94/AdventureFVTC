@@ -24,8 +24,9 @@ namespace AdventureFVTC
         public override void Update(float deltaTime) {
             Vector3 target = playerTrans.position;
             target.y = trans.position.y; // Ignore the y position of the target.
-
+          
             Enemy.RotateTowards(target); // Look at the target.
+            Enemy.UseStuckPrevention = false;
 
             float step = Speed * deltaTime; // Calculate how far to move.
             float dist = (trans.position - target).magnitude; // Get the distance between the enemy and its target.
