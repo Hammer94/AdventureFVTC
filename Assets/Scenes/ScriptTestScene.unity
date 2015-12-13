@@ -1499,6 +1499,8 @@ Transform:
   - {fileID: 1755703008}
   - {fileID: 1257329308}
   - {fileID: 602908567}
+  - {fileID: 1928978383}
+  - {fileID: 1342461784}
   m_Father: {fileID: 1953362333}
   m_RootOrder: 5
 --- !u!1 &444313218
@@ -2476,7 +2478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cedc9c9887c6e4d934d0076ad56973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnImediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
@@ -4948,6 +4950,110 @@ Transform:
   - {fileID: 1084947444}
   m_Father: {fileID: 1456476024}
   m_RootOrder: 16
+--- !u!1 &1342461783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1342461784}
+  - 33: {fileID: 1342461788}
+  - 135: {fileID: 1342461787}
+  - 23: {fileID: 1342461786}
+  - 114: {fileID: 1342461785}
+  m_Layer: 0
+  m_Name: TriggerNode21 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1342461784
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342461783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.82999992, y: 11.7360001, z: -78.3600006}
+  m_LocalScale: {x: 30.6710472, y: 21.9774208, z: 30.6710777}
+  m_Children: []
+  m_Father: {fileID: 440936987}
+  m_RootOrder: 27
+--- !u!114 &1342461785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342461783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterPosition: {x: 0, y: 15, z: -20}
+  exitPosition: {x: -5, y: 10, z: -10}
+  enterTime: 2
+  exitTime: 2
+  objectTagToLookFor: Player
+  triggerOnEnter: 1
+  triggerOnExit: 0
+  transitionEnterType: 0
+  transitionExitType: 0
+  returningOnEnter: 0
+  returningOnExit: 0
+  isATransitionTrigger: 1
+  isAChangeSubjectTrigger: 0
+  transitionOnEnter: 1
+  subjectChangeOnEnter: 0
+  transitionOnExit: 1
+  subjectChangeOnExit: 0
+--- !u!23 &1342461786
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342461783}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: fd5353ed78423ed4fb69e1d4dc5f7ed9, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!135 &1342461787
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342461783}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1342461788
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342461783}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1382003116
 Transform:
   m_ObjectHideFlags: 0
@@ -6744,6 +6850,110 @@ Transform:
   - {fileID: 2007857954}
   m_Father: {fileID: 1953362333}
   m_RootOrder: 2
+--- !u!1 &1928978382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1928978383}
+  - 33: {fileID: 1928978387}
+  - 135: {fileID: 1928978386}
+  - 23: {fileID: 1928978385}
+  - 114: {fileID: 1928978384}
+  m_Layer: 0
+  m_Name: TriggerNode21 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1928978383
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928978382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.8999996, y: 11.7360001, z: -57.5600014}
+  m_LocalScale: {x: 30.6710472, y: 21.9774208, z: 30.6710777}
+  m_Children: []
+  m_Father: {fileID: 440936987}
+  m_RootOrder: 26
+--- !u!114 &1928978384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928978382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754a63ef43ffe934c9da9ab86d3f5af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterPosition: {x: 0, y: 15, z: -20}
+  exitPosition: {x: -5, y: 10, z: -10}
+  enterTime: 2
+  exitTime: 2
+  objectTagToLookFor: Player
+  triggerOnEnter: 1
+  triggerOnExit: 0
+  transitionEnterType: 0
+  transitionExitType: 0
+  returningOnEnter: 0
+  returningOnExit: 0
+  isATransitionTrigger: 1
+  isAChangeSubjectTrigger: 0
+  transitionOnEnter: 1
+  subjectChangeOnEnter: 0
+  transitionOnExit: 1
+  subjectChangeOnExit: 0
+--- !u!23 &1928978385
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928978382}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: fd5353ed78423ed4fb69e1d4dc5f7ed9, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!135 &1928978386
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928978382}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1928978387
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928978382}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1953362332
 GameObject:
   m_ObjectHideFlags: 0
@@ -7353,7 +7563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cedc9c9887c6e4d934d0076ad56973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnImediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
