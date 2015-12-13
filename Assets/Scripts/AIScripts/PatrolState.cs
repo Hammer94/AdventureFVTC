@@ -6,6 +6,7 @@ namespace AdventureFVTC
     {
         private Transform trans;    // trans of the enemy so we can move it
         private int index = 0;      // index of point we're going toward
+        private int damping = 2;
 
         public float Speed { get; set; }    // patrol speed
 
@@ -16,6 +17,7 @@ namespace AdventureFVTC
         {
             // get the trans from the controller
             trans = GameObject.GetComponent<Transform>();
+            Enemy = GameObject.GetComponent<Enemy>();
             PatrolPoints = new List<Transform>(); // instanciate the list
         }
 
@@ -26,7 +28,9 @@ namespace AdventureFVTC
                 Vector3 target = PatrolPoints[index].position;
                 target.y = trans.position.y; // ignore vertical position
 
-                if (trans.position == target) // have we arrived at the target
+                float dist = (trans.position - target).magnitude;
+
+                if (dist <= 1) // have we arrived at the target
                 {
                     index++; // next point
                     if (index >= PatrolPoints.Count)
@@ -36,7 +40,7 @@ namespace AdventureFVTC
                 }
                 else
                 {
-                    trans.LookAt(target);
+                    Enemy.RotateTowards(target);
 
                     float step = Speed * deltaTime; // calculate how far to move
                     trans.position += trans.forward * step; // move fwd

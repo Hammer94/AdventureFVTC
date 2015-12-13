@@ -6,6 +6,8 @@ namespace AdventureFVTC
     {
         private Transform trans;
         private Transform playerTrans;
+        private bool inAttackRange = false;
+        private float dist;
 
         public float Speed { get; set; }    // patrol speed
 
@@ -25,27 +27,29 @@ namespace AdventureFVTC
             Vector3 target = playerTrans.position;
             target.y = trans.position.y;
 
-            trans.LookAt(target);
+            Enemy.RotateTowards(target);
 
             float step = Speed * deltaTime; // calculate how far to move
-            trans.position += trans.forward * step; // move fwd
 
-            float dist = (trans.position - target).magnitude;
+            dist = (trans.position - target).magnitude;
+            float forwardDist = (trans.forward - target).magnitude;
 
             if (Enemy.Health == 0)
-                Controller.ChangeState(DyingState.KEY);
+                Controller.ChangeState(DieState.KEY);
 
-            if (dist < 12)
-            {             
-                Enemy.Attack();
-            }
-            else if (dist < step)
-            {
-                Controller.Print("Hitting Player");
-            }
-            else if (dist > 24)
+            if (dist > 12)
+                trans.position += trans.forward * step; // move fwd
+
+            if (Services.Run.Player.Character.Dying || dist > 24)
             {
                 Controller.ChangeState(PatrolState.KEY);
+            }
+            else if (dist < 12)
+            {
+                Vector3 targetDir = target - trans.position;
+                float angleBetween = Vector3.Angle(trans.forward, targetDir);
+                if (angleBetween < 5.0f)                 
+                    Enemy.Attack();
             }
         }
 
