@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    10 Dec 2015
+     * @date    12 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -23,7 +23,7 @@ namespace AdventureFVTC {
         [SerializeField] private GameObject meleeUnitAttack;
         [SerializeField] private float attackInterval = 1.0f;
         [SerializeField] private float deathTime = 3.0f;
-        [SerializeField] protected float timeCantMoveAfterAttack = 0.2f;
+        [SerializeField] protected float timeCanMoveAfterAttack = 0.2f;
         [SerializeField] protected float delayBeforeAttackStarts = 0.2f;
 
         protected bool startDelay = false;
@@ -106,6 +106,9 @@ namespace AdventureFVTC {
         {
             get {
                 return cantMove;
+            }
+            set {
+                cantMove = value;
             }
         }
 
@@ -280,7 +283,7 @@ namespace AdventureFVTC {
                 cantMove = true; // Disallow the unit to be able to move.
                 timeDelayed += Time.deltaTime; // Count down.
 
-                if (timeDelayed >= timeCantMoveAfterAttack)
+                if (timeDelayed >= timeCanMoveAfterAttack)
                     cantMove = false; // Allow the unit to move again.
 
                 if (timeDelayed >= delayBeforeAttackStarts) { // Once the unit has waited enough time.

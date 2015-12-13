@@ -13,7 +13,7 @@ namespace AdventureFVTC {
     public class Character : Unit {
         private string attackType = "Punch"; // Will either be Punch or Snowball.
         private SkinnedMeshRenderer characterRenderer;
-        private Color initialCharacterColor;
+        private Color initialCharacterColor;       
 
         public Color InitialCharacterColor {
             get {
@@ -77,6 +77,8 @@ namespace AdventureFVTC {
          */
         public override void Die() {
             if (dying) {
+                cantMove = true;
+
                 CurrentDeathTime += Time.deltaTime; // Update the time since this unit has died.
                 if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
                     CurrentDeathTime = DeathTime;
@@ -93,6 +95,7 @@ namespace AdventureFVTC {
                     CurrentDeathTime = 0.0f;
                     dying = false;
                     dead = true;
+                    //cantMove = false;
                 }
             }           
         }
