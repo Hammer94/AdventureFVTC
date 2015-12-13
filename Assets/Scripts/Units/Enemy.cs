@@ -7,12 +7,28 @@ namespace AdventureFVTC {
         private string attackType = "Punch"; // Will either be Punch or Fireball.
         private float rotationStepped = 0.0f; // Used to track how far the enemy has rotated upon dying.
         private bool finishedRotation = false;
-        private Renderer enemyRenderer;
+        private Renderer[] enemyRenderers;
+        private Vector3 startingScale;
+        private int damping = 2;
 
         protected override void Start() {
             //base.Start();
             Health = MaxHealth;
-            enemyRenderer = GetComponent<Renderer>();
+            enemyRenderers = GetComponents<Renderer>();
+            startingScale = transform.localScale;
+        }
+
+        public void RotateTowards(Vector3 targetPosition)
+        {
+            Vector3 lookPos = targetPosition - transform.position;
+            lookPos.y = 0;
+            Quaternion rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+        }
+
+        protected override void FixedUpdate()
+        {
+
         }
 
         /**
@@ -22,19 +38,30 @@ namespace AdventureFVTC {
         public override void Die() {
             if (UnitType == UnitTypes.Snowman || UnitType == UnitTypes.WaterMonster) { // If the enemy is a Snowman or WaterMonster.          
                 if (!finishedRotation) {
-                    float deathRotationRate = Time.deltaTime / (90.0f / (-0.5f * DeathTime));   // Get the rotation rate needed to rotate the enemy unit 
-                                                                                                // -90 degrees in half the DeathTime.
-                    rotationSpeed += -1 * deathRotationRate; // Keep track of how far the enemy has rotated.
 
-                    if (rotationSpeed >= 90.0f) { // If the enemy has rotated 90 or more degrees.
-                        finishedRotation = true; // Stop the rotation.
-                        deathRotationRate -= (rotationSpeed - 90.0f); // Pull the rotation back a bit.
+                    if (dying)
+                    {
+                        cantMove = true;
+
+                        CurrentDeathTime += Time.deltaTime; // Update the time since this unit has died.
+                        if (CurrentDeathTime > DeathTime) // Once the unit has been dead for the allowed time.
+                            CurrentDeathTime = DeathTime;
+
+                        float perc = CurrentDeathTime / DeathTime;
+                        Vector3 newScale = new Vector3(0.1f, 0.1f, 0.1f);
+                        transform.localScale = Vector3.Lerp(startingScale, newScale, perc);
+
+                        
+                        Color darkGrey = new Color(0.2f, 0.2f, 0.2f, 1f);
+                        foreach (Renderer r in enemyRenderers)
+                        {
+                            r.material.color = Color.Lerp(Color.white, darkGrey, perc); // Make the rabbit fade to grey.
+
+                            if (r.material.color == darkGrey) {
+                                Destroy(gameObject);
+                            }
+                        }                   
                     }
-
-                    float xRotation = transform.eulerAngles.x + deathRotationRate; // Get the new x rotation.
-                    GameObject body = transform.Find("body").gameObject;
-                    if (body != null)
-                        body.transform.eulerAngles = new Vector3(xRotation, body.transform.eulerAngles.y, body.transform.eulerAngles.z); // Update the enemy's current rotation.
                 }             
             }
 
