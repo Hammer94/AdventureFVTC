@@ -33,8 +33,6 @@ namespace AdventureFVTC {
             // If the object is a unit and is different type than the unit that started this attack.
             if (unit != null && unit.UnitType.ToString() != originType.ToString()) {
                 unit.Health -= damage; // Hurt the unit this attack hit.    
-                Debug.Log("Has hurt " + unit.name + " " + damage + " damage!");
-                Debug.Log(unit.name + " has " + unit.Health + " health remaining!");
             }
         }
 

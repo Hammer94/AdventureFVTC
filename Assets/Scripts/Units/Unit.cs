@@ -209,7 +209,6 @@ namespace AdventureFVTC {
 
         protected void RemoveInulverability() {
             currentInvulnTime += Time.deltaTime;
-            Debug.Log("Is Invulnerable!");
 
             if (currentInvulnTime >= invulnerabilityTime) {
                 currentInvulnTime = 0.0f;
