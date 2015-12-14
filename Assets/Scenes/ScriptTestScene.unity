@@ -2443,7 +2443,7 @@ Transform:
   m_PrefabParentObject: {fileID: 409774, guid: c2483c53d2ce47f4db04741589c7fd77, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 889023591}
-  m_LocalRotation: {x: .0616284162, y: .704416096, z: -.0616284274, w: .704415977}
+  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4764,12 +4764,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16656a680cdc0854abd7167501e90714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnimmediately: 0
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
-  spawnAtNight: 0
-  onlySpawnAtNight: 1
-  spawnOnlyOnce: 1
+  spawnAtNight: 1
+  onlySpawnAtNight: 0
+  spawnOnlyOnce: 0
 --- !u!23 &1237574240
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7274,7 +7274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnimmediately: 1
-  respawnTime: 0
+  respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
   spawnAtNight: 1
   onlySpawnAtNight: 0
@@ -7650,10 +7650,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnimmediately: 1
-  respawnTime: 0
+  respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
   spawnAtNight: 0
-  onlySpawnAtNight: 1
+  onlySpawnAtNight: 0
   spawnOnlyOnce: 1
 --- !u!23 &2132268453
 MeshRenderer:
