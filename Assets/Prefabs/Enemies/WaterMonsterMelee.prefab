@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
-  unitType: 2
+  unitType: 3
   rangedUnitAttack: {fileID: 0}
   meleeUnitAttack: {fileID: 111506, guid: 6d2da50acf2d6974181d864d9a76391c, type: 2}
   attackInterval: 1.5
@@ -377,6 +377,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: rotationSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitType
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
