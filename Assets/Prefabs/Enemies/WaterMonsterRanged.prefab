@@ -282,14 +282,14 @@ MonoBehaviour:
   unitType: 3
   rangedUnitAttack: {fileID: 129234, guid: 33c9c8707f01a1b4a865344072d2f3ce, type: 2}
   meleeUnitAttack: {fileID: 0}
-  attackInterval: .300000012
+  attackInterval: .5
   deathTime: 3
   timeCanMoveAfterAttack: .200000003
   delayBeforeAttackStarts: .200000003
   invulnerabilityTime: 0
   patrolSpeed: 3
-  attackSpeed: 5
-  rotationSpeed: 3
+  attackSpeed: 3
+  rotationSpeed: 2
   desiredRotation: 0
   useStuckPrevention: 1
 --- !u!114 &11459592
@@ -389,7 +389,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rotationSpeed
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: unitType
@@ -397,7 +397,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: attackInterval
-      value: .300000012
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
