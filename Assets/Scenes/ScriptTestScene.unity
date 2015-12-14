@@ -864,7 +864,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 230798761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.0099983, y: 1.35300004, z: -36.3600006}
+  m_LocalPosition: {x: 63.6199989, y: 1.35300004, z: -.0399999991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1745912295}
@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8f965595bc1a1468859a936bdf8ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 1
+  spawnimmediately: 1
   respawnTime: 0
   objectSpawned: {fileID: 0}
   deathMarker: {fileID: 117478, guid: 42be1999fde237340a9942e0d3f7fbef, type: 2}
@@ -2478,7 +2478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cedc9c9887c6e4d934d0076ad56973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 1
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
@@ -2528,7 +2528,7 @@ Transform:
   m_PrefabParentObject: {fileID: 410396, guid: c3b5cfacf93f75e449b784cd491e3e40, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 703796784}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: .923879564, z: 0, w: .382683307}
   m_LocalPosition: {x: 30.4500008, y: 18.0699997, z: 6.51999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4764,7 +4764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16656a680cdc0854abd7167501e90714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
   spawnAtNight: 0
@@ -7273,7 +7273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16656a680cdc0854abd7167501e90714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
   spawnAtNight: 1
@@ -7563,7 +7563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cedc9c9887c6e4d934d0076ad56973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 1
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 195956, guid: 0d0d02170cf2b9740a75fc61054bb61f, type: 2}
   spawnAtNight: 1
@@ -7649,7 +7649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16656a680cdc0854abd7167501e90714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
   spawnAtNight: 0
