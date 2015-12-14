@@ -20,28 +20,31 @@ namespace AdventureFVTC {
         }
 
         private void CheckSpawnConditions() {
-            Debug.Log(Services.Cycle.IsNight);
             if (spawnOnlyOnce && !hasBeenSpawned) { // If this spawner can only spawn its item once and hasn't spawned it yet.
                 // If this spawner only spawns its item at night and it is night time.
                 if (onlySpawnAtNight && Services.Cycle.IsNight)
-                    Spawn();
-                // If this spawner can spawn its item at night and at day, spawn whenever ready.    
-                else if (spawnAtNight) 
-                    Spawn();
-                // If the spawner can't spawn its item at night and it's not night time.
-                else if (!spawnAtNight && !Services.Cycle.IsNight)
-                    Spawn();
+                    Spawn();       
+                else if (!onlySpawnAtNight) { // Else this item can spawn during the day.
+                    // If this spawner can spawn its item at night and at day, spawn whenever ready.
+                    if (spawnAtNight)
+                        Spawn();    
+                    // If the spawner cant't spawn its item at night and it's not night time.
+                    else if (!spawnAtNight && !Services.Cycle.IsNight)
+                        Spawn();                 
+                }
             }
             else if (!spawnOnlyOnce) { // If this spawner can spawn its item an infinite amount of times.
                 // If this spawner only spawns its item at night and it is night time.
                 if (onlySpawnAtNight && Services.Cycle.IsNight)
-                    Spawn();
-                // If this spawner can spawn its item at night and at day, spawn whenever ready.
-                else if (spawnAtNight)                  
-                    Spawn();
-                // If the spawner cant't spawn its item at night and it's not night time.
-                else if (!spawnAtNight && !Services.Cycle.IsNight)
-                    Spawn();
+                    Spawn();               
+                else if (!onlySpawnAtNight) { // Else this item can spawn during the day.
+                    // If this spawner can spawn its item at night and at day, spawn whenever ready.
+                    if (spawnAtNight)
+                        Spawn();             
+                    // If the spawner cant't spawn its item at night and it's not night time.
+                    else if (!spawnAtNight && !Services.Cycle.IsNight)             
+                        Spawn();          
+                }               
             }  
         }
 

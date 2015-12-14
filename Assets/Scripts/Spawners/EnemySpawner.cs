@@ -28,24 +28,28 @@ namespace AdventureFVTC {
             if (spawnOnlyOnce && !hasBeenSpawned) { // If this spawner can only spawn its enemy once and hasn't spawned it yet.
                 // If this spawner only spawns its enemy at night and it is night time.
                 if (onlySpawnAtNight && Services.Cycle.IsNight)
-                    Spawn();
-                // If this spawner can spawn its enemy at night and at day, spawn whenever ready.    
-                else if (spawnAtNight) 
-                    Spawn();
-                // If the spawner can't spawn its enemy at night and it's not night time.
-                else if (!spawnAtNight && !Services.Cycle.IsNight)
-                    Spawn();
+                    Spawn();       
+                else if (!onlySpawnAtNight) { // Else this enemy can spawn during the day.
+                    // If this spawner can spawn its enemy at night and at day, spawn whenever ready.
+                    if (spawnAtNight)
+                        Spawn();
+                    // If the spawner cant't spawn its enemy at night and it's not night time.
+                    else if (!spawnAtNight && !Services.Cycle.IsNight)
+                        Spawn();                 
+                }
             }
             else if (!spawnOnlyOnce) { // If this spawner can spawn its enemy an infinite amount of times.
                 // If this spawner only spawns its enemy at night and it is night time.
                 if (onlySpawnAtNight && Services.Cycle.IsNight)
-                    Spawn();
-                // If this spawner can spawn its enemy at night and at day, spawn whenever ready.
-                else if (spawnAtNight)                  
-                    Spawn();          
-                // If the spawner cant't spawn its enemy at night and it's not night time.
-                else if (!spawnAtNight && !Services.Cycle.IsNight)
-                    Spawn();
+                    Spawn();               
+                else if (!onlySpawnAtNight) { // Else this enemy can spawn during the day.
+                    // If this spawner can spawn its enemy at night and at day, spawn whenever ready.
+                    if (spawnAtNight)
+                        Spawn();             
+                    // If the spawner cant't spawn its enemy at night and it's not night time.
+                    else if (!spawnAtNight && !Services.Cycle.IsNight)             
+                        Spawn();          
+                }               
             }  
         }
 
