@@ -77,7 +77,7 @@ namespace AdventureFVTC
                     {
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                        if (angleBetween < 25.0f)
+                        if (angleBetween < 30.0f)
                             Enemy.Attack();
                     }
                 }
