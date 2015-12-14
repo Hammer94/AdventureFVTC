@@ -16,6 +16,9 @@ TagManager:
   - RabbitRenderer
   - CharacterBehindDirection
   - Sun
+  - PlayerSpawner
+  - Items
+  - Presents
   layers:
   - Default
   - TransparentFX
