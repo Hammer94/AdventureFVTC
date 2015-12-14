@@ -19,6 +19,7 @@ namespace AdventureFVTC {
             clone.GetComponent<EnemyController>().PatrolPointNames = PatrolPoints;
             clone.transform.parent = Services.Run.Game.transform.FindChild("Enemies").transform;
             clone.transform.position = transform.position;
+            clone.transform.rotation = transform.rotation;
             hasBeenSpawned = true;
             readyToBeSpawned = false;
         }
@@ -46,6 +47,7 @@ namespace AdventureFVTC {
                 clone.GetComponent<EnemyController>().PatrolPointNames = PatrolPoints;
                 clone.transform.parent = Services.Run.Game.transform.FindChild("Enemies").transform;
                 clone.transform.position = transform.position;
+                clone.transform.rotation = transform.rotation;
                 currentRespawnTime = 0.0f;
                 hasBeenSpawned = true;
                 reset = false;
