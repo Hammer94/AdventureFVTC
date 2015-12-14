@@ -61,9 +61,6 @@ namespace AdventureFVTC {
         }
 
         protected override void Respawn() {
-            float distance;
-            float time;
-
             if (PersistentPlayerStats.LivesLeft > 0) {
                 if (reset) // If this is the first time this player has spawned this level attempt.           
                     reset = false; // Don't subtract any of their lives.             
@@ -85,19 +82,19 @@ namespace AdventureFVTC {
                     Services.Run.Player.Character.transform.parent = Services.Run.Game.transform.Find("Players").transform;
                 }
 
-                Services.Run.Player.Character.transform.position = transform.position;
+                Services.Run.Player.Character.transform.position = transform.position; // Move the player to its spawner.            
 
                 if (viewingPanoramicView)
                     viewingPanoramicView = false;
                 else {
                     // Transition the subject using a time based on distance.
-                    distance = Vector3.Distance(Services.Run.Player.Character.transform.position, Services.Run.Player.Camera.transform.position);
-                    time = distance / 24.667f;
+                    float distance = Vector3.Distance(Services.Run.Player.Character.transform.position, Services.Run.Player.Camera.transform.position);
+                    float time = distance / 24.667f;
                     if (time < 4)
                         time = 4f;
 
-                    Services.Camera.SetSubjectToPlayer(time);
-                    destroyMarker = true;                 
+                    Services.Camera.SetSubjectToPlayer(time); // Move the camera to the player.                  
+                    destroyMarker = true; // Destroy the marker where the player died.                
                 }                        
             }
             else if (PersistentPlayerStats.LivesLeft == 0) {
