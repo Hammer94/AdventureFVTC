@@ -298,7 +298,8 @@ MonoBehaviour:
   meleeUnitAttack: {fileID: 111506, guid: 6d2da50acf2d6974181d864d9a76391c, type: 2}
   attackInterval: 1.5
   deathTime: 3
-  timeCanMoveAfterAttack: .200000003
+  cantRotateAfterAttack: 0
+  timeCanMoveAfterAttack: 1
   delayBeforeAttackStarts: .200000003
   invulnerabilityTime: 0
   patrolSpeed: 3
@@ -382,6 +383,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: unitType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeCanMoveAfterAttack
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
