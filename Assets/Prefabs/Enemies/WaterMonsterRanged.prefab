@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &139288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 484934}
+  - 33: {fileID: 3338420}
+  - 135: {fileID: 13515000}
+  - 23: {fileID: 2344480}
+  - 114: {fileID: 11459592}
+  m_Layer: 2
+  m_Name: Sight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &142054
 GameObject:
   m_ObjectHideFlags: 1
@@ -32,25 +51,6 @@ GameObject:
   - 136: {fileID: 13638348}
   m_Layer: 0
   m_Name: WaterMonsterRanged
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &186234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 484908}
-  - 33: {fileID: 3317088}
-  - 135: {fileID: 13552984}
-  - 23: {fileID: 2323642}
-  - 114: {fileID: 11438976}
-  m_Layer: 2
-  m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,27 +138,27 @@ Transform:
   m_LocalScale: {x: 1.50479567, y: 1.50479579, z: 1.50479579}
   m_Children:
   - {fileID: 425790}
-  - {fileID: 484908}
+  - {fileID: 484934}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!4 &484908
+--- !u!4 &484934
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186234}
+  m_GameObject: {fileID: 139288}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.21526802, z: 8}
-  m_LocalScale: {x: 11.4019213, y: 14.0427647, z: 15.6299896}
+  m_LocalPosition: {x: 0, y: 1.8599999, z: 6.1500001}
+  m_LocalScale: {x: 9.41636658, y: 11.5973282, z: 12.9081516}
   m_Children: []
   m_Father: {fileID: 451354}
   m_RootOrder: 1
---- !u!23 &2323642
+--- !u!23 &2344480
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186234}
+  m_GameObject: {fileID: 139288}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -231,12 +231,12 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3317088
+--- !u!33 &3338420
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186234}
+  m_GameObject: {fileID: 139288}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3353842
 MeshFilter:
@@ -292,12 +292,12 @@ MonoBehaviour:
   rotationSpeed: 2
   desiredRotation: 0
   useStuckPrevention: 1
---- !u!114 &11438976
+--- !u!114 &11459592
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186234}
+  m_GameObject: {fileID: 139288}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0a33c1b514c41d44ab228e2ee45a792, type: 3}
@@ -317,14 +317,12 @@ MonoBehaviour:
   PatrolPointNames:
   - P1
   - P2
-  patrolSpeed: 3
-  attackSpeed: 5
---- !u!135 &13552984
+--- !u!135 &13515000
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186234}
+  m_GameObject: {fileID: 139288}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1

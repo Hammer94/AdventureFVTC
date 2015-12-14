@@ -148,8 +148,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.21526802, z: 8}
-  m_LocalScale: {x: 11.4019213, y: 14.0427647, z: 15.6299896}
+  m_LocalPosition: {x: 0, y: 1.8599999, z: 6.1500001}
+  m_LocalScale: {x: 9.41636658, y: 11.5973282, z: 12.9081516}
   m_Children: []
   m_Father: {fileID: 431322}
   m_RootOrder: 1
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   unitType: 2
-  rangedUnitAttack: {fileID: 125906, guid: eadb5f6d6b22bc54a903764831707ade, type: 2}
+  rangedUnitAttack: {fileID: 129234, guid: 33c9c8707f01a1b4a865344072d2f3ce, type: 2}
   meleeUnitAttack: {fileID: 0}
   attackInterval: 1.5
   deathTime: 3
@@ -289,7 +289,7 @@ MonoBehaviour:
   invulnerabilityTime: 0
   patrolSpeed: 3
   attackSpeed: 5
-  rotationSpeed: 3
+  rotationSpeed: 2
   desiredRotation: 0
   useStuckPrevention: 1
 --- !u!114 &11482378
@@ -317,8 +317,6 @@ MonoBehaviour:
   PatrolPointNames:
   - P1
   - P2
-  patrolSpeed: 3
-  attackSpeed: 5
 --- !u!135 &13516732
 SphereCollider:
   m_ObjectHideFlags: 1

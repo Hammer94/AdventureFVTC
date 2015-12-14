@@ -626,8 +626,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.21526754, z: 5.02883387}
-  m_LocalScale: {x: 7.15212107, y: 8.23658466, z: 9.80428219}
+  m_LocalPosition: {x: 0, y: 1.21526754, z: 3.75999999}
+  m_LocalScale: {x: 5.90663576, y: 6.80224848, z: 8.09694386}
   m_Children: []
   m_Father: {fileID: 430146}
   m_RootOrder: 1
@@ -1324,8 +1324,6 @@ MonoBehaviour:
   PatrolPointNames:
   - P1
   - P2
-  patrolSpeed: 3
-  attackSpeed: 5
 --- !u!135 &13570032
 SphereCollider:
   m_ObjectHideFlags: 1
