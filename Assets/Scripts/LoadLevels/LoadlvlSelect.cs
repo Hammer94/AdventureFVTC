@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadlvlSelect : MonoBehaviour 
-{
-
-    void OnTriggerEnter(Collider collider)
+namespace AdventureFVTC {
+    public class LoadlvlSelect : MonoBehaviour
     {
-        if (collider.tag == "Player")
+
+        void OnTriggerEnter(Collider collider)
         {
-            Application.LoadLevel("LevelSelect");
+            if (collider.tag == "Player")
+            {
+                if (Application.loadedLevelName == "Level1" && PersistentPlayerStats.HasLevel1GoalBeenMet) // If the player is on level1 but hasn't gotten the items needed to leave.            
+                {
+                    PersistentPlayerStats.UpdateTotalsOnExit("Level1");
+                    PersistentPlayerStats.ResetCurrentsOnExit();
+                    Application.LoadLevel("LevelSelect");
+                }
+                else if (Application.loadedLevelName == "Level2" && PersistentPlayerStats.HasLevel2GoalBeenMet) // If the player is on level2 but hasn't gotten the items needed to leave.
+                {
+                    PersistentPlayerStats.UpdateTotalsOnExit("Level2");
+                    PersistentPlayerStats.ResetCurrentsOnExit();
+                    Application.LoadLevel("LevelSelect");
+                }
+                else // Else the player is on a different level than 1 or 2.
+                    Application.LoadLevel("LevelSelect");
+            }
         }
     }
 }

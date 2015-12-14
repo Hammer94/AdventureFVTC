@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadLevel : MonoBehaviour {
-
-
-    void OnTriggerEnter(Collider collider)
+namespace AdventureFVTC
+{
+    public class LoadLevel : MonoBehaviour
     {
-        if (collider.tag == "Player")
+
+
+        void OnTriggerEnter(Collider collider)
         {
-            Application.LoadLevel("Level1");
+            if (collider.tag == "Player")
+            {
+                Application.LoadLevel("Level1");                            
+            }
         }
     }
 }
+

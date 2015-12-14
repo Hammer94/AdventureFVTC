@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadBoss : MonoBehaviour {
-
-    void OnTriggerEnter(Collider collider)
+namespace AdventureFVTC
+{
+    public class LoadBoss : MonoBehaviour
     {
-        if (collider.tag == "Player")
+
+        void OnTriggerEnter(Collider collider)
         {
-            Application.LoadLevel("Boss Room");
+            if (collider.tag == "Player")
+            {
+                if (PersistentPlayerStats.HasLevel2GoalBeenMet) // If the player has gotten all the items they need from level2.
+                    Application.LoadLevel("Boss Room");
+            }
         }
     }
 }

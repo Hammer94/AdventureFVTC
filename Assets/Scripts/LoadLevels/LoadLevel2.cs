@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadLevel2 : MonoBehaviour {
-
-    void OnTriggerEnter(Collider collider)
+namespace AdventureFVTC
+{
+    public class LoadLevel2 : MonoBehaviour
     {
-        if (collider.tag == "Player")
+
+        void OnTriggerEnter(Collider collider)
         {
-            Application.LoadLevel("Level2");
+            if (collider.tag == "Player")
+            {
+                if (PersistentPlayerStats.HasLevel1GoalBeenMet) // If the player has gotten the items required from level one, left them enter level2.
+                {
+                    Application.LoadLevel("Level2");
+                }              
+            }
         }
     }
 }

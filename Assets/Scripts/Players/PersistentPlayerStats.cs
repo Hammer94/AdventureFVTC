@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    11 Dec 2015  
+// @date    14 Dec 2015  
 namespace AdventureFVTC {
     public static class PersistentPlayerStats {
         private static int HealthOnExit = 3;
@@ -9,12 +9,11 @@ namespace AdventureFVTC {
         private static int Lives = 3;
         private static int ScoreTotal = 0;
         private static int ScoreCurrent = 0;
-        private static int Lvl1Goal = 5;
-        private static int Lvl2Goal = 5;
-        private static int Lvl1Total = 0;
-        private static int Lvl2Total = 0;
-        private static int Lvl1Current = 0;
-        private static int Lvl2Current = 0;
+        private static int lvl1Goal = 5;
+        private static int lvl2Goal = 5;
+        private static int lvl1ItemTotal = 0;
+        private static int lvl2ItemTotal = 0;
+        private static int currentItems = 0;
         private static bool hasSnowBallOnExit = false;
         private static bool hasSnowBallCurrent = false;
 
@@ -34,12 +33,37 @@ namespace AdventureFVTC {
             get { return ScoreTotal; }
         }
 
+        public static int GetCurrentItems
+        {
+            get { return currentItems; }
+        }
+
+        public static int GetLevel1Total
+        {
+            get { return lvl1ItemTotal; }
+        }
+
+        public static int GetLevel2Total
+        {
+            get { return lvl2ItemTotal; }
+        }
+
+        public static int GetLevel1Goal
+        {
+            get { return lvl1Goal; }
+        }
+
+        public static int GetLevel2Goal
+        {
+            get { return lvl2Goal; }
+        }
+
         public static bool HasLevel1GoalBeenMet { // Has the player gotten the items they needs from level one?
-            get { return (Lvl1Current >= Lvl1Goal || Lvl1Total >= Lvl1Goal); }
+            get { return (currentItems >= lvl1Goal || lvl1ItemTotal >= lvl1Goal); }
         }
 
         public static bool HasLevel2GoalBeenMet { // Has the player gotten the items they needs from level two?
-            get { return (Lvl2Current >= Lvl2Goal || Lvl2Total >= Lvl2Goal); }
+            get { return (currentItems >= lvl2Goal || lvl2ItemTotal >= lvl2Goal); }
         }
 
         public static void GotSnowBall() { // When the player picks up the snowball, let them throw it.
@@ -55,24 +79,26 @@ namespace AdventureFVTC {
         }
 
         public static void AddToCurrentLevel1(int amount) { // Add to the current level1 items when picking up a level1 item.
-            Lvl1Current += amount;
+            currentItems += amount;
         }
 
         public static void AddToCurrentLevel2(int amount) { // Add to the current level2 items when picking up a level2 item.
-            Lvl2Current += amount;
+            currentItems += amount;
         }
 
-        public static void SetCurrentsOnEnter() { // Update the currents when entering a level so they start with no progress on the level.
+        public static void ResetCurrentsOnExit() { // Update the currents when entering a level so they start with no progress on the level.
             SetOnEnterHealth();
             ResetCurrentScore();
             ResetCurrentItems();
             ResetCurrentSnowBall();
         }
 
-        public static void UpdateTotalsOnExit() { // Update the totals when exiting a level so you keep track of the player's progress.
+        public static void UpdateTotalsOnExit(string level) { // Update the totals when exiting a level so you keep track of the player's progress.
             ScoreTotal += ScoreCurrent;
-            Lvl1Total += Lvl1Current;
-            Lvl2Total += Lvl2Current;
+            if (level == "Level1")
+                lvl1ItemTotal += currentItems;
+            else if (level == "Level2")
+                lvl2ItemTotal += currentItems;
             hasSnowBallOnExit = hasSnowBallCurrent;
         }
 
@@ -97,8 +123,7 @@ namespace AdventureFVTC {
         }
 
         private static void ResetCurrentItems() { // Reset on entering a level or on a gameover.
-            Lvl1Current = 0;
-            Lvl2Current = 0;
+            currentItems = 0;
         }
 
         private static void ResetCurrentScore() { // Reset on entering a level or on a gameover.
