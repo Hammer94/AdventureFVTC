@@ -6,11 +6,13 @@ namespace AdventureFVTC
     {
         private Transform trans;
         private EnemyController controller;
+        private Enemy enemy;
 
         void Start()
         {
             controller = GetComponentInParent<EnemyController>();
             trans = GetComponent<Transform>().parent.GetComponent<Transform>();
+            enemy = GetComponentInParent<Enemy>();
         }
 
         void OnTriggerEnter(Collider coll)
