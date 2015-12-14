@@ -30,8 +30,7 @@ namespace AdventureFVTC
 
             float step = Speed * deltaTime; // Calculate how far to move.
             float dist = (trans.position - target).magnitude; // Get the distance between the enemy and its target.
-            
-            
+
             if (Enemy.Health == 0)
                 Controller.ChangeState(DieState.KEY);
 
