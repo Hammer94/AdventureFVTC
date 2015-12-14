@@ -17,6 +17,11 @@ namespace AdventureFVTC {
         private static bool hasSnowBallOnExit = false;
         private static bool hasSnowBallCurrent = false;
 
+        public static int GetHealthOnExit
+        {
+            get { return HealthOnExit; }
+        }
+
         public static int LivesLeft {
             get {
                 return Lives;
@@ -93,16 +98,13 @@ namespace AdventureFVTC {
             ResetCurrentSnowBall();
         }
 
-        public static void UpdateTotalsOnExit(string level) { // Update the totals when exiting a level so you keep track of the player's progress.
+        public static void UpdateTotalsOnExit(string level, int health) { // Update the totals when exiting a level so you keep track of the player's progress.
             ScoreTotal += ScoreCurrent;
             if (level == "Level1")
                 lvl1ItemTotal += currentItems;
             else if (level == "Level2")
                 lvl2ItemTotal += currentItems;
             hasSnowBallOnExit = hasSnowBallCurrent;
-        }
-
-        public static void SetOnExitHealth(int health) { // Set health on exiting a level;
             HealthOnExit = health;
         }
 

@@ -7,8 +7,7 @@ namespace AdventureFVTC {
         [SerializeField] private GameObject deathMarker;
 
         private GameObject markerClone;
-        private bool viewingPanoramicView = true;
-        private bool performingRespawn = true;
+        private bool viewingPanoramicView = true; // This will be true the first time the player spawns on the level and then false the rest of the time.
         private bool hasSetUp = false;
         private bool destroyMarker = false;
         private bool reset = true;
@@ -67,8 +66,6 @@ namespace AdventureFVTC {
                     reset = false; // Don't subtract any of their lives.             
                 else // Else the player has died after being spawned in the beginning.             
                     PersistentPlayerStats.LivesLeft -= 1; // Take away from their remaining lives.
-
-                //Debug.Log(PersistentPlayerStats.LivesLeft);
                 Services.Run.Player.Camera.IsSubjectChangeStillTransitioning = true; // Prevent transitions from happening when the
                                                                                      // player's character gets moved into a camera trigger.   
                 if (Services.Run.Player.Character != null) {                   
@@ -86,9 +83,12 @@ namespace AdventureFVTC {
 
                 Services.Run.Player.Character.transform.position = transform.position; // Move the player to its spawner.            
 
-                if (viewingPanoramicView)
-                    viewingPanoramicView = false;
-                else {
+                if (viewingPanoramicView) // If the camera is still performing its initial panoramic view.
+                {
+                    viewingPanoramicView = false; // Next time the player spawns the panoramic view will be completed.
+                    Services.Run.Player.Character.Health = PersistentPlayerStats.GetHealthOnExit;   // Set the players health to the health they had
+                }                                                                                   // when they exited the last level they were on.
+                else { // Else the camera isn't performing its initial panoramic view and should transition to the player after the die.
                     // Transition the subject using a time based on distance.
                     float distance = Vector3.Distance(Services.Run.Player.Character.transform.position, Services.Run.Player.Camera.transform.position);
                     float time = distance / 24.667f;
