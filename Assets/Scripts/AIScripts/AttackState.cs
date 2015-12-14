@@ -39,7 +39,7 @@ namespace AdventureFVTC
                 if (Enemy.RangedUnitAttack != null) // Use a ranged attack.
                 {
                     if (dist > 15)
-                        trans.position += trans.forward * step; // move fwd
+                        Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
                     else if (dist < 15)
@@ -47,13 +47,13 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 10.0f)
-                            Enemy.Attack();
+                            Enemy.AttackSetup("");
                     }
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
                 {
                     if (dist > 5)
-                        trans.position += trans.forward * step; // move fwd
+                        Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
                     else if (dist < 5)
@@ -61,7 +61,7 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 15.0f)
-                            Enemy.Attack();
+                            Enemy.AttackSetup("");
                     }
                 }                      
             }
@@ -70,7 +70,7 @@ namespace AdventureFVTC
                 if (Enemy.RangedUnitAttack != null) // Use a ranged attack.
                 {
                     if (dist > 8)
-                        trans.position += trans.forward * step; // move fwd
+                        Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
                     else if (dist < 8)
@@ -78,13 +78,13 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 30.0f)
-                            Enemy.Attack();
+                            Enemy.AttackSetup("");
                     }
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
                 {
                     if (dist > 5)
-                        trans.position += trans.forward * step; // move fwd
+                        Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
                     else if (dist < 5)
@@ -92,14 +92,14 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 15.0f)
-                            Enemy.Attack();
+                            Enemy.AttackSetup("");
                     }
                 }
             }
             else if (Enemy.UnitType == Unit.UnitTypes.Demon) // If this enemy is a demon.
             {
                 if (dist > 50)
-                    trans.position += trans.forward * step; // move fwd
+                    Enemy.MoveForward(step); // move fwd
                 if (Services.Run.Player.Character.Dying || dist > 60)
                     Controller.ChangeState(PatrolState.KEY);
                 else if (dist < 50)
@@ -109,14 +109,14 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 20.0f)
-                            Enemy.DemonAttack("Punch");
+                            Enemy.AttackSetup("Punch");
                     }
                     else // Use a ranged attack.
                     {
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 15.0f)
-                            Enemy.DemonAttack("Fireball");
+                            Enemy.AttackSetup("Fireball");
                     }
                 }
             }
