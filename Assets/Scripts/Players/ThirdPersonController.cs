@@ -99,7 +99,7 @@ namespace AdventureFVTC {
 
             _animation = GetComponent<Animation>();
             if (!_animation)
-                Debug.Log("The character you would like to control doesn't have animations. Moving her might look weird.");
+               //ebug.Log("The character you would like to control doesn't have animations. Moving her might look weird.");
 
             /*
         public AnimationClip idleAnimation;
@@ -110,22 +110,22 @@ namespace AdventureFVTC {
             if (!idleAnimation)
             {
                 _animation = null;
-                Debug.Log("No idle animation found. Turning off animations.");
+                //Debug.Log("No idle animation found. Turning off animations.");
             }
             if (!walkAnimation)
             {
                 _animation = null;
-                Debug.Log("No walk animation found. Turning off animations.");
+                //Debug.Log("No walk animation found. Turning off animations.");
             }
             if (!runAnimation)
             {
                 _animation = null;
-                Debug.Log("No run animation found. Turning off animations.");
+                //Debug.Log("No run animation found. Turning off animations.");
             }
             if (!jumpPoseAnimation && canJump)
             {
                 _animation = null;
-                Debug.Log("No jump animation found and the character has canJump enabled. Turning off animations.");
+                //Debug.Log("No jump animation found and the character has canJump enabled. Turning off animations.");
             }
 
         }
