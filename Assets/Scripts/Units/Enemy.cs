@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    13 Dec 2015
+// @date    14 Dec 2015
 namespace AdventureFVTC {
     public class Enemy:Unit {
         [SerializeField] private bool useStuckPrevention = false; // Causes an enemy to delete itself if it hasn't moved much (is stuck).
