@@ -63,60 +63,60 @@ namespace AdventureFVTC
                         if (angleBetween < 15.0f)
                             Enemy.Attack();
                     }
-                }         
-                else if (Enemy.UnitType == Unit.UnitTypes.WaterMonster) // If this enemy is a water monster.
-                { 
-                    if (Enemy.RangedUnitAttack != null) // Use a ranged attack.
-                    {
-                        if (dist > 12)
-                            trans.position += trans.forward * step; // move fwd
-                        if (Services.Run.Player.Character.Dying || dist > 24)
-                            Controller.ChangeState(PatrolState.KEY);
-                        else if (dist < 12)
-                        {
-                            Vector3 targetDir = target - trans.position;
-                            float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                            if (angleBetween < 15.0f)
-                                Enemy.Attack();
-                        }
-                    }
-                    else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
-                    {
-                        if (dist > 5)
-                            trans.position += trans.forward * step; // move fwd
-                        if (Services.Run.Player.Character.Dying || dist > 29)
-                            Controller.ChangeState(PatrolState.KEY);
-                        else if (dist < 5)
-                        {
-                            Vector3 targetDir = target - trans.position;
-                            float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                            if (angleBetween < 15.0f)
-                                Enemy.Attack();
-                        }
-                    }                 
-                }
-                else if (Enemy.UnitType == Unit.UnitTypes.Demon) // If this enemy is a demon.
+                }                      
+            }
+            else if (Enemy.UnitType == Unit.UnitTypes.WaterMonster) // If this enemy is a water monster.
+            {
+                if (Enemy.RangedUnitAttack != null) // Use a ranged attack.
                 {
-                    if (dist > 50)
+                    if (dist > 8)
                         trans.position += trans.forward * step; // move fwd
-                    if (Services.Run.Player.Character.Dying || dist > 29)
+                    if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
-                    else if (dist < 50)
+                    else if (dist < 8)
                     {
-                        if (dist < 25) // Use a melee attack.
-                        {
-                            Vector3 targetDir = target - trans.position;
-                            float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                            if (angleBetween < 15.0f)
-                                Enemy.DemonAttack("Punch");
-                        }
-                        else // Use a ranged attack.
-                        {
-                            Vector3 targetDir = target - trans.position;
-                            float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                            if (angleBetween < 20.0f)
-                                Enemy.DemonAttack("Fireball");
-                        }                    
+                        Vector3 targetDir = target - trans.position;
+                        float angleBetween = Vector3.Angle(trans.forward, targetDir);
+                        if (angleBetween < 25.0f)
+                            Enemy.Attack();
+                    }
+                }
+                else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
+                {
+                    if (dist > 5)
+                        trans.position += trans.forward * step; // move fwd
+                    if (Services.Run.Player.Character.Dying || dist > 20)
+                        Controller.ChangeState(PatrolState.KEY);
+                    else if (dist < 5)
+                    {
+                        Vector3 targetDir = target - trans.position;
+                        float angleBetween = Vector3.Angle(trans.forward, targetDir);
+                        if (angleBetween < 15.0f)
+                            Enemy.Attack();
+                    }
+                }
+            }
+            else if (Enemy.UnitType == Unit.UnitTypes.Demon) // If this enemy is a demon.
+            {
+                if (dist > 50)
+                    trans.position += trans.forward * step; // move fwd
+                if (Services.Run.Player.Character.Dying || dist > 60)
+                    Controller.ChangeState(PatrolState.KEY);
+                else if (dist < 50)
+                {
+                    if (dist < 25) // Use a melee attack.
+                    {
+                        Vector3 targetDir = target - trans.position;
+                        float angleBetween = Vector3.Angle(trans.forward, targetDir);
+                        if (angleBetween < 20.0f)
+                            Enemy.DemonAttack("Punch");
+                    }
+                    else // Use a ranged attack.
+                    {
+                        Vector3 targetDir = target - trans.position;
+                        float angleBetween = Vector3.Angle(trans.forward, targetDir);
+                        if (angleBetween < 15.0f)
+                            Enemy.DemonAttack("Fireball");
                     }
                 }
             }
