@@ -13,7 +13,7 @@ namespace AdventureFVTC {
         private Vector3 previousPosition;
         private float spaceMoved;
         private float delayTime = 1.0f;
-        private float currentDelayTime = 0.0f;
+        private float currentStuckDelayTime = 0.0f;
         private float stuckCheck = 20f;
         private string attackType = "Punch"; // Will either be Punch or Fireball.
         private float rotationStepped = 0.0f; // Used to track how far the enemy has rotated upon dying.
@@ -38,12 +38,21 @@ namespace AdventureFVTC {
             }
         }
 
+        public void MoveForward(float step)
+        {
+            if (!cantMove) // If this enemy hasn't just attacked and can move.
+                transform.position += transform.forward * step; // move fwd
+        }
+
         public void RotateTowards(Vector3 targetPosition)
         {
-            Vector3 lookPos = targetPosition - transform.position;
-            lookPos.y = 0;
-            Quaternion rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            if (!cantRotate) // If this enemy hasn't just attacked and can rotate.
+            {
+                Vector3 lookPos = targetPosition - transform.position;
+                lookPos.y = 0;
+                Quaternion rotation = Quaternion.LookRotation(lookPos);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+            }        
         }
 
         protected override void FixedUpdate() {
@@ -54,12 +63,12 @@ namespace AdventureFVTC {
                     spaceMoved = 0.0f;
                     currentStuckTime = 0.0f;
                 }
-                    
-                currentDelayTime += Time.deltaTime;
+
+                currentStuckDelayTime += Time.deltaTime;
                 currentStuckTime += Time.deltaTime;
 
-                if (currentDelayTime >= delayTime) {
-                    currentDelayTime = 0.0f;
+                if (currentStuckDelayTime >= delayTime) {
+                    currentStuckDelayTime = 0.0f;
                     spaceMoved += (previousPosition - transform.position).magnitude;
                     previousPosition = transform.position;
                 }
@@ -112,9 +121,9 @@ namespace AdventureFVTC {
         }
 
         // Updates the attack type and then attacks.This will be used for the Demon, other enemy types will ignore attackType.
-        public void DemonAttack(string attack) {
+        public void AttackSetup(string attack) {
+            startDelay = true;
             attackType = attack;
-            Attack();
         }
 
         protected override void Start() {

@@ -30,6 +30,7 @@ namespace AdventureFVTC {
         [SerializeField] private GameObject meleeUnitAttack;
         [SerializeField] private float attackInterval = 1.0f;
         [SerializeField] private float deathTime = 3.0f;
+        [SerializeField] private bool cantRotateAfterAttack = false;
         [SerializeField] protected float timeCanMoveAfterAttack = 0.2f;
         [SerializeField] protected float delayBeforeAttackStarts = 0.2f;
         [SerializeField] protected float invulnerabilityTime = 0.0f;
@@ -40,6 +41,7 @@ namespace AdventureFVTC {
         protected UnitStates unitState;
         protected bool startDelay = false;
         protected bool cantMove = false;
+        protected bool cantRotate = false;
         protected bool attacked = false;
         private float currentAttackInterval = 0.0f;
         protected float timeDelayed = 0.0f;
@@ -336,11 +338,17 @@ namespace AdventureFVTC {
 
         protected virtual void Update() {
             if (startDelay) { // If the unit wants to attack.
+                if (cantRotateAfterAttack)
+                    cantRotate = true; // Disallow the unit to be able to rotate.
                 cantMove = true; // Disallow the unit to be able to move.
                 timeDelayed += Time.deltaTime; // Count down.
 
                 if (timeDelayed >= timeCanMoveAfterAttack)
+                {
+                    cantRotate = false; // Allow the unit to rotate again.
                     cantMove = false; // Allow the unit to move again.
+                }
+                    
 
                 if (timeDelayed >= delayBeforeAttackStarts) { // Once the unit has waited enough time.
                     Attack(); // Attack.
