@@ -11,6 +11,7 @@ namespace AdventureFVTC {
         private bool performingRespawn = true;
         private bool hasSetUp = false;
         private bool destroyMarker = false;
+        private bool reset = true;
 
         private float destroyMarkerTime = 1.0f;
         private float currentMakerTime = 0.0f;
@@ -44,7 +45,7 @@ namespace AdventureFVTC {
         }
 
         protected override void Start() {
-            reset = true;
+            spawnimmediately = true; // Player doesn't use this variable and always spawns immediately.
             objectSpawned = null; // Player spawner is spawning from the run service, its doesn't need an object.
         }
 
@@ -67,8 +68,9 @@ namespace AdventureFVTC {
                 else // Else the player has died after being spawned in the beginning.             
                     PersistentPlayerStats.LivesLeft -= 1; // Take away from their remaining lives.
 
-                Services.Run.Player.Camera.IsSubjectChangeStillTransitioning = true;
-                
+                //Debug.Log(PersistentPlayerStats.LivesLeft);
+                Services.Run.Player.Camera.IsSubjectChangeStillTransitioning = true; // Prevent transitions from happening when the
+                                                                                     // player's character gets moved into a camera trigger.   
                 if (Services.Run.Player.Character != null) {                   
                     Services.Run.Player.Character.Dead = false;
                     Services.Run.Player.Character.MaxHealth = 3;
@@ -100,6 +102,7 @@ namespace AdventureFVTC {
             else if (PersistentPlayerStats.LivesLeft == 0) {
                 Services.Respawn.ResetAllSpawners(); // Reset all the spawners, removing their object from the gamespace and then putting them back in.
                 PersistentPlayerStats.GameOver(); // Reset this players stats and giving them back their lives, allowing them to respawn.
+                //Debug.Log("Reset!");
             }           
         }
     }

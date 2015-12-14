@@ -30,8 +30,8 @@ namespace AdventureFVTC {
         }
 
          public override void Reset() {
-            reset = true;
-            if (objectSpawned.gameObject != null) {
+            spawnimmediately = true;
+            if (clone.gameObject.activeInHierarchy) {
                 Destroy(clone.gameObject);
             }
         }
@@ -42,16 +42,35 @@ namespace AdventureFVTC {
         }
 
         protected override void Respawn() {
-            if (reset) {
-                clone = GameObject.Instantiate(objectSpawned);
-                clone.GetComponent<EnemyController>().PatrolPointNames = PatrolPoints;
-                clone.transform.parent = Services.Run.Game.transform.FindChild("Enemies").transform;
-                clone.transform.position = transform.position;
-                clone.transform.rotation = transform.rotation;
-                currentRespawnTime = 0.0f;
-                hasBeenSpawned = true;
-                reset = false;
-                readyToBeSpawned = false;
+            if (spawnimmediately) {
+                if (spawnOnlyOnce && !hasBeenSpawned) { // If this spawner can only spawn its enemy once and hasn't spawned it yet.
+                    // If this spawner only spawns its enemy at night and it is night time.
+                    if (onlySpawnAtNight && Services.Cycle.IsNight) 
+                        Spawn();            
+                    else {
+                        // If this spawner can spawn its enemy at night and at day, spawn whenever ready.
+                        if (spawnAtNight) 
+                            Spawn();                   
+                        // If the spawner doesn't spawn its enemy at night and it's not night time.
+                        else if (!spawnAtNight && !Services.Cycle.IsNight) 
+                            Spawn();                  
+                    }  
+                }
+                else if (!spawnOnlyOnce) { // If this spawner can spawn its enemy an infinite amount of times.
+                    // If this spawner only spawns its enemy at night and it is night time.
+                    if (onlySpawnAtNight && Services.Cycle.IsNight) 
+                        Spawn();            
+                    else if (!onlySpawnAtNight) {
+                        // If this spawner can spawn its enemy at night and at day, spawn whenever ready.
+                        if (spawnAtNight) 
+                            Spawn();                   
+                        // If the spawner doesn't spawn its enemy at night and it's not night time.
+                        else if (!spawnAtNight && !Services.Cycle.IsNight) 
+                            Spawn();                  
+                    }  
+                }  
+                currentRespawnTime = 0.0f; // Reset current respawn time.
+                spawnimmediately = false; // Disallow immediately respawning for next death.
             }
             else if (!readyToBeSpawned) {
                 currentRespawnTime += Time.deltaTime;
