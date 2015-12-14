@@ -7,8 +7,6 @@ namespace AdventureFVTC
         // inspector variables
         public List<string> PatrolPointNames = new List<string>();
         private Enemy enemy;
-        public float patrolSpeed = 3f;
-        public float attackSpeed = 5f;
 
         private PatrolState patrol; // so we can update the properties
         private AttackState attack;
