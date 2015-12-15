@@ -10,7 +10,7 @@ namespace AdventureFVTC {
         private static int ScoreTotal = 0;
         private static int ScoreCurrent = 0;
         private static int lvl1Goal = 5;
-        private static int lvl2Goal = 5;
+        private static int lvl2Goal = 70;
         private static int lvl1ItemTotal = 0;
         private static int lvl2ItemTotal = 0;
         private static int currentItems = 0;
