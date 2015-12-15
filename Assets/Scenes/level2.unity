@@ -471,7 +471,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -490,7 +490,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1291,7 +1291,7 @@ Transform:
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 19
 --- !u!1 &8959711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,7 +2662,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -2681,7 +2681,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3482,7 +3482,7 @@ Transform:
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 17
 --- !u!1 &35753612
 GameObject:
   m_ObjectHideFlags: 0
@@ -5224,7 +5224,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -5243,7 +5243,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6044,7 +6044,7 @@ Transform:
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 16
 --- !u!1 &71627617
 GameObject:
   m_ObjectHideFlags: 0
@@ -9590,7 +9590,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 24
 --- !u!1 &134231493
 GameObject:
   m_ObjectHideFlags: 0
@@ -12173,9 +12173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8f965595bc1a1468859a936bdf8ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 1
+  spawnimmediately: 1
   respawnTime: 0
   objectSpawned: {fileID: 0}
+  deathMarker: {fileID: 0}
 --- !u!1 &199225466
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,7 +19771,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 25
 --- !u!1 &348638209
 GameObject:
   m_ObjectHideFlags: 0
@@ -25942,7 +25943,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -25961,7 +25962,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -26762,7 +26763,7 @@ Transform:
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 18
 --- !u!1 &514215687
 GameObject:
   m_ObjectHideFlags: 0
@@ -38555,7 +38556,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -38574,7 +38575,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -47655,12 +47656,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enterPosition: {x: 10, y: 10, z: 20}
-  exitPosition: {x: 0, y: 20, z: -10}
+  exitPosition: {x: 10, y: 5, z: 0}
   enterTime: 2
   exitTime: 2
   objectTagToLookFor: Player
   triggerOnEnter: 1
-  triggerOnExit: 0
+  triggerOnExit: 1
   transitionEnterType: 1
   transitionExitType: 0
   returningOnEnter: 0
@@ -50604,7 +50605,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
 --- !u!1 &1033823570
 GameObject:
   m_ObjectHideFlags: 0
@@ -68936,7 +68937,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -68955,7 +68956,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -71986,7 +71987,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 23
 --- !u!1 &1457238928
 GameObject:
   m_ObjectHideFlags: 0
@@ -75756,7 +75757,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -75775,7 +75776,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -82457,7 +82458,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -82476,7 +82477,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -83277,7 +83278,7 @@ Transform:
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 20
 --- !u!1 &1655109854
 GameObject:
   m_ObjectHideFlags: 0
@@ -85080,7 +85081,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -85099,7 +85100,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -88310,7 +88311,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 26
 --- !u!82 &1728121474
 AudioSource:
   m_ObjectHideFlags: 0
@@ -92498,7 +92499,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -92517,7 +92518,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -97249,7 +97250,7 @@ Transform:
   m_LocalScale: {x: 75, y: 60, z: 75}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 22
 --- !u!1 &1884231374
 GameObject:
   m_ObjectHideFlags: 0
@@ -107224,7 +107225,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: .400000006
     inheritVelocity: 0
-    maxNumParticles: 500000
+    maxNumParticles: 50000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -107243,7 +107244,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 2000
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
