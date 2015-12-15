@@ -74,12 +74,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16656a680cdc0854abd7167501e90714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnImediately: 0
+  spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 151862, guid: 1e2c4505a2bbde4488ba96d8ed8f23f7, type: 2}
-  spawnAtNight: 0
-  onlySpawnAtNight: 1
-  spawnOnlyOnce: 0
+  spawnAtNight: 1
+  onlySpawnAtNight: 0
+  spawnOnlyOnce: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -90,6 +90,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: respawnTime
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnOnlyOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onlySpawnAtNight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnAtNight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

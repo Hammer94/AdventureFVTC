@@ -77,7 +77,7 @@ MonoBehaviour:
   spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 144172, guid: 5f4195812891b9340a56a47941242764, type: 2}
-  spawnAtNight: 0
+  spawnAtNight: 1
   onlySpawnAtNight: 0
   spawnOnlyOnce: 1
 --- !u!1001 &100100000
@@ -86,7 +86,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: spawnAtNight
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149808}

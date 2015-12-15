@@ -75,10 +75,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnimmediately: 1
-  respawnTime: 5
+  respawnTime: 15
   objectSpawned: {fileID: 185526, guid: fcd170d5e6e0b7649a67bb25b55904d1, type: 2}
-  spawnAtNight: 0
-  onlySpawnAtNight: 1
+  spawnAtNight: 1
+  onlySpawnAtNight: 0
   spawnOnlyOnce: 0
   PatrolPoints:
   - P1
@@ -101,6 +101,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: respawnTime
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onlySpawnAtNight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnAtNight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

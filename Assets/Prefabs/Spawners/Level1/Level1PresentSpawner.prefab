@@ -77,9 +77,9 @@ MonoBehaviour:
   spawnimmediately: 1
   respawnTime: 5
   objectSpawned: {fileID: 109554, guid: 90d61c6f479c427478aa7877fe3c7a97, type: 2}
-  spawnAtNight: 0
+  spawnAtNight: 1
   onlySpawnAtNight: 0
-  spawnOnlyOnce: 0
+  spawnOnlyOnce: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -90,6 +90,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: onlySpawnAtNight
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnOnlyOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnAtNight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
