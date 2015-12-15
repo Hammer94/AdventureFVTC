@@ -8,7 +8,7 @@ namespace AdventureFVTC {
      * Allows access to the player and camera publicly.
      *
      * @author  Ryan
-     * @date    11 Dec 2015
+     * @date    14 Dec 2015
      * @see     Service
      */
     public class RunService:Service {
@@ -18,6 +18,7 @@ namespace AdventureFVTC {
         private CameraBase cameraT;
 
         private Player player;
+        private PlayerSpawner playerSpawn;
         
         public GameObject Game
         {
@@ -65,23 +66,29 @@ namespace AdventureFVTC {
                 player = Object.Instantiate(playerT);
                 player.name = "Player1";
                 player.transform.parent = gameRoot.transform.Find("Players").transform;
-                
+
+                playerSpawn = GameObject.FindObjectOfType<PlayerSpawner>();
+
                 //player.Character = Object.Instantiate(characterT);
                 //player.Character.name = "Player1Character";         
                 //player.Character.transform.parent = gameRoot.transform.Find("Players").transform;
                 //GameObject playerSpawner = gameRoot.transform.Find("Spawners").transform.Find("PlayerSpawner").transform.gameObject;
                 //player.Character.transform.position = playerSpawner.transform.position;
-            
+
                 player.Camera = Object.Instantiate(cameraT);
                 player.Camera.name = "Player1Camera";
                 player.Camera.transform.parent = gameRoot.transform.Find("Players").transform;
                 GameObject cameraSpawner = gameRoot.transform.Find("Spawners").transform.Find("CameraSpawner").transform.gameObject;
                 player.Camera.SubjectBehindDirection = cameraSpawner;
-                player.Camera.transform.position = cameraSpawner.transform.position;         
+                player.Camera.transform.position = cameraSpawner.transform.position;
                 SubjectNode subjectNode = SubjectNode.FindObjectOfType<SubjectNode>();
-
-                player.Camera.Subject = subjectNode.transform.gameObject;
-                subjectNode.InitialSetUp(player.Camera.transform.position);
+                if (subjectNode != null)
+                {
+                    player.Camera.Subject = subjectNode.transform.gameObject;
+                    subjectNode.InitialSetUp(player.Camera.transform.position);
+                }
+                else
+                    playerSpawn.ViewingPanoramicView = false;
             }
         }
     }

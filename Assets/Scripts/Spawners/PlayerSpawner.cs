@@ -14,6 +14,20 @@ namespace AdventureFVTC {
 
         private float destroyMarkerTime = 1.0f;
         private float currentMakerTime = 0.0f;
+        private bool subjectNodeIsNull = false;
+
+        public bool ViewingPanoramicView
+        {
+            get
+            {
+                return viewingPanoramicView;
+            }
+            set
+            {
+                subjectNodeIsNull = true; // If this value was set from elsewhere its because the initial subject node was null.
+                viewingPanoramicView = value;
+            }
+        }
 
         private void DyingSetup() {
             if (!hasSetUp) {
@@ -45,7 +59,7 @@ namespace AdventureFVTC {
 
         protected override void Start() {
             spawnimmediately = true; // Player doesn't use this variable and always spawns immediately.
-            objectSpawned = null; // Player spawner is spawning from the run service, its doesn't need an object.
+            objectSpawned = null; // Player spawner is spawning from the run service, its doesn't need an object.         
         }
 
         protected override void Update() {
@@ -83,20 +97,31 @@ namespace AdventureFVTC {
 
                 Services.Run.Player.Character.transform.position = transform.position; // Move the player to its spawner.            
 
-                if (viewingPanoramicView) // If the camera is still performing its initial panoramic view.
-                {
+                if (viewingPanoramicView) { // If the camera is still performing its initial panoramic view.                  
                     viewingPanoramicView = false; // Next time the player spawns the panoramic view will be completed.
                     Services.Run.Player.Character.Health = PersistentPlayerStats.GetHealthOnExit;   // Set the players health to the health they had
-                }                                                                                   // when they exited the last level they were on.
+                                                                                                    // when they exited the last level they were on.
+                }                                                                                   
                 else { // Else the camera isn't performing its initial panoramic view and should transition to the player after the die.
+                    
                     // Transition the subject using a time based on distance.
                     float distance = Vector3.Distance(Services.Run.Player.Character.transform.position, Services.Run.Player.Camera.transform.position);
-                    float time = distance / 24.667f;
-                    if (time < 4)
-                        time = 4f;
+                    float time;
+                    if (subjectNodeIsNull) // When the subject node doesn't exist on the first time the player spawns.
+                    {
+                        time = 3; // Set the initial transition time;
+                        subjectNodeIsNull = false; // Don't set the player's health to this every time.
+                        Services.Run.Player.Character.Health = PersistentPlayerStats.GetHealthOnExit;   // Set the players health to the health they had
+                                                                                                        // when they exited the last level they were on.
+                    }
+                    else {
+                        time = distance / 24.667f;
+                        if (time < 4)
+                            time = 4f;                       
+                    }
 
                     Services.Camera.SetSubjectToPlayer(time); // Move the camera to the player.                  
-                    destroyMarker = true; // Destroy the marker where the player died.                
+                    destroyMarker = true; // Destroy the marker where the player died.                             
                 }                        
             }
             else if (PersistentPlayerStats.LivesLeft == 0) {
