@@ -52,15 +52,15 @@ namespace AdventureFVTC
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
                 {
-                    if (dist > 5)
+                    if (dist > 3)
                         Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
-                    else if (dist < 5)
+                    else if (dist < 3)
                     {
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                        if (angleBetween < 15.0f)
+                        if (angleBetween < 45.0f)
                             Enemy.AttackSetup("");
                     }
                 }                      
@@ -83,15 +83,15 @@ namespace AdventureFVTC
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
                 {
-                    if (dist > 5)
+                    if (dist > 3)
                         Enemy.MoveForward(step); // move fwd
                     if (Services.Run.Player.Character.Dying || dist > 20)
                         Controller.ChangeState(PatrolState.KEY);
-                    else if (dist < 5)
+                    else if (dist < 3)
                     {
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                        if (angleBetween < 15.0f)
+                        if (angleBetween < 60.0f)
                             Enemy.AttackSetup("");
                     }
                 }
