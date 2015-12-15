@@ -1297,7 +1297,7 @@ MonoBehaviour:
   invulnerabilityTime: 0
   patrolSpeed: 3
   attackSpeed: 3
-  rotationSpeed: 2
+  rotationSpeed: 3
   desiredRotation: 0
   useStuckPrevention: 1
 --- !u!114 &11424740
@@ -1363,7 +1363,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rotationSpeed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: timeCanMoveAfterAttack

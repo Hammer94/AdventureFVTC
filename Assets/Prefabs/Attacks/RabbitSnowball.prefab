@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  offset: {x: 0, y: 0, z: 3}
+  offset: {x: 0, y: 0, z: 2.5}
   projectileSpeed: 2
   activeTime: 3
   unitTrans: {fileID: 0}
@@ -117,7 +117,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: offset.z
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: offset.y
