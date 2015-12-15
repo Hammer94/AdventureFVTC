@@ -21,7 +21,7 @@ namespace AdventureFVTC {
                     PersistentPlayerStats.ResetCurrentsOnExit();
                     Application.LoadLevel("LevelSelect");
                 }
-                else // Else the player is on a different level than 1 or 2.
+                else if (Application.loadedLevelName == "Boss Room") // Else the player is on a different level than 1 or 2.
                     Application.LoadLevel("LevelSelect");
             }
         }
