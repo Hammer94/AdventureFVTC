@@ -46,8 +46,14 @@ namespace AdventureFVTC
                     {
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
-                        if (angleBetween < 10.0f)
-                            Enemy.AttackSetup("");
+                        if (Enemy.MaxHealth > 1) { // If this enemy is the Snow King.
+                            if (angleBetween < 20.0f)
+                                Enemy.AttackSetup("");
+                        }
+                        else { // Else this is a standard snowman.
+                            if (angleBetween < 10.0f)
+                                Enemy.AttackSetup("");
+                        }                      
                     }
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
@@ -78,7 +84,7 @@ namespace AdventureFVTC
                         Vector3 targetDir = target - trans.position;
                         float angleBetween = Vector3.Angle(trans.forward, targetDir);
                         if (angleBetween < 30.0f)
-                            Enemy.AttackSetup("");
+                            Enemy.AttackSetup("");                
                     }
                 }
                 else if (Enemy.MeleeUnitAttack != null) // Use a melee attack.
