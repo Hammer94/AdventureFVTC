@@ -9,7 +9,7 @@ namespace AdventureFVTC
         private Enemy enemy;
 
         private PatrolState patrol; // so we can update the properties
-        private AttackState attack;
+        public AttackState attack;
         private DieState die;
 
         public PatrolState Patrol

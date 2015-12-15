@@ -29,6 +29,7 @@ namespace AdventureFVTC
                 {
                     if (hitInfo.collider.tag == "Player")
                     {
+                        controller.attack.hasPlayedAudio = false;
                         controller.ChangeState(AttackState.KEY);
                     }
                 }

@@ -7,7 +7,9 @@ namespace AdventureFVTC
         private Transform trans;
         private Transform playerTrans;
         private bool inAttackRange = false;
-
+        private AudioSource enemyAttackSound;
+        public bool hasPlayedAudio = false;
+        
         public float Speed { get; set; }    // patrol speed
 
         public AttackState(StateController controller)
@@ -16,12 +18,20 @@ namespace AdventureFVTC
             // get the trans from the controller
             trans = GameObject.GetComponent<Transform>();
             Enemy = GameObject.GetComponent<Enemy>();
+            enemyAttackSound = GameObject.GetComponent<AudioSource>();
 
             // player stuff
             playerTrans = Services.Run.Player.Character.gameObject.transform;          
         }
 
-        public override void Update(float deltaTime) {
+        public override void Update(float deltaTime) {            
+            if (!hasPlayedAudio)
+            {
+                hasPlayedAudio = true;
+                if (enemyAttackSound != null)
+                    enemyAttackSound.Play();
+            }
+            
             Vector3 target = playerTrans.position;
             target.y = trans.position.y; // Ignore the y position of the target.
           
