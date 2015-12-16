@@ -5,7 +5,7 @@ namespace AdventureFVTC {
      * A unit in the game. It has health and can move around within the map.
      * 
      * @author  Ryan
-     * @date    13 Dec 2015
+     * @date    15 Dec 2015
      */
     public class Unit:MonoBehaviour {
         public enum UnitTypes {
@@ -130,7 +130,10 @@ namespace AdventureFVTC {
                 else if (health < 0)
                     health = 0;              
                 if (health == 0) // If this unit has 0 health left.
+                {
+                    tookDamage = false; // Stop the hurt animation from playing if the unit is dead.
                     dying = true; // Start this unit's death sequence.
+                }                  
             }
         }
 
