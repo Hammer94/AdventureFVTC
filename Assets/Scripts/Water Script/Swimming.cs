@@ -4,7 +4,7 @@ using System.Collections;
 public class Swimming : MonoBehaviour {
 
     float WaterArea;
-    ParticleSystem Rabbit1;
+    ParticleSystem Bubbles;
     bool ActiveUnderwater;
     Color NormalColor;
     Color UnderwaterColor;
@@ -16,7 +16,7 @@ public class Swimming : MonoBehaviour {
     {
         NormalColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         UnderwaterColor = new Color(0.22f, 0.65f, 0.77f, 0.5f);
-        Rabbit1.Stop();
+        Bubbles.Stop();
 	}
 	
 	// Update is called once per frame
@@ -38,13 +38,13 @@ public class Swimming : MonoBehaviour {
         {
             RenderSettings.fogColor = NormalColor;
             RenderSettings.fogDensity = 0.002f;
-            Rabbit1.Stop();
+            Bubbles.Stop();
         }
 
 	   void CheckUnderwater()
         {
             RenderSettings.fogColor = UnderwaterColor;
             RenderSettings.fogDensity = 0.03f;
-            Rabbit1.Play();
+            Bubbles.Play();
         }
 }
