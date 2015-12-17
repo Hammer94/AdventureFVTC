@@ -1951,7 +1951,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 51376910e4cd0304797bd56a0272d481, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -2085,7 +2085,7 @@ GameObject:
   - 198: {fileID: 1939114308}
   - 199: {fileID: 1939114307}
   m_Layer: 0
-  m_Name: Particle System (9)
+  m_Name: snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2133,7 +2133,7 @@ ParticleSystem:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1939114306}
-  lengthInSec: 1000
+  lengthInSec: .100000001
   startDelay: 0
   speed: 1
   randomSeed: 0
@@ -2144,7 +2144,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 4.78000021
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2177,7 +2177,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 5
+      scalar: 5.36999989
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2304,7 +2304,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 3
+      scalar: 3.07999992
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2337,7 +2337,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startRotation:
-      scalar: 0
+      scalar: .87266463
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2369,9 +2369,9 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: .400000006
-    inheritVelocity: 0
-    maxNumParticles: 50000
+    gravityModifier: .600000024
+    inheritVelocity: .870000005
+    maxNumParticles: 50095
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -3187,7 +3187,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1939114306}
   m_LocalRotation: {x: .707106829, y: -5.9604659e-08, z: -2.98023295e-08, w: .707106829}
-  m_LocalPosition: {x: 1120.30005, y: 443, z: -232}
+  m_LocalPosition: {x: 1125, y: 458, z: -84}
   m_LocalScale: {x: 600, y: 400, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
