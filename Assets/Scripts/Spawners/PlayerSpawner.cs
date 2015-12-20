@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // @author  Ryan
-// @date    11 Dec 2015
+// @date    19 Dec 2015
 namespace AdventureFVTC {
     public class PlayerSpawner:Spawner {
         [SerializeField] private GameObject deathMarker;
@@ -116,8 +116,10 @@ namespace AdventureFVTC {
                     }
                     else {
                         time = distance / 24.667f;
-                        if (time < 4)
-                            time = 4f;                       
+                        if (time < 3f)
+                            time = 4f;
+                        else if (time > 10f)
+                            time = 10f;                       
                     }
 
                     Services.Camera.SetSubjectToPlayer(time); // Move the camera to the player.                  
